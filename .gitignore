@@ -1,28 +1,73 @@
-build/
-dist/
+# ============================================
+# TiendaQ — Consolidated .gitignore
+# ============================================
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === IDE / Editors ===
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.iws
+*.iml
+*.ipr
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 nbproject/private/
 nbproject/build-impl.xml
 nbproject/genfiles.properties
 
-BACKPEYE/nbproject/
-
+# === Java / Spring Boot ===
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.class
+*.jar
+*.war
+*.ear
 .java-version
+HELP.md
 
-# OS
-.DS_Store
-Thumbs.db
+# === Java IDE Metadata (STS / Eclipse / NetBeans) ===
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+/nbbuild/
+/nbdist/
+/.nb-gradle/
 
-# Editors
-.vscode/
-.idea/
+# === Maven Wrapper ===
+!.mvn/wrapper/maven-wrapper.jar
 
-# Node
+# === Node / Frontend ===
 node_modules/
-npm-debug.log
-yarn-error.log
+dist/
+.angular/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Logs
+# === Build Output ===
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# === Logs ===
+logs/
 *.log
 
-# Secrets
+# === Secrets ===
 .env
+.env.*

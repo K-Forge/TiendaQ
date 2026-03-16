@@ -1,1 +1,0 @@
-package com.tienda_k.api.config;

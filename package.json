@@ -1,15 +1,12 @@
 {
-  "name": "tienda-k",
+  "name": "tiendaq",
   "version": "1.0.0",
-  "description": "TiendaK - Proyecto del club K-Forge.",
-  "scripts": {
-    "install:gitglow-hook": "sh ./scripts/macos-git-glow.sh",
-    "install:gitglow-hook:win": "powershell -ExecutionPolicy Bypass -File ./scripts/windows-git-glow.ps1"
-  },
+  "description": "TiendaQ - Proyecto del club K-Forge.",
+  "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/K-Forge/TiendaK.git"
+    "url": "git+https://github.com/K-Forge/TiendaQ.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "SEE LICENSE IN LICENSE"
 }

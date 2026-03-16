@@ -1,6 +1,0 @@
-#!/bin/bash
-# Navegar al directorio del backend
-cd backend/tienda-k
-
-# Ejecutar la aplicación Spring Boot usando Maven Wrapper
-./mvnw spring-boot:run
