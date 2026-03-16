@@ -233,7 +233,6 @@ Desarrollado por **K-Forge** — Club de desarrollo de software de la Fundacion 
 | Miembro | GitHub |
 | --- | --- |
 | Brian Vargas | [@13rianVargas](https://github.com/13rianVargas) |
-| Alejandra Duran | [@Alejandra Duran](https://github.com/Alejandra-Duran) |
 | Alejandraqt | [@Alejandraqt](https://github.com/Alejandraqt) |
 | Camilo Prieto | [@Camilo Prieto](https://github.com/Camilo-Prieto) |
 | KamiroDark | [@KamiroDark](https://github.com/KamiroDark) |
