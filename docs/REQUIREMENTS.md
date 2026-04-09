@@ -153,7 +153,7 @@ graph TB
 | R-05 | La autenticacion debe implementarse con JWT (JSON Web Tokens) |
 | R-06 | Las contrasenas deben almacenarse hasheadas con BCrypt, nunca en texto plano |
 | R-07 | El sistema no requiere integracion con pasarelas de pago reales; el metodo de pago se registra pero no se procesa externamente |
-| R-08 | El proyecto debe construirse con Maven (backend) y Bun + Angular CLI (frontend) |
+| R-08 | El proyecto debe construirse con Maven (backend) y usar pnpm (dependencias) + Bun + Angular CLI (frontend) |
 | R-09 | El IVA aplicado es del 19% conforme a la legislacion colombiana vigente |
 | R-10 | El sistema debe funcionar en los navegadores Chrome, Firefox, Safari y Edge en sus versiones actuales |
 

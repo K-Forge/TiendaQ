@@ -73,7 +73,7 @@ La siguiente tabla refleja las tecnologias y versiones reales utilizadas en el p
 | Routing | Angular Router | -- | Navegacion SPA |
 | HTTP Client | Angular HttpClient | -- | Comunicacion con la API REST |
 | Estilos | SCSS | -- | Preprocesador de estilos |
-| Package manager | Bun | -- | Gestion de paquetes y ejecucion |
+| Package manager | pnpm + Bun | -- | pnpm para dependencias, Bun para ejecucion |
 
 ---
 

@@ -1,41 +1,70 @@
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=8B5CF6&height=200&section=header&text=TiendaQ&fontSize=60&fontColor=ffffff&fontAlignY=35&desc=Sistema%20de%20comercio%20electr%C3%B3nico%20%7C%20K-Forge&descSize=18&descAlignY=55&descColor=ffffff" width="100%" alt="TiendaQ header"/>
-</p>
+<a id="top"></a>
+
+<div align="center">
+  <table style="border: none; background-color: transparent;">
+    <tr style="border: none; background-color: transparent;">
+      <td align="center" width="20%" style="border: none;">
+        <!-- ESPACIO RESERVADO PARA LOGO OFICIAL K-FORGE -->
+        <img src="./assets/KForge-Yellow-Logo.png" alt="K-Forge Oficial Logo" width="120" style="border-radius: 10px;" />
+      </td>
+      <td align="center" width="80%" style="border: none;">
+        <!-- BANNER CIBERNETICO DEL PROYECTO -->
+        <img src="./assets/project-banner.svg" alt="Banner del Proyecto" width="100%" />
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p align="center"><strong>Sistema de comercio electronico de la Fundacion Universitaria Konrad Lorenz.</strong></p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Java-25-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 25"/>
   <img src="https://img.shields.io/badge/Spring%20Boot-4.0-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot 4"/>
   <img src="https://img.shields.io/badge/Angular-21-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular 21"/>
   <img src="https://img.shields.io/badge/PostgreSQL-15+-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
-  <img src="https://img.shields.io/badge/Estado-En%20desarrollo-8B5CF6?style=for-the-badge" alt="En desarrollo"/>
+  <img src="https://img.shields.io/badge/Estado-En%20desarrollo-EAB308?style=for-the-badge" alt="En desarrollo"/>
 </p>
 
 ---
 
-## Descripción
+## Tabla de Contenidos
 
-TiendaQ es el sistema de comercio electrónico de la Fundación Universitaria Konrad Lorenz, desarrollado por K-Forge para gestionar catálogo, carrito, compras, inventario y facturación en un flujo unificado.
+- [Descripcion](#descripcion)
+- [Stack tecnologico](#stack-tecnologico)
+- [Arquitectura](#arquitectura)
+- [Inicio rapido](#inicio-rapido)
+- [Endpoints de la API](#endpoints-de-la-api)
+- [Documentacion](#documentacion)
+- [Enlaces rapidos](#enlaces-rapidos)
+- [Equipo](#equipo)
+- [Licencia](#licencia)
+
+---
+
+## Descripcion
+
+TiendaQ es el sistema de comercio electronico de la Fundacion Universitaria Konrad Lorenz, desarrollado por K-Forge para gestionar catalogo, carrito, compras, inventario y facturacion en un flujo unificado.
 
 > En desarrollo — Backend API implementado en Spring Boot 4.0. Frontend en fase de scaffold con Angular 21.
 
-## Stack tecnológico
+## Stack tecnologico
 
-| Capa | Tecnología | Versión |
-| --- | --- | --- |
-| Lenguaje backend | Java | 25 |
-| Framework backend | Spring Boot | 4.0.0 |
-| Persistencia | Spring Data JPA (Hibernate) | -- |
-| Seguridad | Spring Security + OAuth2 Client | -- |
-| Validación | Spring Validation (Jakarta) | -- |
-| Utilidades | Lombok | -- |
-| Build backend | Maven | 3.9+ |
-| Base de datos | PostgreSQL | 15+ |
-| Framework frontend | Angular | 21.2.0 |
-| CLI frontend | Angular CLI | 21.2.2 |
-| Routing | Angular Router | -- |
-| HTTP Client | Angular HttpClient | -- |
-| Estilos | SCSS | -- |
-| Package manager | Bun | -- |
+| Capa               | Tecnologia                          | Version |
+| ------------------ | ----------------------------------- | ------- |
+| Lenguaje backend   | Java                                | 25      |
+| Framework backend  | Spring Boot                         | 4.0.0   |
+| Persistencia       | Spring Data JPA (Hibernate)         | --      |
+| Seguridad          | Spring Security + OAuth2 Client     | --      |
+| Validacion         | Spring Validation (Jakarta)         | --      |
+| Utilidades         | Lombok                              | --      |
+| Build backend      | Maven                               | 3.9+    |
+| Base de datos      | PostgreSQL                          | 15+     |
+| Framework frontend | Angular                             | 21.2.0  |
+| CLI frontend       | Angular CLI                         | 21.2.2  |
+| Routing            | Angular Router                      | --      |
+| HTTP Client        | Angular HttpClient                  | --      |
+| Estilos            | SCSS                                | --      |
+| Package manager    | pnpm (dependencias) + Bun (scripts) | --      |
 
 ## Arquitectura
 
@@ -61,15 +90,12 @@ graph LR
     C --> E
 ```
 
-El backend implementa una arquitectura en capas (Controller, Service, Repository, Model) siguiendo el patrón estándar de Spring Boot. Incluye 6 enums, 8 entidades JPA, 8 repositorios, 8 servicios y 8 controladores REST.
+El backend implementa una arquitectura en capas (Controller, Service, Repository, Model) siguiendo el patron estandar de Spring Boot. Incluye 6 enums, 8 entidades JPA, 8 repositorios, 8 servicios y 8 controladores REST.
 
 ## Estructura del proyecto
 
 ```
 TiendaQ/
-├── .agent/
-│   └── skills/               # Skills y configuracion para agentes de IA
-├── .gitignore
 ├── app/
 │   ├── backend/
 │   │   ├── postman/          # Scripts de prueba para la API
@@ -89,22 +115,27 @@ TiendaQ/
 │   ├── start-back.sh
 │   └── start-front.sh
 ├── AGENTS.md
-├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── package.json
-├── README.md
-└── SECURITY.md
+└── README.md
 ```
 
-## Inicio rápido
+## Inicio rapido
 
 ### Requisitos previos
 
 - Java 25+
 - Maven 3.9+
 - PostgreSQL 15+
-- Bun (o Node.js 20+)
+- Bun + pnpm
+
+### Setup de herramientas (una sola vez)
+
+```bash
+corepack enable && corepack prepare pnpm@latest --activate
+curl -fsSL https://bun.sh/install | bash
+```
 
 ### Base de datos
 
@@ -122,10 +153,10 @@ psql -U postgres -d "tiendaq" -f app/database/INSERTS.sql
 ### Backend (Spring Boot)
 
 ```bash
-# Opción 1: Script
+# Opcion 1: Script
 ./scripts/start-back.sh
 
-# Opción 2: Manual
+# Opcion 2: Manual
 cd app/backend/tiendaq
 ./mvnw spring-boot:run
 ```
@@ -135,16 +166,16 @@ cd app/backend/tiendaq
 ### Frontend (Angular)
 
 ```bash
-# Opción 1: Script
+# Opcion 1: Script
 ./scripts/start-front.sh
 
-# Opción 2: Manual
+# Opcion 2: Manual
 cd app/frontend
-bun install
+pnpm install
 bun start
 ```
 
-> La aplicación inicia en `http://localhost:4200`
+> La aplicacion inicia en `http://localhost:4200`
 
 ## Endpoints de la API
 
@@ -152,108 +183,134 @@ bun start
 
 ### Productos — `/api/productos`
 
-| Método | Endpoint | Descripción |
-| --- | --- | --- |
-| `GET` | `/api/productos` | Listar todos los productos |
-| `GET` | `/api/productos/{id}` | Obtener producto por ID |
-| `GET` | `/api/productos/categoria/{categoria}` | Filtrar productos por categoria |
-| `POST` | `/api/productos` | Crear un producto |
-| `PUT` | `/api/productos/{id}` | Actualizar un producto |
-| `DELETE` | `/api/productos/{id}` | Eliminar un producto |
+| Metodo   | Endpoint                               | Descripcion                     |
+| -------- | -------------------------------------- | ------------------------------- |
+| `GET`    | `/api/productos`                       | Listar todos los productos      |
+| `GET`    | `/api/productos/{id}`                  | Obtener producto por ID         |
+| `GET`    | `/api/productos/categoria/{categoria}` | Filtrar productos por categoria |
+| `POST`   | `/api/productos`                       | Crear un producto               |
+| `PUT`    | `/api/productos/{id}`                  | Actualizar un producto          |
+| `DELETE` | `/api/productos/{id}`                  | Eliminar un producto            |
 
 ### Usuarios — `/api/usuarios`
 
-| Método | Endpoint | Descripción |
-| --- | --- | --- |
-| `GET` | `/api/usuarios` | Listar todos los usuarios |
-| `GET` | `/api/usuarios/{id}` | Obtener usuario por ID |
-| `POST` | `/api/usuarios` | Crear un usuario |
-| `PUT` | `/api/usuarios/{id}` | Actualizar un usuario |
-| `DELETE` | `/api/usuarios/{id}` | Eliminar un usuario |
+| Metodo   | Endpoint             | Descripcion               |
+| -------- | -------------------- | ------------------------- |
+| `GET`    | `/api/usuarios`      | Listar todos los usuarios |
+| `GET`    | `/api/usuarios/{id}` | Obtener usuario por ID    |
+| `POST`   | `/api/usuarios`      | Crear un usuario          |
+| `PUT`    | `/api/usuarios/{id}` | Actualizar un usuario     |
+| `DELETE` | `/api/usuarios/{id}` | Eliminar un usuario       |
 
 ### Clientes — `/api/clientes`
 
-| Método | Endpoint | Descripción |
-| --- | --- | --- |
-| `GET` | `/api/clientes/{idUsuario}` | Obtener cliente por ID de usuario |
-| `POST` | `/api/clientes` | Crear un cliente |
-| `PUT` | `/api/clientes/{idUsuario}` | Actualizar un cliente |
+| Metodo | Endpoint                    | Descripcion                       |
+| ------ | --------------------------- | --------------------------------- |
+| `GET`  | `/api/clientes/{idUsuario}` | Obtener cliente por ID de usuario |
+| `POST` | `/api/clientes`             | Crear un cliente                  |
+| `PUT`  | `/api/clientes/{idUsuario}` | Actualizar un cliente             |
 
 ### Empleados — `/api/empleados`
 
-| Método | Endpoint | Descripción |
-| --- | --- | --- |
-| `GET` | `/api/empleados/{id}` | Obtener empleado por ID |
-| `GET` | `/api/empleados/usuario/{idUsuario}` | Obtener empleado por ID de usuario |
+| Metodo | Endpoint                             | Descripcion                        |
+| ------ | ------------------------------------ | ---------------------------------- |
+| `GET`  | `/api/empleados/{id}`                | Obtener empleado por ID            |
+| `GET`  | `/api/empleados/usuario/{idUsuario}` | Obtener empleado por ID de usuario |
 
 ### Carritos — `/api/carritos`
 
-| Método | Endpoint | Descripción |
-| --- | --- | --- |
-| `GET` | `/api/carritos/usuario/{idUsuario}` | Listar carritos por usuario |
-| `GET` | `/api/carritos/{id}` | Obtener carrito por ID |
-| `POST` | `/api/carritos` | Crear un carrito |
-| `PUT` | `/api/carritos/{id}` | Actualizar un carrito |
-| `DELETE` | `/api/carritos/{id}` | Eliminar un carrito |
+| Metodo   | Endpoint                            | Descripcion                 |
+| -------- | ----------------------------------- | --------------------------- |
+| `GET`    | `/api/carritos/usuario/{idUsuario}` | Listar carritos por usuario |
+| `GET`    | `/api/carritos/{id}`                | Obtener carrito por ID      |
+| `POST`   | `/api/carritos`                     | Crear un carrito            |
+| `PUT`    | `/api/carritos/{id}`                | Actualizar un carrito       |
+| `DELETE` | `/api/carritos/{id}`                | Eliminar un carrito         |
 
 ### Items del carrito — `/api/items`
 
-| Método | Endpoint | Descripción |
-| --- | --- | --- |
-| `GET` | `/api/items/carrito/{idCarrito}` | Listar items por carrito |
-| `POST` | `/api/items` | Crear un item |
-| `PUT` | `/api/items` | Actualizar un item |
-| `DELETE` | `/api/items/{idCarrito}/{idProducto}` | Eliminar un item |
+| Metodo   | Endpoint                              | Descripcion              |
+| -------- | ------------------------------------- | ------------------------ |
+| `GET`    | `/api/items/carrito/{idCarrito}`      | Listar items por carrito |
+| `POST`   | `/api/items`                          | Crear un item            |
+| `PUT`    | `/api/items`                          | Actualizar un item       |
+| `DELETE` | `/api/items/{idCarrito}/{idProducto}` | Eliminar un item         |
 
 ### Facturas — `/api/facturas`
 
-| Método | Endpoint | Descripción |
-| --- | --- | --- |
-| `GET` | `/api/facturas/cliente/{idCliente}` | Listar facturas por cliente |
-| `GET` | `/api/facturas/{id}` | Obtener factura por ID |
-| `POST` | `/api/facturas` | Crear una factura |
+| Metodo | Endpoint                            | Descripcion                 |
+| ------ | ----------------------------------- | --------------------------- |
+| `GET`  | `/api/facturas/cliente/{idCliente}` | Listar facturas por cliente |
+| `GET`  | `/api/facturas/{id}`                | Obtener factura por ID      |
+| `POST` | `/api/facturas`                     | Crear una factura           |
 
 ### Stock — `/api/stock`
 
-| Método | Endpoint | Descripción |
-| --- | --- | --- |
-| `GET` | `/api/stock/producto/{idProducto}` | Listar stock por producto |
-| `GET` | `/api/stock/{id}` | Obtener registro de stock por ID |
-| `POST` | `/api/stock` | Crear un registro de stock |
-| `PUT` | `/api/stock/{id}` | Actualizar registro de stock |
-| `DELETE` | `/api/stock/{id}` | Eliminar registro de stock |
+| Metodo   | Endpoint                           | Descripcion                      |
+| -------- | ---------------------------------- | -------------------------------- |
+| `GET`    | `/api/stock/producto/{idProducto}` | Listar stock por producto        |
+| `GET`    | `/api/stock/{id}`                  | Obtener registro de stock por ID |
+| `POST`   | `/api/stock`                       | Crear un registro de stock       |
+| `PUT`    | `/api/stock/{id}`                  | Actualizar registro de stock     |
+| `DELETE` | `/api/stock/{id}`                  | Eliminar registro de stock       |
 
-## Documentación
+## Documentacion
 
-| Documento | Descripción |
-| --- | --- |
-| [README.md](README.md) | Guía general del proyecto |
-| [REQUIREMENTS.md](docs/REQUIREMENTS.md) | Especificación de Requisitos de Software (SRS) |
-| [DESIGN.md](docs/DESIGN.md) | Documento de Diseño de Software (SDD) |
-| [PROGRESS.md](docs/PROGRESS.md) | Estado actual de implementación |
-| [DATABASE.md](docs/DATABASE.md) | Documentación del esquema de base de datos |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Guía de contribución y flujo Git |
-| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Código de conducta de la comunidad |
-| [SECURITY.md](SECURITY.md) | Política de reporte de vulnerabilidades |
-| [LICENSE](LICENSE) | Licencia del proyecto (propietaria, K-Forge) |
-| [AGENTS.md](AGENTS.md) | Contexto para asistentes de IA |
+| Documento                               | Descripcion                                    |
+| --------------------------------------- | ---------------------------------------------- |
+| [README.md](README.md)                  | Guia general del proyecto                      |
+| [REQUIREMENTS.md](docs/REQUIREMENTS.md) | Especificacion de Requisitos de Software (SRS) |
+| [DESIGN.md](docs/DESIGN.md)             | Documento de Diseno de Software (SDD)          |
+| [PROGRESS.md](docs/PROGRESS.md)         | Estado actual de implementacion                |
+| [DATABASE.md](docs/DATABASE.md)         | Documentacion del esquema de base de datos     |
+| [CONTRIBUTING.md](CONTRIBUTING.md)      | Guia de contribucion y flujo Git               |
+| [LICENSE](LICENSE)                      | Licencia del proyecto (propietaria, K-Forge)   |
+| [AGENTS.md](AGENTS.md)                  | Contexto para asistentes de IA                 |
+
+## Enlaces rapidos
+
+| Recurso                  | Enlace                                           |
+| ------------------------ | ------------------------------------------------ |
+| Organizacion K-Forge     | [github.com/K-Forge](https://github.com/K-Forge) |
+| Web oficial K-Forge      | [kforge.vercel.app](https://kforge.vercel.app)   |
+| Guia de contribucion     | [CONTRIBUTING.md](CONTRIBUTING.md)               |
+| Contribuyentes           | [CONTRIBUTORS.md](CONTRIBUTORS.md)               |
+| Diseno y arquitectura    | [docs/DESIGN.md](docs/DESIGN.md)                 |
+| Esquema de base de datos | [docs/DATABASE.md](docs/DATABASE.md)             |
+| Contacto                 | kforge.dev@gmail.com                             |
 
 ## Equipo
 
-Desarrollado por **K-Forge** — Club de desarrollo de software de la Fundación Universitaria Konrad Lorenz.
+Desarrollado por **K-Forge** — Club de desarrollo de software de la Fundacion Universitaria Konrad Lorenz.
 
-| Miembro | GitHub |
-| --- | --- |
-| Brian Vargas | [@13rianVargas](https://github.com/13rianVargas) |
-| Alejandraqt | [@Alejandraqt](https://github.com/Alejandraqt) |
-| Camilo Prieto | [@Camilo Prieto](https://github.com/Camilo-Prieto) |
-| KamiroDark | [@KamiroDark](https://github.com/KamiroDark) |
-| Mike | [@Mike](https://github.com/Mike) |
+- Integrantes y contribuyentes: [CONTRIBUTORS.md](CONTRIBUTORS.md)
+- Contacto del equipo: `kforge.dev@gmail.com`
 
 ## Licencia
 
 Ver [LICENSE](LICENSE)
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=8B5CF6&height=100&section=footer" width="100%" alt="TiendaQ footer"/>
-</p>
+---
+
+<div align="center">
+  <br>
+  <a href="https://github.com/K-Forge">
+    <img src="https://img.shields.io/badge/GitHub-K--Forge-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+  &nbsp;
+  <a href="https://kforge.vercel.app">
+    <img src="https://img.shields.io/badge/Web-kforge.vercel.app-EAB308?style=for-the-badge&logo=vercel&logoColor=white" alt="Web"/>
+  </a>
+  &nbsp;
+  <a href="mailto:kforge.dev@gmail.com">
+    <img src="https://img.shields.io/badge/Email-kforge.dev-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
+  </a>
+  <br><br>
+  <sub>Forjado por <a href="https://github.com/K-Forge"><strong>K-Forge</strong></a> — Club de desarrollo de la Konrad Lorenz</sub>
+  <br><br>
+  <a href="#top">
+    <img src="https://img.shields.io/badge/%E2%96%B2_Volver_arriba-EAB308?style=flat-square" alt="Volver arriba"/>
+  </a>
+  <br><br>
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=100&color=0:000000,100:EAB308&section=footer" width="100%"/>
+</div>

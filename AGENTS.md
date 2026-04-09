@@ -23,7 +23,8 @@ Este documento define el contexto minimo y vigente para contribuir en este repos
 - Angular CLI / build 21.2.2
 - TypeScript ~5.9.2
 - SCSS
-- Bun 1.3.8 como package manager (`packageManager: bun@1.3.8`)
+- Bun 1.3.8 como runtime de scripts
+- pnpm como package manager para instalacion de dependencias
 
 ### Base de datos
 
@@ -82,8 +83,15 @@ o manual:
 
 ```bash
 cd app/frontend
-bun install
+pnpm install
 bun start
+```
+
+### Setup de herramientas (una sola vez)
+
+```bash
+corepack enable && corepack prepare pnpm@latest --activate
+curl -fsSL https://bun.sh/install | bash
 ```
 
 ### Base de datos (inicializacion local)
