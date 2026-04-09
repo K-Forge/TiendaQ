@@ -1,58 +1,24 @@
-PROPRIETARY SOFTWARE LICENSE
+# Licencia de Uso Interno - TiendaQ
 
-Copyright (c) 2025 K-Forge
-All rights reserved.
+Este software (**TiendaQ**) ha sido desarrollado por el equipo de desarrollo de **TiendaQ**, un grupo de **K-Forge**, como parte de proyectos impulsados por el compromiso con la comunidad de la **Fundacion Universitaria Konrad Lorenz**.
 
-This software and associated documentation files (the "Software") are the
-proprietary and confidential property of K-Forge, the software development
-club of Fundacion Universitaria Konrad Lorenz (FUKL), Bogota, Colombia.
+## Uso Autorizado
 
-GRANT OF LICENSE
+El uso de este software esta estrictamente limitado a:
 
-Permission to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software is granted exclusively to authorized
-members of the K-Forge organization (https://github.com/K-Forge). This
-permission is contingent on active membership status as determined by the
-organization's administrators.
+- Personas autorizadas de la **Fundacion Universitaria Konrad Lorenz**.
+- Miembros activos del club de desarrollo **K-Forge**.
 
-RESTRICTIONS
+## Restricciones
 
-1. No person or entity outside of the K-Forge organization is granted any
-   rights to use, copy, modify, distribute, or create derivative works of
-   the Software, in whole or in part, for any purpose.
+Queda estrictamente prohibido:
 
-2. Members who leave the K-Forge organization forfeit all rights granted
-   under this license and must cease use of and delete all copies of the
-   Software in their possession.
+- Distribuir este software fuera de los canales autorizados de la institucion.
+- Modificar, alterar o crear obras derivadas sin el permiso expreso y por escrito del equipo de desarrollo.
+- Utilizar el software en contextos no relacionados con el club **K-Forge** o la **Fundacion Universitaria Konrad Lorenz**.
+- La explotacion comercial, directa o indirecta, de cualquier componente del software.
 
-3. The Software may not be redistributed, published, or made available to
-   any third party without prior written authorization from the K-Forge
-   organization administrators.
+## Derechos Reservados
 
-4. The Software may not be used for commercial purposes outside of the
-   K-Forge organization without explicit written consent.
-
-DISCLAIMER
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING
-FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-ENFORCEMENT
-
-Unauthorized use, reproduction, or distribution of this Software is
-strictly prohibited and may result in legal action. K-Forge reserves the
-right to pursue all available remedies under applicable law.
-
-CONTACT
-
-For licensing inquiries, permission requests, or questions regarding
-authorized use, contact:
-
-  K-Forge
-  Email: kforge.dev@gmail.com
-  GitHub: https://github.com/K-Forge
+© 2026 **K-Forge Developers**. Todos los derechos reservados.
+Para la solicitud de permisos especiales, colaboraciones o consultas relacionadas con esta licencia, por favor contactar a: kforge.dev@gmail.com
