@@ -8,5 +8,6 @@
     "url": "git+https://github.com/K-Forge/TiendaQ.git"
   },
   "author": "",
-  "license": "SEE LICENSE IN LICENSE"
+  "license": "SEE LICENSE IN LICENSE",
+  "packageManager": "pnpm@10.33.0"
 }
