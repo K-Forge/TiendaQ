@@ -62,7 +62,7 @@ Security updates are applied to the latest version on the `main` branch. We do n
 
 ## Scope
 
-This policy applies to the TiendaQ application and all code hosted in the [K-Forge/TiendaK](https://github.com/K-Forge/TiendaQ) repository, including:
+This policy applies to the TiendaQ application and all code hosted in the [K-Forge/TiendaQ](https://github.com/K-Forge/TiendaQ) repository, including:
 
 - Spring Boot backend API (`app/backend/`)
 - Angular frontend application (`app/frontend/`)

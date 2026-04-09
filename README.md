@@ -1,20 +1,32 @@
-# TiendaQ
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=8B5CF6&height=200&section=header&text=TiendaQ&fontSize=60&fontColor=ffffff&fontAlignY=35&desc=Sistema%20de%20comercio%20electr%C3%B3nico%20%7C%20K-Forge&descSize=18&descAlignY=55&descColor=ffffff" width="100%" alt="TiendaQ header"/>
+</p>
 
-Sistema de comercio electronico desarrollado para la **Fundacion Universitaria Konrad Lorenz (FUKL)** por el club de desarrollo de software **K-Forge**. Permite a clientes navegar un catalogo, gestionar carritos de compras y realizar compras, y a empleados gestionar productos, inventario y facturacion.
-
-> En desarrollo — Backend API implementado en Spring Boot 4.0. Frontend en fase de scaffold con Angular 21.
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-25-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 25"/>
+  <img src="https://img.shields.io/badge/Spring%20Boot-4.0-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot 4"/>
+  <img src="https://img.shields.io/badge/Angular-21-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular 21"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-15+-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
+  <img src="https://img.shields.io/badge/Estado-En%20desarrollo-8B5CF6?style=for-the-badge" alt="En desarrollo"/>
+</p>
 
 ---
 
-## Stack tecnologico
+## Descripción
 
-| Capa | Tecnologia | Version |
+TiendaQ es el sistema de comercio electrónico de la Fundación Universitaria Konrad Lorenz, desarrollado por K-Forge para gestionar catálogo, carrito, compras, inventario y facturación en un flujo unificado.
+
+> En desarrollo — Backend API implementado en Spring Boot 4.0. Frontend en fase de scaffold con Angular 21.
+
+## Stack tecnológico
+
+| Capa | Tecnología | Versión |
 | --- | --- | --- |
 | Lenguaje backend | Java | 25 |
 | Framework backend | Spring Boot | 4.0.0 |
 | Persistencia | Spring Data JPA (Hibernate) | -- |
 | Seguridad | Spring Security + OAuth2 Client | -- |
-| Validacion | Spring Validation (Jakarta) | -- |
+| Validación | Spring Validation (Jakarta) | -- |
 | Utilidades | Lombok | -- |
 | Build backend | Maven | 3.9+ |
 | Base de datos | PostgreSQL | 15+ |
@@ -49,7 +61,7 @@ graph LR
     C --> E
 ```
 
-El backend implementa una arquitectura en capas (Controller, Service, Repository, Model) siguiendo el patron estandar de Spring Boot. Incluye 6 enums, 8 entidades JPA, 8 repositorios, 8 servicios y 8 controladores REST.
+El backend implementa una arquitectura en capas (Controller, Service, Repository, Model) siguiendo el patrón estándar de Spring Boot. Incluye 6 enums, 8 entidades JPA, 8 repositorios, 8 servicios y 8 controladores REST.
 
 ## Estructura del proyecto
 
@@ -76,7 +88,7 @@ TiendaQ/
 ├── scripts/
 │   ├── start-back.sh
 │   └── start-front.sh
-├── AGENT.md
+├── AGENTS.md
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
 ├── LICENSE
@@ -85,7 +97,7 @@ TiendaQ/
 └── SECURITY.md
 ```
 
-## Inicio rapido
+## Inicio rápido
 
 ### Requisitos previos
 
@@ -110,10 +122,10 @@ psql -U postgres -d "tiendaq" -f app/database/INSERTS.sql
 ### Backend (Spring Boot)
 
 ```bash
-# Opcion 1: Script
+# Opción 1: Script
 ./scripts/start-back.sh
 
-# Opcion 2: Manual
+# Opción 2: Manual
 cd app/backend/tiendaq
 ./mvnw spring-boot:run
 ```
@@ -123,16 +135,16 @@ cd app/backend/tiendaq
 ### Frontend (Angular)
 
 ```bash
-# Opcion 1: Script
+# Opción 1: Script
 ./scripts/start-front.sh
 
-# Opcion 2: Manual
+# Opción 2: Manual
 cd app/frontend
 bun install
 bun start
 ```
 
-> La aplicacion inicia en `http://localhost:4200`
+> La aplicación inicia en `http://localhost:4200`
 
 ## Endpoints de la API
 
@@ -140,7 +152,7 @@ bun start
 
 ### Productos — `/api/productos`
 
-| Metodo | Endpoint | Descripcion |
+| Método | Endpoint | Descripción |
 | --- | --- | --- |
 | `GET` | `/api/productos` | Listar todos los productos |
 | `GET` | `/api/productos/{id}` | Obtener producto por ID |
@@ -151,7 +163,7 @@ bun start
 
 ### Usuarios — `/api/usuarios`
 
-| Metodo | Endpoint | Descripcion |
+| Método | Endpoint | Descripción |
 | --- | --- | --- |
 | `GET` | `/api/usuarios` | Listar todos los usuarios |
 | `GET` | `/api/usuarios/{id}` | Obtener usuario por ID |
@@ -161,7 +173,7 @@ bun start
 
 ### Clientes — `/api/clientes`
 
-| Metodo | Endpoint | Descripcion |
+| Método | Endpoint | Descripción |
 | --- | --- | --- |
 | `GET` | `/api/clientes/{idUsuario}` | Obtener cliente por ID de usuario |
 | `POST` | `/api/clientes` | Crear un cliente |
@@ -169,14 +181,14 @@ bun start
 
 ### Empleados — `/api/empleados`
 
-| Metodo | Endpoint | Descripcion |
+| Método | Endpoint | Descripción |
 | --- | --- | --- |
 | `GET` | `/api/empleados/{id}` | Obtener empleado por ID |
 | `GET` | `/api/empleados/usuario/{idUsuario}` | Obtener empleado por ID de usuario |
 
 ### Carritos — `/api/carritos`
 
-| Metodo | Endpoint | Descripcion |
+| Método | Endpoint | Descripción |
 | --- | --- | --- |
 | `GET` | `/api/carritos/usuario/{idUsuario}` | Listar carritos por usuario |
 | `GET` | `/api/carritos/{id}` | Obtener carrito por ID |
@@ -186,7 +198,7 @@ bun start
 
 ### Items del carrito — `/api/items`
 
-| Metodo | Endpoint | Descripcion |
+| Método | Endpoint | Descripción |
 | --- | --- | --- |
 | `GET` | `/api/items/carrito/{idCarrito}` | Listar items por carrito |
 | `POST` | `/api/items` | Crear un item |
@@ -195,7 +207,7 @@ bun start
 
 ### Facturas — `/api/facturas`
 
-| Metodo | Endpoint | Descripcion |
+| Método | Endpoint | Descripción |
 | --- | --- | --- |
 | `GET` | `/api/facturas/cliente/{idCliente}` | Listar facturas por cliente |
 | `GET` | `/api/facturas/{id}` | Obtener factura por ID |
@@ -203,7 +215,7 @@ bun start
 
 ### Stock — `/api/stock`
 
-| Metodo | Endpoint | Descripcion |
+| Método | Endpoint | Descripción |
 | --- | --- | --- |
 | `GET` | `/api/stock/producto/{idProducto}` | Listar stock por producto |
 | `GET` | `/api/stock/{id}` | Obtener registro de stock por ID |
@@ -211,24 +223,24 @@ bun start
 | `PUT` | `/api/stock/{id}` | Actualizar registro de stock |
 | `DELETE` | `/api/stock/{id}` | Eliminar registro de stock |
 
-## Documentacion
+## Documentación
 
-| Documento | Descripcion |
+| Documento | Descripción |
 | --- | --- |
-| [README.md](README.md) | Guia general del proyecto |
-| [REQUIREMENTS.md](docs/REQUIREMENTS.md) | Especificacion de Requisitos de Software (SRS) |
-| [DESIGN.md](docs/DESIGN.md) | Documento de Diseno de Software (SDD) |
-| [PROGRESS.md](docs/PROGRESS.md) | Estado actual de implementacion |
-| [DATABASE.md](docs/DATABASE.md) | Documentacion del esquema de base de datos |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Guia de contribucion y flujo Git |
-| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Codigo de conducta de la comunidad |
-| [SECURITY.md](SECURITY.md) | Politica de reporte de vulnerabilidades |
+| [README.md](README.md) | Guía general del proyecto |
+| [REQUIREMENTS.md](docs/REQUIREMENTS.md) | Especificación de Requisitos de Software (SRS) |
+| [DESIGN.md](docs/DESIGN.md) | Documento de Diseño de Software (SDD) |
+| [PROGRESS.md](docs/PROGRESS.md) | Estado actual de implementación |
+| [DATABASE.md](docs/DATABASE.md) | Documentación del esquema de base de datos |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Guía de contribución y flujo Git |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Código de conducta de la comunidad |
+| [SECURITY.md](SECURITY.md) | Política de reporte de vulnerabilidades |
 | [LICENSE](LICENSE) | Licencia del proyecto (propietaria, K-Forge) |
-| [AGENT.md](AGENT.md) | Contexto para asistentes de IA |
+| [AGENTS.md](AGENTS.md) | Contexto para asistentes de IA |
 
 ## Equipo
 
-Desarrollado por **K-Forge** — Club de desarrollo de software de la Fundacion Universitaria Konrad Lorenz.
+Desarrollado por **K-Forge** — Club de desarrollo de software de la Fundación Universitaria Konrad Lorenz.
 
 | Miembro | GitHub |
 | --- | --- |
@@ -241,3 +253,7 @@ Desarrollado por **K-Forge** — Club de desarrollo de software de la Fundacion 
 ## Licencia
 
 Ver [LICENSE](LICENSE)
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=8B5CF6&height=100&section=footer" width="100%" alt="TiendaQ footer"/>
+</p>
