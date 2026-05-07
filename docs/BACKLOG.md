@@ -664,13 +664,13 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 
 | Campo | Detalle |
 |-------|---------|
-| **Historia** | Como administrador, quiero eliminar o desactivar una cuenta de usuario que ya no la necesita, para mantener la base de datos limpia y ordenada. |
+| **Historia** | Como administrador, quiero desactivar o eliminar una cuenta de usuario que ya no la necesita, para mantener el sistema ordenado sin perder el historial de compras. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟠 Could have |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-043 |
-| **Criterios de aceptación** | - Si el usuario tiene facturas, no se puede eliminar y retorna 409. <br>- Si no tiene facturas, se elimina junto con sus registros de cliente/empleado y carritos no finalizados. <br>- El frontend pide confirmación antes de eliminar. |
-| **Notas** | Evaluar si implementar eliminación lógica (soft delete) o física. |
+| **Criterios de aceptación** | - **Usuario**: soft-delete con campo `deleted_at TIMESTAMP NULL`. Se anula la visibilidad pero se preserva el historial de facturas. El usuario no puede iniciar sesion una vez eliminado. <br>- **Producto**: soft-delete con `deleted_at`. Deja de aparecer en el catalogo pero las facturas existentes conservan la referencia. <br>- **Carrito**: hard-delete solo si esta vacio y tiene mas de 30 dias de abandono. Un carrito con items no se elimina fisicamente. <br>- Las entidades con soft-delete usan `@SQLDelete` + `@Where(clause = "deleted_at IS NULL")` en Hibernate para que las queries normales no retornen registros eliminados. <br>- El frontend muestra confirmacion antes de desactivar y aclara que el historial se preserva. |
+| **Notas** | El soft-delete tambien sirve como registro de auditoria basico: `deleted_at` indica cuando fue desactivado. Se complementa con `audit_log` (US-066) para tener el `deleted_by`. Ver ADR-0007. |
 
 ---
 
