@@ -974,6 +974,21 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Criterios de aceptación** | - El backend esta desplegado en Render o Railway (free tier). <br>- La base de datos PostgreSQL esta provisionada en el mismo proveedor. <br>- La URL publica responde en `GET /actuator/health` con `{"status":"UP"}`. |
 | **Notas** | Sin backups. No es produccion real. |
 
+#### US-061 — Confirmacion de pago en pantalla del cliente
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como cliente, quiero ver el resultado de mi pago luego de ser redirigido desde Wompi, para saber si mi compra fue exitosa o si debo intentarlo de nuevo. |
+| **Responsable** | Frontend + Backend |
+| **Prioridad** | 🟡 Should have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-027 |
+| **Criterios de aceptación** | - Al volver de Wompi, el frontend consulta `GET /api/pagos/{id}` para obtener el estado del intento. <br>- Si APROBADO: pantalla de exito con resumen de factura y boton a historial. <br>- Si RECHAZADO: pantalla de error con motivo y boton de reintentar. <br>- La pantalla no depende solo de los parametros de URL (que pueden ser manipulados): siempre consulta el backend. |
+| **Notas** | El webhook (US-047) es el que realmente confirma el pago; esta US solo muestra el resultado al usuario. |
+
+---
+
+
 ## Resumen General
 
 ### Por épica
