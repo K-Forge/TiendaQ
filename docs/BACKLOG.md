@@ -787,8 +787,8 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Prioridad** | 🟡 Should have |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-008 |
-| **Criterios de aceptación** | - La entidad `Producto` tiene un campo `imagenUrl` de tipo `String`, opcional (nullable). <br>- El campo aparece en el DTO de respuesta de producto. <br>- El esquema PostgreSQL se actualiza con `ALTER TABLE` o a través del `ddl-auto=update` de Hibernate. |
-| **Notas** | Usar `ddl-auto=update` permite que Hibernate añada la columna automáticamente, pero verificar que no cause problemas. |
+| **Criterios de aceptación** | - La entidad `Producto` tiene un campo `imagenUrl` de tipo `String`, opcional (nullable). <br>- El campo aparece en el DTO de respuesta de producto. <br>- La columna se agrega via migracion Flyway `V2__add_producto_imagen.sql` (NO via `ddl-auto=update`). |
+| **Notas** | `ddl-auto=update` debe estar deshabilitado tras US-058 (Flyway). Toda modificacion de schema usa migraciones Flyway versionadas. |
 
 ---
 
