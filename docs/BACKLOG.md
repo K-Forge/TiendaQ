@@ -1004,6 +1004,21 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 ---
 
 
+#### US-062 — Observabilidad basica con Actuator
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como desarrollador, quiero que el backend exponga endpoints de salud y metricas, para poder monitorear el estado del sistema sin acceder directamente al servidor. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟡 Should have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - `GET /actuator/health` retorna `{"status":"UP"}` cuando todo esta bien. <br>- `GET /actuator/info` retorna version y nombre del proyecto. <br>- Los logs se emiten en formato JSON (Logback) con nivel configurable por ambiente. <br>- Los endpoints de actuator estan protegidos y solo son accesibles con rol ADMINISTRADOR (excepto `/health`). |
+| **Notas** | Sin Grafana, Prometheus ni Loki para el MVP. |
+
+---
+
+
 ## Resumen General
 
 ### Por épica
