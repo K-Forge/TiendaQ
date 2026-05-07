@@ -239,8 +239,8 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Prioridad** | 🔴 Must Have |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-003 |
-| **Criterios de aceptación** | - Las peticiones sin token retornan 401. <br>- Las peticiones con token expirado retornan 401. <br>- Las peticiones con token válido pero rol insuficiente retornan 403. <br>- Los tokens tienen una expiración configurable (por defecto 24 horas). |
-| **Notas** | — |
+| **Criterios de aceptación** | - Las peticiones sin token retornan 401. <br>- Las peticiones con token expirado retornan 401. <br>- Las peticiones con token valido pero rol insuficiente retornan 403. <br>- El access token expira en **15 minutos**. <br>- El refresh token expira en **7 dias** y se rota en cada uso (el anterior queda invalidado). <br>- Existe el endpoint `POST /api/auth/refresh` que recibe el refresh token y retorna un nuevo par access/refresh. <br>- Los refresh tokens se almacenan hasheados en tabla `refresh_token(id, usuario_id, token_hash, expires_at, used_at)`. |
+| **Notas** | 24h de expiracion es un antipatron de seguridad: cualquier token robado tiene acceso durante un dia completo. 15min + refresh rotation minimiza la ventana de exposicion. Ver ADR-0002. |
 
 ---
 
