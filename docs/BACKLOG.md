@@ -1019,6 +1019,21 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 ---
 
 
+#### US-063 — Documentacion de la API con OpenAPI y Swagger UI
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como desarrollador, quiero que la API este documentada automaticamente con OpenAPI, para que cualquier integrante pueda explorar y probar los endpoints sin necesidad de Postman. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟡 Should have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RNF-020 |
+| **Criterios de aceptación** | - La dependencia `springdoc-openapi-starter-webmvc-ui` esta en el `pom.xml`. <br>- `GET /swagger-ui.html` muestra la UI de Swagger con todos los endpoints documentados. <br>- `GET /v3/api-docs` retorna el YAML de OpenAPI. <br>- El archivo `docs/api/openapi.yaml` esta commiteado y se actualiza con cada cambio de la API. |
+| **Notas** | El archivo commiteado es la fuente de verdad para generar colecciones de Postman. |
+
+---
+
+
 ## Resumen General
 
 ### Por épica
