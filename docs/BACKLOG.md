@@ -1094,6 +1094,20 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 ---
 
 
+#### US-068 — Refactorizar a arquitectura Hexagonal por bounded context
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como equipo de desarrollo, quiero reorganizar los paquetes del backend siguiendo arquitectura Hexagonal por bounded context, para que cada contexto pueda evolucionar de forma independiente y la logica de dominio sea testeable sin Spring. |
+| **Responsable** | Backend |
+| **Prioridad** | 🔴 Must have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Los paquetes siguen la estructura: `com.tiendaq.<contexto>.domain`, `com.tiendaq.<contexto>.application`, `com.tiendaq.<contexto>.infrastructure`. <br>- Los 7 bounded contexts estan definidos: identidad, catalogo, inventario, carrito, pedidos, pagos, reportes. <br>- La logica de dominio no tiene dependencias de Spring (solo POJO/records). <br>- Los tests de dominio se ejecutan sin Spring Boot (`@SpringBootTest` solo para slices de integracion). |
+| **Notas** | Ver ADR-0001. Este refactor es prerrequisito para implementar use cases por contexto en Fase 2. |
+
+---
+
 ## Resumen General
 
 ### Por épica
