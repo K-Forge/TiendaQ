@@ -360,7 +360,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 | Campo | Detalle |
 |-------|---------|
-| **Historia** | Como empleado, quiero editar los datos de un producto existente, para corregir errores o actualizar el precio o la imagen. |
+| **Historia** | Como empleado, quiero editar los datos de un producto existente, para mantener el catalogo actualizado y preciso ante cambios de proveedor, ajustes de precio o renovacion de fotografia. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must Have |
 | **Estado** | 📋 Por hacer |
@@ -510,7 +510,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### TT-024 — Validación de stock en tiempo real
+#### TT-024 — Validación de stock al agregar item al carrito
 
 | Campo | Detalle |
 |-------|---------|
@@ -519,8 +519,8 @@ Cada HU sigue el formato estándar de Scrum:
 | **Prioridad** | 🔴 Must have |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-024 |
-| **Criterios de aceptación** | - Si el stock es insuficiente, la operación se rechaza con 409 indicando la cantidad disponible. <br>- La validación ocurre tanto al agregar como al modificar la cantidad. |
-| **Notas** | — |
+| **Criterios de aceptación** | - Si el stock es insuficiente, la operación se rechaza con 409 indicando la cantidad disponible. <br>- La validación ocurre tanto al agregar como al modificar la cantidad. <br>- El calculo de disponible considera reservas activas: `disponible = cantidad - SUM(reservas activas)`. |
+| **Notas** | Acompañante de HU-020 (agregar producto al carrito). Diferente de TT-067: TT-024 es lectura (validacion sincrona), TT-067 es escritura (reserva pesimista durante checkout). |
 
 ---
 
@@ -595,8 +595,8 @@ Cada HU sigue el formato estándar de Scrum:
 | **Prioridad** | 🔴 Must have |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-032 |
-| **Criterios de aceptación** | - El descuento de stock es parte de la misma transacción que genera la factura. <br>- Si el stock de algún producto es insuficiente en el momento exacto de facturar, toda la operación se revierte (rollback). <br>- El stock resultante nunca puede ser negativo. |
-| **Notas** | — |
+| **Criterios de aceptación** | - El descuento de stock es parte de la misma transacción que genera la factura. <br>- Si el stock de algún producto es insuficiente en el momento exacto de facturar, toda la operación se revierte (rollback). <br>- El stock resultante nunca puede ser negativo. <br>- **Depende de TT-067:** la confirmacion del pago consume la reserva existente (no decrementa stock real desde cero). |
+| **Notas** | Depende de TT-067 (reserva). El decremento real ocurre al consumir la reserva. |
 
 ---
 
@@ -609,8 +609,8 @@ Cada HU sigue el formato estándar de Scrum:
 | **Prioridad** | 🟡 Should have |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-029 |
-| **Criterios de aceptación** | - Solo se puede cancelar si el carrito está en estado EN_PROCESO_DE_PAGO. <br>- Al cancelar, el estado vuelve a CON_PRODUCTOS. <br>- Los items del carrito permanecen intactos. |
-| **Notas** | — |
+| **Criterios de aceptación** | - Solo se puede cancelar si el carrito está en estado EN_PROCESO_DE_PAGO. <br>- Al cancelar, el estado vuelve a CON_PRODUCTOS. <br>- Los items del carrito permanecen intactos. <br>- **Las reservas de stock asociadas se liberan automaticamente,** restaurando el `disponible` del producto. |
+| **Notas** | Depende de TT-067 (reservas) — la cancelacion debe disparar la liberacion. |
 
 ---
 
@@ -700,7 +700,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 | Campo | Detalle |
 |-------|---------|
-| **Historia** | Como administrador, quiero editar los datos de cualquier usuario (nombre, apellido, teléfono, dirección, correo), para corregir información incorrecta. |
+| **Historia** | Como administrador, quiero editar los datos de cualquier usuario (nombre, apellido, teléfono, dirección, correo), para asegurar que los datos de contacto y facturacion del usuario sean precisos en todo momento. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
 | **Estado** | 📋 Por hacer |
@@ -710,7 +710,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### HU-037 — Eliminar o desactivar una cuenta de usuario
+#### HU-037 — Soft-delete de Usuario preservando historial
 
 | Campo | Detalle |
 |-------|---------|
@@ -1129,7 +1129,7 @@ Cada HU sigue el formato estándar de Scrum:
 ---
 
 
-#### TT-067 — Reservas de stock durante el checkout
+#### TT-067 — Reserva pesimista de stock durante checkout (timeout 10min)
 
 | Campo | Detalle |
 |-------|---------|
