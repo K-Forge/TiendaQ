@@ -115,12 +115,12 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | Campo | Detalle |
 |-------|---------|
 | **Historia** | Como equipo, quiero tener definidas las convenciones de código y la estructura de carpetas del proyecto, para que todos trabajemos de forma coherente sin pisarnos. |
-| **Responsable** | Todos (revisar AGENTS.md y CONTRIBUTING.md) |
+| **Responsable** | Todos (revisar AGENTS.md y la guia org-level CONTRIBUTING) |
 | **Prioridad** | 🔴 Must have |
 | **Estado** | 📋 Backlog |
 | **RF relacionado** | — |
 | **Criterios de aceptación** | - Las convenciones de commits (Conventional Commits) están documentadas y todos las siguen. <br>- La estructura de ramas Git Flow está activa (`main`, `develop`, `feature/*`). <br>- El equipo acordó cómo nombrar branches, clases y métodos. |
-| **Notas** | Ya existe documentación en `CONTRIBUTING.md` y `AGENTS.md`. Revisar que todos la hayan leído. |
+| **Notas** | La guia de contribucion vive en el repo org-level [`K-Forge/.github/blob/main/CONTRIBUTING.md`](https://github.com/K-Forge/.github/blob/main/CONTRIBUTING.md). El `AGENTS.md` local complementa con contexto especifico de TiendaQ. |
 
 ---
 
