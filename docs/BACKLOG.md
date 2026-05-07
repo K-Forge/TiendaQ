@@ -1326,7 +1326,13 @@ Cada HU sigue el formato estándar de Scrum:
 | 9 — Perfil de usuario | 2 | 0 | 2 | 0 |
 | 10 — Reportes | 3 | 0 | 0 | 3 |
 | 11 — Deuda técnica | 3 | 2 | 1 | 0 |
-| **Total** | **45** | **27** | **14** | **4** |
+| 12 — Integración Wompi | 6 | 0 | 4 | 2 |
+| 13 — DevOps e Infraestructura | 6 | 1 | 1 | 4 |
+| 14 — Roadmap Fase 2 (post-MVP) | 8 | 0 | 0 | 8 |
+| Cross-cutting (MX-051..068) | 8 | 1 | 4 | 3 |
+| **Total MVP** | **65** | **29** | **23** | **13** |
+| **Total Fase 2** | **8** | **0** | **0** | **8** |
+| **Total general** | **73** | **29** | **23** | **21** |
 
 ### Por responsable
 
@@ -1363,20 +1369,22 @@ Capacity bruta no es lo mismo que capacity efectiva. La capacity real se ajusta 
 
 ---
 
-### Sprint 1 — Fundamentos de codigo (FIJO, no requiere poker)
+### Sprint 1 — Bloqueantes absolutos (FIJO, no requiere poker para asignacion)
 
-**Objetivo:** Base tecnica irrenunciable antes de que el equipo pueda construir features. Sin esto, cada PR puede romper el esquema de otro.
+**Objetivo:** Base tecnica irrenunciable. Sin estos 4 items NADA mas tiene sentido construir.
 
-**Por que va fijo sin planning poker:** Estas USs son must-have de fundacion. No pueden saltarse, no pueden esperar, no compiten con otras prioridades. Son criterio de entrada para que cualquier feature posterior tenga sentido.
+**Criterio de seleccion:** Items que bloquean estructuralmente todo lo demas. Sin estructura de paquetes, sin Flyway, sin BigDecimal y sin estructura hexagonal base, ninguna HU puede ejecutarse limpiamente.
 
-| ID | Historia | Responsable | Estimacion (pts) |
-|----|----------|-------------|-----------------|
-| EN-058 | Migrar esquema a Flyway | BD + Backend | A estimar en poker |
-| TT-068 | Refactorizar a arquitectura Hexagonal | Backend | A estimar en poker |
-| TT-005 | Corregir mapeo JPA (BigDecimal, JOINED, enums, indices) | BD + Backend | A estimar en poker |
-| TT-002 | Implementar DTOs para todas las entidades | Backend | A estimar en poker |
+| ID | Item | Tipo | Responsable | Estimacion (pts) |
+|----|------|------|-------------|-----------------|
+| EN-001 | Estructura de paquetes y convenciones | EN | Todos | A estimar en poker |
+| EN-058 | Migrar esquema a Flyway (eliminar ddl-auto=update) | EN | BD + Backend | A estimar en poker |
+| TT-005a | Migrar tipos monetarios a BigDecimal | TT | BD + Backend | A estimar en poker |
+| TT-068a | Estructura hexagonal base + bounded context Identidad | TT | Backend | A estimar en poker |
 
-**Nota:** Los puntos de estas USs igualmente se estiman en el planning poker para calibrar la escala del equipo y obtener una primera medicion de velocity al cierre del Sprint 1.
+**Nota:** Los puntos de estos items se estiman en el planning poker para calibrar escala del equipo y obtener primera medicion de velocity al cierre del Sprint 1. La asignacion (que items van) no se discute, solo los puntos.
+
+**Items "fundacionales blandos" candidatos a Sprint 2** (no fijados, asignar tras poker): TT-002 (DTOs), TT-004 (manejo errores RFC 7807), EN-003 (Spring Security setup), EN-006 (frontend scaffold), TT-005b (eliminar JOINED), TT-005c (enums + timestamps + indices), TT-068b (migrar Catalogo + Inventario).
 
 ---
 
@@ -1384,9 +1392,9 @@ Capacity bruta no es lo mismo que capacity efectiva. La capacity real se ajusta 
 
 **Listas separadas por prioridad MoSCoW.** Asignar a sprints despues del planning poker.
 
-#### Pool Must have (asignar primero)
+#### Pool Must have (asignar primero, ya excluye los 4 de Sprint 1)
 
-EN-001, EN-003, TT-004, EN-006, HU-007, HU-008, TT-009, TT-010, HU-011, HU-013, HU-014, HU-015, HU-016, HU-019, HU-020, HU-022, HU-023, TT-024, TT-025, HU-026, HU-027, HU-028, TT-029, HU-031, TT-043, TT-044, TT-045, HU-046, TT-047, EN-055, TT-067, EN-059.
+TT-002, EN-003, TT-004, TT-005b, TT-005c, EN-006, HU-007, HU-008, TT-009, TT-010, HU-011, HU-013, HU-014, HU-015, HU-016, HU-019, HU-020, HU-022, HU-023, TT-024, TT-025, HU-026, HU-027, HU-028, TT-029, HU-031, TT-043, TT-044, TT-045, HU-046, TT-047, EN-055, EN-059, TT-067, TT-068b, TT-068c.
 
 #### Pool Should have (asignar despues de cubrir Must)
 
@@ -1402,7 +1410,7 @@ HU-035, TT-048, HU-049, TT-050, MX-051, EN-056, EN-057, EN-060, HU-061, EN-064, 
 
 ### Preparacion (antes de la sesion)
 
-1. **Confirmar Sprint 1.** USs TT-002, TT-005, EN-058, TT-068 quedan en Sprint 1 sin discusion. Solo se estiman puntos.
+1. **Confirmar Sprint 1.** Items EN-001, EN-058, TT-005a, TT-068a quedan en Sprint 1 sin discusion. Solo se estiman puntos.
 2. **Acordar la escala de Fibonacci.** Convencion del equipo: 1, 2, 3, 5, 8, 13, 21. Mas de 21 = US demasiado grande, hay que partirla.
 3. **Definir referencia.** Elegir 1 US "ancla" que el equipo entienda completamente y asignarle un valor (ej. EN-001 = 3 pts). Todas las demas se comparan contra ella.
 4. **Tener BACKLOG.md a mano.** Cada miembro lee la US (descripcion + criterios de aceptacion) antes de votar.
@@ -1438,7 +1446,9 @@ HU-035, TT-048, HU-049, TT-050, MX-051, EN-056, EN-057, EN-060, HU-061, EN-064, 
 
 | Versión | Fecha | Autor | Cambio |
 |---------|-------|-------|--------|
-| 1.0 | Abril 2026 | K-Forge | Creación inicial del backlog |
+| 1.0 | Abril 2026 | K-Forge | Creacion inicial del backlog |
+| 1.1 | Mayo 2026 | Brian Vargas (PO) | Revision Ola 1: 21 correcciones criticas, epicas 12-13, items 046-068, replan 7→8 sprints, capacity real 60h |
+| 1.2 | Mayo 2026 | Brian Vargas (PO) | Revision Ola 2: reclasificacion completa (HU=34, TT=17, EN=12, MX=1), glosario de tipos al inicio, particion TT-068 → a/b/c y TT-005 → a/b/c por tamano, refinamiento beneficio HU-014/036, clarificacion TT-024/037/067, dependencias explicitas TT-029→TT-067, HU-030→liberacion reservas, epica 14 Roadmap Fase 2 con 8 items diferidos, Sprint 1 ajustado a 4 bloqueantes absolutos (EN-001, EN-058, TT-005a, TT-068a). |
 
 ---
 
