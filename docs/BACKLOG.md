@@ -67,10 +67,10 @@ El proyecto TiendaQ utilizará una arquitectura **monolítica** con una única b
 |-----------|--------|------------------------|
 | Product Owner | Brian Steven Vargas Clavijo | Definición de requerimientos y prioridades |
 | Scrum Master / Dev - Frontend | Juan Camilo Prieto Mestizo | Coordinación de sprints y retrospectivas |
-| Dev — BD | Nicoll Alejandra Duran Quintero | API REST, lógica de negocio, seguridad |
-| Dev — Backend | Miguel Angel Quintin Acero | Angular SPA, esquema PostgreSQL |
+| Dev — BD | Nicoll Alejandra Duran Quintero | Esquema PostgreSQL, modelo de datos, migraciones |
+| Dev — Backend | Miguel Angel Quintin Acero | API REST, lógica de negocio, seguridad |
 
-> **Nota:** En este backlog, "Frontend" hace referencia al desarrollador encargado de Angular, y "BD" hace referencia al desarrollador encargado del esquema de base de datos. Cuando una historia requiere coordinación entre ambos se indica explícitamente.
+> **Nota:** En este backlog, "Frontend" hace referencia al desarrollador encargado de Angular, "Backend" al desarrollador encargado de la API Spring Boot, y "BD" al desarrollador encargado del esquema PostgreSQL y las migraciones. Cuando una historia requiere coordinación se indica explícitamente.
 
 ---
 
