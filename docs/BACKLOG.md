@@ -884,6 +884,96 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 
 ---
 
+### Épica 13 — DevOps e Infraestructura
+
+**Descripcion:** Automatizar el ciclo de vida del proyecto: contenerizacion, migraciones versionadas, perfiles de ambiente, CI/CD y observabilidad basica.
+
+**¿Por que es necesaria?** Sin esta epica el proyecto solo funciona en la maquina de quien lo desarrollo. Los nuevos integrantes no pueden levantar el entorno en menos de 30 minutos, y cualquier cambio de esquema puede romper la base de datos silenciosamente.
+
+---
+
+#### US-055 — Dockerfiles para backend y frontend
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como desarrollador, quiero que el backend y el frontend tengan Dockerfiles, para poder ejecutar el proyecto en cualquier maquina sin instalar Java, Maven o Node manualmente. |
+| **Responsable** | Backend + Frontend |
+| **Prioridad** | 🟠 Could have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - `app/backend/tiendaq/Dockerfile` construye la imagen del backend (multi-stage: build Maven + runtime JRE). <br>- `app/frontend/Dockerfile` construye la imagen del frontend (multi-stage: build Angular + Nginx). <br>- Ambas imagenes construyen sin errores con `docker build`. |
+| **Notas** | — |
+
+---
+
+#### US-056 — docker-compose para entorno local completo
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como desarrollador nuevo, quiero levantar todo el entorno local con un solo comando, para empezar a contribuir en menos de 30 minutos. |
+| **Responsable** | Backend + BD |
+| **Prioridad** | 🟠 Could have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - `docker-compose.yml` levanta: backend, frontend, PostgreSQL y Mailhog (SMTP local). <br>- `docker compose up` levanta todo sin configuracion adicional. <br>- Las variables de entorno estan en `.env.example` con valores por defecto para local. |
+| **Notas** | — |
+
+---
+
+#### US-057 — Pipeline CI/CD con GitHub Actions
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como equipo, quiero que cada PR ejecute automaticamente los tests y el build, para detectar errores antes de mergear a develop. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟠 Could have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Existe `.github/workflows/ci.yml` con jobs: lint → test → build. <br>- Los tests usan Testcontainers (PostgreSQL real, no H2 embebido). <br>- El pipeline falla si alguna prueba falla. <br>- El pipeline pasa en menos de 5 minutos. |
+| **Notas** | — |
+
+---
+
+#### US-058 — Migrar esquema a Flyway
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como desarrollador de BD, quiero versionar el esquema con Flyway, para que cualquier cambio de base de datos sea reproducible, reversible y auditable. |
+| **Responsable** | BD + Backend |
+| **Prioridad** | 🔴 Must have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Existe `app/backend/tiendaq/src/main/resources/db/migration/V1__init.sql` con el esquema completo. <br>- `spring.jpa.hibernate.ddl-auto=none` en todos los perfiles. <br>- Al arrancar la aplicacion, Flyway ejecuta las migraciones pendientes automaticamente. <br>- `SCRIPTS_POSTGRES.sql` sigue siendo la fuente de referencia humana pero no se ejecuta en tiempo de arranque. |
+| **Notas** | Ver ADR-0005. Sin Flyway, los cambios de esquema pueden perderse o romperse entre integrantes. |
+
+---
+
+#### US-059 — Perfiles de ambiente (local/dev/staging)
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como desarrollador, quiero tener perfiles de ambiente separados, para que las credenciales de produccion nunca aparezcan en el codigo ni en el repositorio. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟡 Should have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Existen `application-local.yml`, `application-dev.yml` y `application-staging.yml`. <br>- Las credenciales sensibles se leen de variables de entorno (`DB_USER`, `DB_PASSWORD`, `JWT_SECRET`, `WOMPI_KEY`). <br>- `.env.example` documenta todas las variables requeridas con valores de ejemplo seguros. |
+| **Notas** | — |
+
+---
+
+#### US-060 — Despliegue en staging (Render/Railway)
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como equipo, quiero un ambiente de staging accesible por URL publica, para poder demostrar el proyecto sin necesidad de correrlo localmente. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟠 Could have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - El backend esta desplegado en Render o Railway (free tier). <br>- La base de datos PostgreSQL esta provisionada en el mismo proveedor. <br>- La URL publica responde en `GET /actuator/health` con `{"status":"UP"}`. |
+| **Notas** | Sin backups. No es produccion real. |
+
 ## Resumen General
 
 ### Por épica
