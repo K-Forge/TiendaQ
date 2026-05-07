@@ -166,17 +166,17 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 
 ---
 
-#### US-005 — Verificar y sincronizar el esquema de BD con las entidades JPA
+#### US-005 — Corregir mapeo JPA: tipos, herencia, enums, indices y timestamps
 
 | Campo | Detalle |
 |-------|---------|
-| **Historia** | Como desarrollador de BD, quiero verificar que el esquema PostgreSQL esté perfectamente alineado con las entidades JPA, para evitar errores de mapeo al ejecutar la aplicación. |
-| **Responsable** | BD |
+| **Historia** | Como desarrollador de BD, quiero corregir todos los problemas de mapeo entre el esquema PostgreSQL y las entidades JPA, para que la aplicacion arranque y funcione correctamente sin errores silenciosos en produccion. |
+| **Responsable** | BD + Backend |
 | **Prioridad** | 🔴 Must Have |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | — |
-| **Criterios de aceptación** | - Los tipos ENUM en PostgreSQL coinciden exactamente con los enums de Java. <br>- Los nombres de columnas en SQL coinciden con los mapeados en `@Column`. <br>- El enum `TipoDocumento` en Java (que tiene NIT, RUT, OTRO) está alineado con el tipo PostgreSQL (que actualmente no los tiene). |
-| **Notas** | Inconsistencia detectada: `TipoDocumento` en Java tiene valores que no están en el ENUM de PostgreSQL. |
+| **Criterios de aceptación** | - Cambiar `double` → `BigDecimal` en todas las entidades que representen dinero: `Producto.precioUnitario`, `ItemsCarrito.subtotal`, `Factura.subtotal`, `Factura.iva`, `Factura.total`. <br>- Eliminar `@Inheritance(JOINED)` en `Usuario`: `Cliente` y `Empleado` pasan a ser entidades independientes con FK `id_usuario UNIQUE` (perfiles 1:1). <br>- Anotar todos los enums con `@JdbcTypeCode(SqlTypes.NAMED_ENUM)` para que Hibernate los mapee al tipo PostgreSQL nativo. <br>- Agregar `@CreationTimestamp`/`@UpdateTimestamp` en todos los campos `created_at`/`updated_at` que en SQL tienen `DEFAULT CURRENT_TIMESTAMP`. <br>- Agregar indices en todas las FK (`@Index` en `@Table`) para evitar seq-scans en joins frecuentes. <br>- El enum `TipoDocumento` queda alineado entre Java (CC, TI, CE, PASAPORTE, NIT, RUT, OTRO) y PostgreSQL (mismos valores). |
+| **Notas** | `double` para dinero causa errores de redondeo en sumas de IVA. `@Inheritance(JOINED)` esta roto porque el esquema SQL no comparte PK con `Usuario` (usa FK separada). Ver ADR-0004 y ADR-0006. |
 
 ---
 
