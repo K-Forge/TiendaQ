@@ -806,6 +806,84 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 
 ---
 
+### Épica 12 — Integración con Pasarela de Pagos
+
+**Descripción:** Conectar el checkout con Wompi sandbox para procesar pagos reales en un entorno de prueba. Incluye el flujo completo: iniciar intento, redirigir al usuario, recibir webhook de confirmacion, reconciliar con la factura y aislar la API externa via anticorrupcion layer.
+
+**¿Por qué es necesaria?** El plan define un MVP academico con pagos reales en sandbox. Sin esta epica el checkout solo simula el pago localmente, lo que no cumple el objetivo de aprender integracion con pasarelas reales.
+
+---
+
+#### US-046 — Iniciar un intento de pago con Wompi
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como cliente, quiero iniciar el pago de mi carrito a traves de Wompi sandbox, para completar mi compra con un metodo de pago real. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟡 Should have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-027 |
+| **Criterios de aceptación** | - El endpoint `POST /api/pagos/iniciar` crea un registro `IntentoPago` en estado PENDIENTE. <br>- Retorna la URL de redireccion de Wompi sandbox para que el frontend redirija al usuario. <br>- El `IntentoPago` tiene: idCarrito, monto, moneda (COP), referencia unica y timestamp. |
+| **Notas** | Wompi sandbox no requiere tarjeta real. Ver ADR-0003. |
+
+---
+
+#### US-047 — Recibir webhook de confirmacion de Wompi
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como sistema, quiero recibir el webhook de Wompi cuando el pago se confirma o rechaza, para actualizar el estado del intento de pago de forma automatica. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟡 Should have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-027 |
+| **Criterios de aceptación** | - El endpoint `POST /api/pagos/webhook` es publico pero valida la firma HMAC de Wompi. <br>- Si el evento es APPROVED, el `IntentoPago` pasa a APROBADO y se dispara la generacion de factura. <br>- Si el evento es DECLINED o ERROR, el `IntentoPago` pasa a RECHAZADO y el carrito vuelve a CON_PRODUCTOS. <br>- El webhook es idempotente: registros duplicados del mismo `transaction_id` se ignoran (tabla `processed_webhook(transaction_id UNIQUE)`). |
+| **Notas** | Sin idempotencia, Wompi puede enviar el mismo evento mas de una vez y se generaria una factura duplicada. |
+
+---
+
+#### US-048 — Reconciliar IntentoPago con la Factura
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como sistema, quiero vincular el `IntentoPago` aprobado con la `Factura` generada, para tener trazabilidad completa del ciclo de vida de un pago. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟠 Could have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-027 |
+| **Criterios de aceptación** | - La `Factura` tiene un campo `intentoPagoId` que referencia al `IntentoPago`. <br>- La transaccion de Flyway crea la factura y actualiza el `IntentoPago` atomicamente. <br>- El endpoint `GET /api/facturas/{id}` incluye el `intentoPagoId` en la respuesta. |
+| **Notas** | — |
+
+---
+
+#### US-049 — Manejar pagos rechazados o fallidos
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como cliente, quiero recibir retroalimentacion clara cuando mi pago es rechazado, para poder intentarlo nuevamente o elegir otro metodo. |
+| **Responsable** | Backend + Frontend |
+| **Prioridad** | 🟡 Should have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-027 |
+| **Criterios de aceptación** | - Si el pago es rechazado, el carrito vuelve a estado CON_PRODUCTOS. <br>- El frontend muestra el motivo del rechazo (INSUFFICIENT_FUNDS, INVALID_CARD, etc.). <br>- El cliente puede reintentar el pago sin perder los items del carrito. |
+| **Notas** | — |
+
+---
+
+#### US-050 — Capa anticorrupcion para Wompi (ACL)
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como desarrollador Backend, quiero aislar la integracion con Wompi detras de un puerto y un adaptador, para poder cambiar de pasarela en el futuro sin modificar la logica de dominio. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟠 Could have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Existe una interfaz `PasarelaPort` en el paquete de dominio con metodos `iniciarPago` y `validarWebhook`. <br>- La implementacion `WompiAdapter` esta en el paquete `infrastructure/pago`. <br>- Los tests del dominio usan un mock de `PasarelaPort`, no la clase de Wompi directamente. |
+| **Notas** | Patron Hexagonal. Ver ADR-0001 y ADR-0003. |
+
+---
+
 ## Resumen General
 
 ### Por épica
