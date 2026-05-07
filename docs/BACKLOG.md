@@ -180,17 +180,17 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 
 ---
 
-#### US-006 — Configurar la estructura base del Frontend Angular
+#### US-006 — Configurar la estructura base del Frontend Angular (Atomic Design + Signals)
 
 | Campo | Detalle |
 |-------|---------|
-| **Historia** | Como desarrollador Frontend, quiero estructurar el proyecto Angular con las carpetas, servicios base e interceptores HTTP necesarios, para tener una base sólida sobre la que construir todas las pantallas. |
+| **Historia** | Como desarrollador Frontend, quiero estructurar el proyecto Angular 21 con Atomic Design, Signals y PrimeNG, para tener una base solida, escalable y coherente con el design system de K-Forge. |
 | **Responsable** | Frontend |
 | **Prioridad** | 🔴 Must Have |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-072 |
-| **Criterios de aceptación** | - Existen las carpetas: `pages/`, `components/`, `services/`, `guards/`, `interceptors/`, `models/`. <br>- Hay un interceptor HTTP que agrega el token JWT a todas las peticiones. <br>- Hay un interceptor de errores que captura respuestas 401 y 403. <br>- Las rutas base están configuradas en `app.routes.ts`. <br>- Existe un ambiente (`environment.ts`) con la URL base de la API. |
-| **Notas** | Actualmente `app.routes.ts` está vacío y no hay ninguna estructura de carpetas definida. |
+| **Criterios de aceptación** | - Estructura de carpetas Atomic Design: `atoms/`, `molecules/`, `organisms/`, `templates/`, `pages/`. <br>- Patron Container/Presentational: los containers viven en `pages/`, los presentacionales en `organisms/` y `molecules/`. <br>- `AuthService` con Signal store de sesion (sin NgRx). <br>- `authInterceptor` que inyecta el JWT en cada peticion, captura 401 e intenta refresh antes de fallar. <br>- `authGuard` y `roleGuard` para proteger rutas segun autenticacion y rol. <br>- PrimeNG instalado con tema custom que usa los design tokens de K-Forge (negro/amarillo en `_tokens.scss`). <br>- Lazy loading configurado por feature en `app.routes.ts`. <br>- `environment.ts` con la URL base de la API por ambiente. |
+| **Notas** | Signals reemplaza NgRx para el MVP (10% del codigo, misma reactividad). PrimeNG proporciona los componentes UI; los design tokens de K-Forge personalizan el tema sin reescribir componentes. |
 
 ---
 
