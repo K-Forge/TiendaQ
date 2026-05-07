@@ -184,17 +184,49 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### TT-005 — Corregir mapeo JPA: tipos, herencia, enums, indices y timestamps
+#### TT-005 — Corregir mapeo JPA (epica, partida en sub-items)
+
+> Este item se partio en TT-005a, TT-005b y TT-005c por tamano (probable >13 pts). El item original TT-005 queda como referencia de la epica completa.
+
+#### TT-005a — Migrar tipos monetarios a BigDecimal
 
 | Campo | Detalle |
 |-------|---------|
-| **Historia** | Como desarrollador de BD, quiero corregir todos los problemas de mapeo entre el esquema PostgreSQL y las entidades JPA, para que la aplicacion arranque y funcione correctamente sin errores silenciosos en produccion. |
+| **Historia** | Como desarrollador de BD, quiero migrar todos los campos monetarios de `double` a `BigDecimal`, para eliminar errores de redondeo en calculos de IVA y totales de factura. |
 | **Responsable** | BD + Backend |
-| **Prioridad** | 🔴 Must Have |
+| **Prioridad** | 🔴 Must Have (Sprint 1 — bloqueante absoluto) |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | — |
-| **Criterios de aceptación** | - Cambiar `double` → `BigDecimal` en todas las entidades que representen dinero: `Producto.precioUnitario`, `ItemsCarrito.subtotal`, `Factura.subtotal`, `Factura.iva`, `Factura.total`. <br>- Eliminar `@Inheritance(JOINED)` en `Usuario`: `Cliente` y `Empleado` pasan a ser entidades independientes con FK `id_usuario UNIQUE` (perfiles 1:1). <br>- Anotar todos los enums con `@JdbcTypeCode(SqlTypes.NAMED_ENUM)` para que Hibernate los mapee al tipo PostgreSQL nativo. <br>- Agregar `@CreationTimestamp`/`@UpdateTimestamp` en todos los campos `created_at`/`updated_at` que en SQL tienen `DEFAULT CURRENT_TIMESTAMP`. <br>- Agregar indices en todas las FK (`@Index` en `@Table`) para evitar seq-scans en joins frecuentes. <br>- El enum `TipoDocumento` queda alineado entre Java (CC, TI, CE, PASAPORTE, NIT, RUT, OTRO) y PostgreSQL (mismos valores). |
-| **Notas** | `double` para dinero causa errores de redondeo en sumas de IVA. `@Inheritance(JOINED)` esta roto porque el esquema SQL no comparte PK con `Usuario` (usa FK separada). Ver ADR-0004 y ADR-0006. |
+| **Criterios de aceptación** | - Cambiar `double` → `BigDecimal` en `Producto.precioUnitario`, `ItemsCarrito.subtotal`, `Factura.subtotal`, `Factura.iva`, `Factura.total`, `IntentoPago.monto`, `DetalleFactura.precioUnitario`, `DetalleFactura.subtotal`. <br>- Configurar Jackson `ObjectMapper` para no usar notacion cientifica al serializar. <br>- Constructores de `BigDecimal` siempre con `String` (no `double`) para evitar perdida de precision. <br>- Migracion Flyway que convierte columnas `DOUBLE PRECISION` → `NUMERIC(15,2)`. |
+| **Notas** | Bloqueante absoluto antes de cualquier HU que toque dinero. Ver ADR-0004. |
+
+---
+
+#### TT-005b — Eliminar @Inheritance(JOINED) y migrar Cliente/Empleado a perfiles 1:1
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como desarrollador de BD, quiero refactorizar `Cliente` y `Empleado` como entidades independientes con FK `id_usuario UNIQUE`, para alinear el modelo JPA con el esquema PostgreSQL real y permitir que un Usuario tenga ambos perfiles si fuera necesario. |
+| **Responsable** | BD + Backend |
+| **Prioridad** | 🔴 Must Have (Sprint 2 candidato) |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Eliminar `@Inheritance(JOINED)` de `Usuario`. <br>- `Cliente` y `Empleado` quedan como `@Entity` independientes con `@Id` propio o `@MapsId` referenciando `Usuario.id`. <br>- Use case de registro crea Usuario + perfil correspondiente en transaccion atomica. <br>- Repositorios y casos de uso afectados se actualizan. |
+| **Notas** | `@Inheritance(JOINED)` esta roto porque el SQL no comparte PK con Usuario. Ver ADR-0006. |
+
+---
+
+#### TT-005c — Anotar enums + agregar timestamps + indices en FKs
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como desarrollador de BD, quiero anotar correctamente enums, timestamps de auditoria e indices en FKs, para que Hibernate genere consultas eficientes y mapee a tipos PostgreSQL nativos. |
+| **Responsable** | BD + Backend |
+| **Prioridad** | 🔴 Must Have (Sprint 2 candidato) |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Anotar todos los enums con `@JdbcTypeCode(SqlTypes.NAMED_ENUM)` para que mapeen al tipo PostgreSQL nativo. <br>- Agregar `@CreationTimestamp` / `@UpdateTimestamp` en campos `created_at` / `updated_at` con `DEFAULT CURRENT_TIMESTAMP` en SQL. <br>- Agregar `@Index` en `@Table` para todas las FKs frecuentes (categoria_id, cliente_id, producto_id, factura_id, etc.). <br>- Verificar que `TipoDocumento` Java (CC, TI, CE, PASAPORTE, NIT, RUT, OTRO) coincida exactamente con el enum PostgreSQL. |
+| **Notas** | Sin `@JdbcTypeCode`, Hibernate convierte enums a VARCHAR perdiendo el tipo nativo. Sin indices en FKs, Postgres hace seq-scan en joins frecuentes. |
 
 ---
 
@@ -1112,17 +1144,49 @@ Cada HU sigue el formato estándar de Scrum:
 ---
 
 
-#### TT-068 — Refactorizar a arquitectura Hexagonal por bounded context
+#### TT-068 — Refactor a Hexagonal+DDD (epica, partida en sub-items)
+
+> Este item se partio en TT-068a, TT-068b y TT-068c por tamano (probable >21 pts: 7 bounded contexts). El item original TT-068 queda como referencia de la epica completa.
+
+#### TT-068a — Estructura hexagonal base + bounded context Identidad
 
 | Campo | Detalle |
 |-------|---------|
-| **Historia** | Como equipo de desarrollo, quiero reorganizar los paquetes del backend siguiendo arquitectura Hexagonal por bounded context, para que cada contexto pueda evolucionar de forma independiente y la logica de dominio sea testeable sin Spring. |
+| **Historia** | Como equipo de desarrollo, quiero crear la estructura hexagonal base y migrar el bounded context Identidad, para establecer la convencion arquitectonica que seguiran los demas contextos. |
 | **Responsable** | Backend |
-| **Prioridad** | 🔴 Must have |
+| **Prioridad** | 🔴 Must have (Sprint 1 — bloqueante absoluto) |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | — |
-| **Criterios de aceptación** | - Los paquetes siguen la estructura: `com.tiendaq.<contexto>.domain`, `com.tiendaq.<contexto>.application`, `com.tiendaq.<contexto>.infrastructure`. <br>- Los 7 bounded contexts estan definidos: identidad, catalogo, inventario, carrito, pedidos, pagos, reportes. <br>- La logica de dominio no tiene dependencias de Spring (solo POJO/records). <br>- Los tests de dominio se ejecutan sin Spring Boot (`@SpringBootTest` solo para slices de integracion). |
-| **Notas** | Ver ADR-0001. Este refactor es prerrequisito para implementar use cases por contexto en Fase 2. |
+| **Criterios de aceptación** | - Crear estructura `com.tiendaq.<contexto>.{domain,application,infrastructure}`. <br>- Migrar Usuario, Cliente, Empleado a `com.tiendaq.identidad`. <br>- Crear puertos: `UsuarioRepositoryPort`, `TokenPort`, `NotificacionPort`. <br>- Tests de dominio se ejecutan sin Spring Boot. <br>- `domain/` no tiene dependencias de Spring ni JPA. |
+| **Notas** | Ver ADR-0001. Bloqueante absoluto antes de cualquier otro context migration o HU. |
+
+---
+
+#### TT-068b — Migrar Catalogo + Inventario
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como equipo de desarrollo, quiero migrar los bounded contexts Catalogo e Inventario a la estructura hexagonal, para aislar la logica de productos y stock del resto del sistema. |
+| **Responsable** | Backend |
+| **Prioridad** | 🔴 Must have (Sprint 2 candidato) |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Mover Producto, Categoria a `com.tiendaq.catalogo`. <br>- Mover StockLevel, StockEntry, StockReservation a `com.tiendaq.inventario`. <br>- Crear puertos `ProductoRepositoryPort`, `StockReservationPort`. <br>- Use cases de creacion/actualizacion/consulta de productos quedan en `application/`. |
+| **Notas** | Depende de TT-068a. |
+
+---
+
+#### TT-068c — Migrar Carrito + Pedidos + Pagos + Reportes
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como equipo de desarrollo, quiero migrar los bounded contexts restantes (Carrito, Pedidos, Pagos, Reportes) a la estructura hexagonal, para completar el refactor arquitectonico. |
+| **Responsable** | Backend |
+| **Prioridad** | 🔴 Must have (Sprint 2 o 3 candidato) |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Mover Carrito + ItemCarrito a `com.tiendaq.carrito`. <br>- Mover Factura + DetalleFactura a `com.tiendaq.pedidos`. <br>- Mover IntentoPago + WompiPagoAdapter a `com.tiendaq.pagos` (con `PagoPort` en domain). <br>- Crear `com.tiendaq.reportes` (read-models, sin aggregate propio). |
+| **Notas** | Depende de TT-068a y TT-068b. Ultimo paso del refactor. |
 
 ---
 
