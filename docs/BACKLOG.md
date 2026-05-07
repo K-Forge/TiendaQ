@@ -93,10 +93,10 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 
 | Estado | Descripción |
 |--------|------------|
-| 📋 Ready | Aún no se ha iniciado |
-| 🔄 In progress | Alguien está trabajando en ella actualmente |
-| 👁️ In review | Terminada, esperando revisión del equipo |
-| ✅ Done | Completada y aceptada por el Product Owner |
+| 📋 Por hacer | Aún no se ha iniciado |
+| 🔄 En curso | Alguien está trabajando en ella actualmente |
+| 👁️ En revisión | Terminada, esperando revisión del equipo |
+| ✅ Hecho | Completada y aceptada por el Product Owner |
 
 ---
 
@@ -117,7 +117,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como equipo, quiero tener definidas las convenciones de código y la estructura de carpetas del proyecto, para que todos trabajemos de forma coherente sin pisarnos. |
 | **Responsable** | Todos (revisar AGENTS.md y la guia org-level CONTRIBUTING) |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | — |
 | **Criterios de aceptación** | - Las convenciones de commits (Conventional Commits) están documentadas y todos las siguen. <br>- La estructura de ramas Git Flow está activa (`main`, `develop`, `feature/*`). <br>- El equipo acordó cómo nombrar branches, clases y métodos. |
 | **Notas** | La guia de contribucion vive en el repo org-level [`K-Forge/.github/blob/main/CONTRIBUTING.md`](https://github.com/K-Forge/.github/blob/main/CONTRIBUTING.md). El `AGENTS.md` local complementa con contexto especifico de TiendaQ. |
@@ -131,7 +131,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como desarrollador Backend, quiero crear DTOs (objetos de transferencia de datos) para cada entidad, para que la API nunca exponga directamente las entidades JPA ni datos sensibles como contraseñas. |
 | **Responsable** | Backend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RNF-019 |
 | **Criterios de aceptación** | - Existe un DTO de request y uno de response para cada entidad (Usuario, Producto, Carrito, etc.). <br>- Ningún endpoint retorna directamente una entidad JPA. <br>- El campo `contrasena` nunca aparece en ninguna respuesta de la API. |
 | **Notas** | Actualmente todos los controllers exponen entidades JPA directamente. Esto es un problema de seguridad crítico. |
@@ -145,7 +145,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como desarrollador Backend, quiero configurar Spring Security con autenticación JWT, para que todos los endpoints estén protegidos y solo los usuarios autorizados puedan acceder. |
 | **Responsable** | Backend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-002, RF-003, RF-004 |
 | **Criterios de aceptación** | - Existe un `SecurityFilterChain` configurado. <br>- Los endpoints públicos (login, registro) no requieren token. <br>- Los endpoints protegidos retornan 401 si no hay token válido. <br>- Los endpoints de administrador retornan 403 si el rol no es suficiente. |
 | **Notas** | La dependencia de Spring Security ya está en el `pom.xml`, pero sin configuración activa. |
@@ -159,7 +159,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como desarrollador Backend, quiero un manejador global de excepciones, para que todos los errores de la API tengan un formato JSON consistente y no expongan detalles internos del sistema. |
 | **Responsable** | Backend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-058, RF-059 |
 | **Criterios de aceptación** | - Existe una clase `@ControllerAdvice` que captura excepciones. <br>- Todos los errores retornan JSON con: `timestamp`, `status`, `error`, `message`, `path`. <br>- Ningún error expone stack traces ni nombres de tablas de la base de datos. |
 | **Notas** | El paquete `exception/` existe en el proyecto pero está vacío. |
@@ -173,7 +173,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como desarrollador de BD, quiero verificar que el esquema PostgreSQL esté perfectamente alineado con las entidades JPA, para evitar errores de mapeo al ejecutar la aplicación. |
 | **Responsable** | BD |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | — |
 | **Criterios de aceptación** | - Los tipos ENUM en PostgreSQL coinciden exactamente con los enums de Java. <br>- Los nombres de columnas en SQL coinciden con los mapeados en `@Column`. <br>- El enum `TipoDocumento` en Java (que tiene NIT, RUT, OTRO) está alineado con el tipo PostgreSQL (que actualmente no los tiene). |
 | **Notas** | Inconsistencia detectada: `TipoDocumento` en Java tiene valores que no están en el ENUM de PostgreSQL. |
@@ -187,7 +187,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como desarrollador Frontend, quiero estructurar el proyecto Angular con las carpetas, servicios base e interceptores HTTP necesarios, para tener una base sólida sobre la que construir todas las pantallas. |
 | **Responsable** | Frontend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-072 |
 | **Criterios de aceptación** | - Existen las carpetas: `pages/`, `components/`, `services/`, `guards/`, `interceptors/`, `models/`. <br>- Hay un interceptor HTTP que agrega el token JWT a todas las peticiones. <br>- Hay un interceptor de errores que captura respuestas 401 y 403. <br>- Las rutas base están configuradas en `app.routes.ts`. <br>- Existe un ambiente (`environment.ts`) con la URL base de la API. |
 | **Notas** | Actualmente `app.routes.ts` está vacío y no hay ninguna estructura de carpetas definida. |
@@ -209,7 +209,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como usuario nuevo, quiero registrarme con mis datos personales (nombre, apellido, documento, teléfono, correo, dirección y contraseña), para crear mi cuenta y poder hacer compras. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-001 |
 | **Criterios de aceptación** | - El endpoint `POST /api/auth/registro` crea un Usuario y un Cliente en una sola transacción. <br>- La contraseña se almacena con hash BCrypt (nunca en texto plano). <br>- Si el correo, documento o teléfono ya existen, retorna 409 con mensaje claro. <br>- El formulario de Angular valida los campos en tiempo real antes de enviar. <br>- La respuesta nunca incluye la contraseña. |
 | **Notas** | Actualmente la creación de usuario y cliente son operaciones separadas y las contraseñas no se hashean. |
@@ -223,7 +223,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como usuario registrado, quiero iniciar sesión con mi correo y contraseña, para acceder al sistema con las funciones que corresponden a mi rol. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-002 |
 | **Criterios de aceptación** | - El endpoint `POST /api/auth/login` retorna un token JWT válido al ingresar credenciales correctas. <br>- El token contiene el ID del usuario, su correo y su rol. <br>- Si las credenciales son incorrectas, retorna 401 con mensaje genérico (no indicar si el error es en el correo o en la contraseña, por seguridad). <br>- El frontend almacena el token de forma segura y redirige al usuario según su rol. |
 | **Notas** | —  |
@@ -237,7 +237,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como sistema, quiero validar el token JWT en cada petición a un endpoint protegido, para garantizar que solo usuarios autenticados accedan a los recursos. |
 | **Responsable** | Backend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-003 |
 | **Criterios de aceptación** | - Las peticiones sin token retornan 401. <br>- Las peticiones con token expirado retornan 401. <br>- Las peticiones con token válido pero rol insuficiente retornan 403. <br>- Los tokens tienen una expiración configurable (por defecto 24 horas). |
 | **Notas** | — |
@@ -251,7 +251,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como sistema, quiero restringir el acceso a cada endpoint según el rol del usuario autenticado, para que un cliente no pueda hacer lo que solo puede hacer un empleado o administrador. |
 | **Responsable** | Backend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-004 |
 | **Criterios de aceptación** | - Los endpoints de gestión de productos y stock solo son accesibles por VENDEDOR y ADMINISTRADOR. <br>- Los endpoints de gestión de usuarios solo son accesibles por ADMINISTRADOR. <br>- Los endpoints de carrito, perfil e historial son accesibles por CLIENTE. <br>- El rol ADMINISTRADOR hereda los permisos de VENDEDOR. |
 | **Notas** | — |
@@ -265,7 +265,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como usuario autenticado, quiero poder cerrar sesión, para que mi sesión quede invalidada y nadie más pueda usarla desde el mismo dispositivo. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-005 |
 | **Criterios de aceptación** | - Al hacer logout, el token queda invalidado. <br>- Peticiones posteriores con ese token retornan 401. <br>- El frontend elimina el token almacenado y redirige al login. |
 | **Notas** | — |
@@ -279,7 +279,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como usuario, quiero recuperar mi contraseña si la olvidé, para poder volver a acceder sin necesitar al administrador. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-006 |
 | **Criterios de aceptación** | - El endpoint `POST /api/auth/recuperar` acepta un correo y genera un token temporal. <br>- El token temporal se registra en consola o en un endpoint dedicado (no se envía correo real). <br>- Con el token temporal el usuario puede establecer una nueva contraseña hasheada. |
 | **Notas** | El envío real de correos está fuera del alcance del proyecto. |
@@ -299,7 +299,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como empleado, quiero crear un producto con nombre, categoría, precio e imagen (URL), para que esté disponible en el catálogo de la tienda. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-008 |
 | **Criterios de aceptación** | - El endpoint `POST /api/productos` solo es accesible por VENDEDOR y ADMINISTRADOR. <br>- El producto requiere: nombre, categoría (enum), precio unitario positivo. <br>- La imagen es una URL externa opcional. <br>- El nombre debe ser único dentro de la misma categoría. <br>- El formulario de Angular valida todos los campos antes de enviar. |
 | **Notas** | La entidad `Producto` actualmente no tiene campo `imagen`. Debe añadirse (ver US-044). |
@@ -313,7 +313,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como empleado, quiero editar los datos de un producto existente, para corregir errores o actualizar el precio o la imagen. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-011 |
 | **Criterios de aceptación** | - El endpoint `PUT /api/productos/{id}` actualiza nombre, categoría, precio e imagen. <br>- Si el producto no existe, retorna 404. <br>- La validación de unicidad de nombre por categoría se mantiene al editar. |
 | **Notas** | — |
@@ -327,7 +327,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como empleado, quiero eliminar un producto que no tiene stock ni compras asociadas, para mantener el catálogo limpio y actualizado. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-012 |
 | **Criterios de aceptación** | - Si el producto tiene stock o está en facturas, el endpoint retorna 409 con un mensaje descriptivo. <br>- Si se puede eliminar, retorna 204 (sin contenido). <br>- El frontend muestra un diálogo de confirmación antes de eliminar. |
 | **Notas** | — |
@@ -341,7 +341,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cualquier usuario, quiero ver la lista de productos con paginación, filtros por categoría y búsqueda por nombre, para encontrar lo que necesito sin ver todo el catálogo de golpe. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-010, RF-013 |
 | **Criterios de aceptación** | - El endpoint `GET /api/productos` soporta los parámetros: `page`, `size`, `sortBy`, `direction`. <br>- El endpoint `GET /api/productos/categoria/{categoria}` filtra por categoría. <br>- La respuesta incluye metadatos de paginación: `totalElements`, `totalPages`, `currentPage`. <br>- El frontend muestra los productos en una grilla con controles de paginación. |
 | **Notas** | Actualmente el endpoint no soporta paginación ni `Pageable`. |
@@ -361,7 +361,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero buscar productos escribiendo solo parte del nombre, para encontrar lo que busco sin tener que escribirlo completo. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-014 |
 | **Criterios de aceptación** | - El endpoint acepta un parámetro `nombre` y hace búsqueda ILIKE (insensible a mayúsculas). <br>- Si no hay resultados, retorna lista vacía (no error). <br>- El parámetro debe tener al menos 2 caracteres. <br>- El frontend tiene un campo de búsqueda que se activa al escribir. |
 | **Notas** | Requiere agregar `findByNombreContainingIgnoreCase` al repositorio. |
@@ -375,7 +375,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero filtrar productos por rango de precio (mínimo y máximo), para ver solo los que puedo pagar. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-015 |
 | **Criterios de aceptación** | - El endpoint acepta parámetros `precioMin` y `precioMax` (ambos opcionales). <br>- Si solo se proporciona `precioMin`, filtra productos con precio ≥ precioMin. <br>- Si solo se proporciona `precioMax`, filtra productos con precio ≤ precioMax. <br>- El frontend tiene controles de rango de precio. |
 | **Notas** | — |
@@ -389,7 +389,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero ver el detalle completo de un producto (nombre, categoría, precio, imagen y stock disponible), para decidir si lo compro. |
 | **Responsable** | Frontend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-017 |
 | **Criterios de aceptación** | - La pantalla de detalle consume el endpoint `GET /api/productos/{id}`. <br>- Si el stock es 0, se muestra la etiqueta "Agotado". <br>- Hay un botón para agregar al carrito (deshabilitado si está agotado). <br>- La imagen se muestra si existe URL; si no, se muestra un placeholder. |
 | **Notas** | — |
@@ -411,7 +411,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero agregar un producto a mi carrito indicando la cantidad deseada, para ir seleccionando lo que quiero comprar. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-019 |
 | **Criterios de aceptación** | - Si el cliente no tiene carrito activo, el sistema lo crea automáticamente con estado VACÍO. <br>- Si el producto ya está en el carrito, se suma la cantidad. <br>- Si el stock es insuficiente, retorna 409 con la cantidad disponible. <br>- El precio unitario se registra al momento de agregar (no cambia aunque el producto se actualice después). <br>- El estado del carrito cambia a CON_PRODUCTOS. |
 | **Notas** | — |
@@ -425,7 +425,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero cambiar la cantidad de un producto en mi carrito, para ajustar mi pedido antes de pagar. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-020 |
 | **Criterios de aceptación** | - Si la nueva cantidad es válida, se actualiza el item. <br>- Si la cantidad es 0, el item se elimina. <br>- Si el carrito queda vacío, el estado cambia a VACÍO. <br>- El sistema valida que el stock sea suficiente para la nueva cantidad. |
 | **Notas** | — |
@@ -439,7 +439,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero eliminar un producto específico de mi carrito, para cambiar de opinión sobre ese artículo. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-021 |
 | **Criterios de aceptación** | - El item se elimina del carrito. <br>- Si el carrito queda vacío, el estado cambia a VACÍO. <br>- El frontend muestra confirmación antes de eliminar. |
 | **Notas** | — |
@@ -453,7 +453,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero ver mi carrito con la lista de productos, el subtotal, el IVA (19%) y el total, para saber exactamente cuánto voy a pagar. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must Have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-023 |
 | **Criterios de aceptación** | - La respuesta incluye: lista de items, subtotal, IVA (19% del subtotal), total. <br>- Si el cliente no tiene carrito activo, retorna estructura vacía (no error). <br>- El carrito es accesible desde cualquier pantalla (componente lateral o modal). |
 | **Notas** | — |
@@ -467,7 +467,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como sistema, quiero validar el stock disponible cada vez que se agrega o modifica un item en el carrito, para no permitir vender más de lo que hay en inventario. |
 | **Responsable** | Backend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-024 |
 | **Criterios de aceptación** | - Si el stock es insuficiente, la operación se rechaza con 409 indicando la cantidad disponible. <br>- La validación ocurre tanto al agregar como al modificar la cantidad. |
 | **Notas** | — |
@@ -481,7 +481,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como sistema, quiero que el carrito siga una máquina de estados definida, para que el flujo de compra sea coherente y no se pueda saltar pasos. |
 | **Responsable** | Backend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-025 |
 | **Criterios de aceptación** | - Las transiciones válidas son: VACÍO → CON_PRODUCTOS, CON_PRODUCTOS → VACÍO, CON_PRODUCTOS → EN_PROCESO_DE_PAGO, EN_PROCESO_DE_PAGO → PAGO_PENDIENTE, PAGO_PENDIENTE → PAGO_EXITOSO, EN_PROCESO_DE_PAGO → CON_PRODUCTOS. <br>- Cualquier otra transición retorna 400 con mensaje descriptivo. |
 | **Notas** | — |
@@ -501,7 +501,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero iniciar el proceso de pago desde mi carrito, para formalizar mi compra. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-026 |
 | **Criterios de aceptación** | - El sistema re-valida el stock de todos los productos del carrito al iniciar el checkout. <br>- Si hay stock insuficiente en algún producto, retorna 409 con el detalle. <br>- Si todo está bien, el estado del carrito cambia a EN_PROCESO_DE_PAGO. <br>- El frontend muestra un resumen del carrito antes de confirmar. |
 | **Notas** | — |
@@ -515,7 +515,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero seleccionar el método de pago que prefiero (PSE, tarjeta de crédito, tarjeta débito, efectivo o transferencia), para completar mi compra. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-027 |
 | **Criterios de aceptación** | - Los métodos disponibles son los definidos en el enum `MetodoPago`. <br>- Al seleccionar, el estado del carrito cambia a PAGO_PENDIENTE. <br>- El método seleccionado queda registrado para la factura. |
 | **Notas** | No se realiza procesamiento real del pago. Solo se registra el método. |
@@ -529,7 +529,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como sistema, quiero generar una factura completa con el detalle de los productos comprados cuando el cliente confirma el pago, para tener un registro permanente e inmutable de la transacción. |
 | **Responsable** | Backend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-028 |
 | **Criterios de aceptación** | - Se crea un registro en `Factura` con: fecha, subtotal, IVA (19%), total, método de pago, referencia al cliente, al empleado/sistema y al carrito. <br>- Se crean registros en `DetalleFactura` con el precio y cantidad de cada producto al momento de la compra. <br>- El estado del carrito cambia a PAGO_EXITOSO. <br>- Todo ocurre en una sola transacción atómica (si algo falla, todo se revierte). |
 | **Notas** | Depende de US-044 (entidad `DetalleFactura`). |
@@ -543,7 +543,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como sistema, quiero descontar automáticamente el stock de cada producto vendido al generar la factura, para que el inventario siempre refleje la realidad. |
 | **Responsable** | Backend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-032 |
 | **Criterios de aceptación** | - El descuento de stock es parte de la misma transacción que genera la factura. <br>- Si el stock de algún producto es insuficiente en el momento exacto de facturar, toda la operación se revierte (rollback). <br>- El stock resultante nunca puede ser negativo. |
 | **Notas** | — |
@@ -557,7 +557,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero cancelar el proceso de pago si aún no lo he confirmado, para volver a mi carrito y seguir comprando o modificar mi pedido. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-029 |
 | **Criterios de aceptación** | - Solo se puede cancelar si el carrito está en estado EN_PROCESO_DE_PAGO. <br>- Al cancelar, el estado vuelve a CON_PRODUCTOS. <br>- Los items del carrito permanecen intactos. |
 | **Notas** | — |
@@ -571,7 +571,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como cliente, quiero ver mi historial de compras con el detalle de cada factura, para llevar control de todo lo que he comprado. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-030, RF-031 |
 | **Criterios de aceptación** | - La lista está paginada y ordenada por fecha descendente (más reciente primero). <br>- Cada factura muestra: número, fecha, total y método de pago. <br>- Al hacer clic en una factura, se ve el detalle completo con productos, cantidades y precios. <br>- Un cliente solo puede ver sus propias facturas. |
 | **Notas** | — |
@@ -591,7 +591,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como empleado, quiero registrar un ingreso de stock para un producto indicando la cantidad y la fecha, para actualizar el inventario cuando llegue mercancía. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-034 |
 | **Criterios de aceptación** | - El endpoint `POST /api/stock` crea un registro de stock asociado al producto. <br>- La cantidad debe ser un entero positivo. <br>- Si el producto no existe, retorna 404. <br>- El frontend tiene un formulario para ingresar la cantidad. |
 | **Notas** | — |
@@ -605,7 +605,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como empleado, quiero ver el inventario general con una alerta visual para los productos con poco stock, para saber cuándo debo pedir más mercancía. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-036, RF-037 |
 | **Criterios de aceptación** | - Los productos con stock ≤ 5 unidades se marcan como "stock bajo". <br>- Existe un endpoint dedicado `GET /api/stock/bajo` que retorna solo los productos con stock bajo. <br>- El frontend muestra un indicador visual destacado (color rojo o etiqueta) para estos productos. |
 | **Notas** | El umbral de 5 unidades debe ser configurable en el futuro. |
@@ -625,7 +625,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como administrador, quiero ver la lista de todos los usuarios del sistema con paginación y búsqueda por nombre, correo o documento, para tener control sobre quién tiene acceso. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-039, RF-045 |
 | **Criterios de aceptación** | - El endpoint retorna la lista paginada de usuarios sin incluir contraseñas. <br>- Se puede buscar por documento (exacto) o por correo (parcial). <br>- Se puede filtrar por tipo de usuario (REGISTRADO, SIN_REGISTRAR). |
 | **Notas** | — |
@@ -639,7 +639,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como administrador, quiero crear cuentas de empleados (vendedor o administrador), para darles acceso al sistema con los permisos correspondientes. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-041 |
 | **Criterios de aceptación** | - Se crea el Usuario y el Empleado en una sola transacción. <br>- La contraseña se hashea con BCrypt. <br>- El tipo de empleado puede ser VENDEDOR o ADMINISTRADOR. |
 | **Notas** | — |
@@ -653,7 +653,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como administrador, quiero editar los datos de cualquier usuario (nombre, apellido, teléfono, dirección, correo), para corregir información incorrecta. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-042 |
 | **Criterios de aceptación** | - No se puede modificar el tipo ni número de documento. <br>- Si se cambia el correo, se valida que no exista en otro usuario. <br>- Si se proporciona nueva contraseña, se hashea; si no, la existente no cambia. |
 | **Notas** | — |
@@ -667,7 +667,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como administrador, quiero eliminar o desactivar una cuenta de usuario que ya no la necesita, para mantener la base de datos limpia y ordenada. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟠 Could have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-043 |
 | **Criterios de aceptación** | - Si el usuario tiene facturas, no se puede eliminar y retorna 409. <br>- Si no tiene facturas, se elimina junto con sus registros de cliente/empleado y carritos no finalizados. <br>- El frontend pide confirmación antes de eliminar. |
 | **Notas** | Evaluar si implementar eliminación lógica (soft delete) o física. |
@@ -687,7 +687,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como usuario autenticado, quiero ver mi información de perfil y poder editar mi teléfono y dirección, para mantener mis datos de contacto actualizados. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-046, RF-047 |
 | **Criterios de aceptación** | - El endpoint `GET /api/perfil` retorna los datos del usuario autenticado sin incluir la contraseña. <br>- Solo se pueden editar: teléfono y dirección (no nombre, apellido ni documento). <br>- El cambio de correo requiere verificar la contraseña actual. |
 | **Notas** | — |
@@ -701,7 +701,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como usuario autenticado, quiero cambiar mi contraseña verificando la actual, para mantener mi cuenta segura. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-048 |
 | **Criterios de aceptación** | - El usuario debe proveer la contraseña actual (verificación con BCrypt). <br>- La nueva contraseña debe tener mínimo 8 caracteres, una mayúscula y un número. <br>- La nueva contraseña se almacena hasheada con BCrypt. |
 | **Notas** | — |
@@ -723,7 +723,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como administrador, quiero ver un reporte de ventas para un rango de fechas, con el total vendido, el IVA recaudado y el número de facturas, para evaluar el desempeño del negocio. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟠 Could have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-049 |
 | **Criterios de aceptación** | - El reporte acepta `fechaDesde` y `fechaHasta` como parámetros. <br>- Retorna: número total de facturas, monto total sin IVA, IVA total, total con IVA y promedio por factura. |
 | **Notas** | — |
@@ -737,7 +737,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como administrador, quiero ver un ranking de los productos más vendidos en un período, para identificar cuáles tienen más demanda. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟠 Could have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-050 |
 | **Criterios de aceptación** | - El ranking muestra: nombre del producto, categoría, cantidad vendida y monto generado. <br>- Por defecto muestra el top 10. El límite es configurable. <br>- Se puede filtrar por rango de fechas. |
 | **Notas** | — |
@@ -751,7 +751,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como administrador, quiero ver un dashboard con los indicadores más importantes del negocio, para tener una visión general rápida sin necesidad de buscar en múltiples reportes. |
 | **Responsable** | Backend + Frontend |
 | **Prioridad** | 🟠 Could have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-054 |
 | **Criterios de aceptación** | - El dashboard muestra: ventas del día, semana y mes, número de clientes registrados, cantidad de productos activos, productos agotados y valor total del inventario. |
 | **Notas** | — |
@@ -771,7 +771,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como desarrollador Backend, quiero crear la clase JPA `DetalleFactura` que actualmente falta, para poder registrar el detalle de productos en cada factura generada. |
 | **Responsable** | Backend + BD |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-028 |
 | **Criterios de aceptación** | - Existe la clase `DetalleFactura.java` en el paquete `model`. <br>- Tiene clave compuesta (idFactura + idProducto) con `@IdClass` o `@EmbeddedId`. <br>- Los campos `cantidad` y `precioUnitario` tienen sus anotaciones de validación. <br>- El esquema SQL ya existe en `SCRIPTS_POSTGRES.sql`; solo falta la entidad Java. |
 | **Notas** | La tabla `DetalleFactura` ya existe en la base de datos. |
@@ -785,7 +785,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como desarrollador Backend, quiero agregar el campo `imagen` (URL) a la entidad Producto, para que los clientes puedan ver una foto del artículo en el catálogo. |
 | **Responsable** | Backend + BD |
 | **Prioridad** | 🟡 Should have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-008 |
 | **Criterios de aceptación** | - La entidad `Producto` tiene un campo `imagenUrl` de tipo `String`, opcional (nullable). <br>- El campo aparece en el DTO de respuesta de producto. <br>- El esquema PostgreSQL se actualiza con `ALTER TABLE` o a través del `ddl-auto=update` de Hibernate. |
 | **Notas** | Usar `ddl-auto=update` permite que Hibernate añada la columna automáticamente, pero verificar que no cause problemas. |
@@ -799,7 +799,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Historia** | Como desarrollador de BD, quiero asegurar que los valores del enum `TipoDocumento` en Java y en PostgreSQL sean exactamente los mismos, para evitar errores al insertar o leer usuarios. |
 | **Responsable** | BD |
 | **Prioridad** | 🔴 Must have |
-| **Estado** | 📋 Backlog |
+| **Estado** | 📋 Por hacer |
 | **RF relacionado** | — |
 | **Criterios de aceptación** | - El enum PostgreSQL `tipo_documento_enum` incluye todos los valores del enum Java: CC, TI, CE, PASAPORTE, NIT, RUT, OTRO. <br>- O bien el enum Java se reduce a solo los valores que tiene PostgreSQL. <br>- El equipo decide cuál de las dos opciones aplicar y lo documenta. |
 | **Notas** | Actualmente Java tiene 7 valores y PostgreSQL solo tiene 4. Es una inconsistencia que causará errores en producción. |
