@@ -1064,6 +1064,21 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 ---
 
 
+#### US-066 — Auditoria de acciones criticas
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como administrador, quiero que las acciones criticas (crear usuario, eliminar producto, generar factura) queden registradas en un log de auditoria, para poder rastrear quien hizo que y cuando. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟠 Could have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Existe la tabla `audit_log(id, usuario_id, accion, entidad, entidad_id, antes, despues, fecha)`. <br>- Las acciones CREATE, UPDATE, DELETE en Usuario, Producto, Factura y StockEntry quedan registradas. <br>- El campo `antes` y `despues` guardan el estado en JSON. <br>- El registro es inmutable: no hay endpoint de eliminacion de audit_log. |
+| **Notas** | La auditoria no reemplaza a los logs del sistema; los complementa con contexto de negocio. |
+
+---
+
+
 ## Resumen General
 
 ### Por épica
