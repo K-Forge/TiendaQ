@@ -989,6 +989,21 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 ---
 
 
+#### US-051 — Captura basica de consentimiento al registro (educativo)
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como estudiante que aprende sobre Habeas Data, quiero implementar un checkbox de consentimiento al registrarse, para experimentar con los requisitos basicos de la Ley 1581/2012 en un contexto academico. |
+| **Responsable** | Backend + Frontend |
+| **Prioridad** | 🟠 Could have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - El formulario de registro incluye un checkbox "Acepto la politica de privacidad" (obligatorio). <br>- El backend registra `consentimiento_fecha` y `consentimiento_ip` en el usuario. <br>- El endpoint de registro rechaza con 400 si el campo no es `true`. |
+| **Notas** | Solo educativo. El proyecto no saldra a produccion real. Las obligaciones formales completas de la ley (anonimizacion, exportacion) quedan fuera del alcance del MVP. |
+
+---
+
+
 ## Resumen General
 
 ### Por épica
