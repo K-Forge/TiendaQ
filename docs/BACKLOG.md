@@ -128,7 +128,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-001 — Estructura de carpetas y convenciones del proyecto
+#### EN-001 — Estructura de carpetas y convenciones del proyecto
 
 | Campo | Detalle |
 |-------|---------|
@@ -142,7 +142,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-002 — Implementar DTOs para todas las entidades del Backend
+#### TT-002 — Implementar DTOs para todas las entidades del Backend
 
 | Campo | Detalle |
 |-------|---------|
@@ -156,7 +156,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-003 — Configurar Spring Security con JWT
+#### EN-003 — Configurar Spring Security con JWT
 
 | Campo | Detalle |
 |-------|---------|
@@ -170,7 +170,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-004 — Implementar manejo global de errores en el Backend
+#### TT-004 — Implementar manejo global de errores en el Backend
 
 | Campo | Detalle |
 |-------|---------|
@@ -184,7 +184,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-005 — Corregir mapeo JPA: tipos, herencia, enums, indices y timestamps
+#### TT-005 — Corregir mapeo JPA: tipos, herencia, enums, indices y timestamps
 
 | Campo | Detalle |
 |-------|---------|
@@ -198,7 +198,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-006 — Configurar la estructura base del Frontend Angular (Atomic Design + Signals)
+#### EN-006 — Configurar la estructura base del Frontend Angular (Atomic Design + Signals)
 
 | Campo | Detalle |
 |-------|---------|
@@ -220,7 +220,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-007 — Registro de nuevo cliente
+#### HU-007 — Registro de nuevo cliente
 
 | Campo | Detalle |
 |-------|---------|
@@ -234,7 +234,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-008 — Inicio de sesión
+#### HU-008 — Inicio de sesión
 
 | Campo | Detalle |
 |-------|---------|
@@ -248,7 +248,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-009 — Validación automática del token JWT
+#### TT-009 — Validación automática del token JWT
 
 | Campo | Detalle |
 |-------|---------|
@@ -262,7 +262,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-010 — Autorización por roles
+#### TT-010 — Autorización por roles
 
 | Campo | Detalle |
 |-------|---------|
@@ -276,7 +276,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-011 — Cierre de sesión
+#### HU-011 — Cierre de sesión
 
 | Campo | Detalle |
 |-------|---------|
@@ -290,7 +290,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-012 — Recuperación de contraseña
+#### HU-012 — Recuperación de contraseña
 
 | Campo | Detalle |
 |-------|---------|
@@ -310,7 +310,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-013 — Crear un producto
+#### HU-013 — Crear un producto
 
 | Campo | Detalle |
 |-------|---------|
@@ -320,11 +320,11 @@ Cada HU sigue el formato estándar de Scrum:
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-008 |
 | **Criterios de aceptación** | - El endpoint `POST /api/productos` solo es accesible por VENDEDOR y ADMINISTRADOR. <br>- El producto requiere: nombre, categoría (enum), precio unitario positivo. <br>- La imagen es una URL externa opcional. <br>- El nombre debe ser único dentro de la misma categoría. <br>- El formulario de Angular valida todos los campos antes de enviar. |
-| **Notas** | La entidad `Producto` actualmente no tiene campo `imagen`. Debe añadirse (ver US-044). |
+| **Notas** | La entidad `Producto` actualmente no tiene campo `imagen`. Debe añadirse (ver TT-044). |
 
 ---
 
-#### US-014 — Editar un producto existente
+#### HU-014 — Editar un producto existente
 
 | Campo | Detalle |
 |-------|---------|
@@ -338,7 +338,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-015 — Eliminar un producto
+#### HU-015 — Eliminar un producto
 
 | Campo | Detalle |
 |-------|---------|
@@ -352,7 +352,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-016 — Listar productos con paginación y filtros
+#### HU-016 — Listar productos con paginación y filtros
 
 | Campo | Detalle |
 |-------|---------|
@@ -372,7 +372,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-017 — Búsqueda de productos por nombre parcial
+#### HU-017 — Búsqueda de productos por nombre parcial
 
 | Campo | Detalle |
 |-------|---------|
@@ -386,7 +386,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-018 — Filtro de productos por rango de precio
+#### HU-018 — Filtro de productos por rango de precio
 
 | Campo | Detalle |
 |-------|---------|
@@ -400,7 +400,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-019 — Ver detalle de un producto
+#### HU-019 — Ver detalle de un producto
 
 | Campo | Detalle |
 |-------|---------|
@@ -422,7 +422,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-020 — Agregar un producto al carrito
+#### HU-020 — Agregar un producto al carrito
 
 | Campo | Detalle |
 |-------|---------|
@@ -436,7 +436,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-021 — Modificar la cantidad de un producto en el carrito
+#### HU-021 — Modificar la cantidad de un producto en el carrito
 
 | Campo | Detalle |
 |-------|---------|
@@ -450,7 +450,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-022 — Eliminar un producto del carrito
+#### HU-022 — Eliminar un producto del carrito
 
 | Campo | Detalle |
 |-------|---------|
@@ -464,7 +464,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-023 — Ver el carrito con totales calculados
+#### HU-023 — Ver el carrito con totales calculados
 
 | Campo | Detalle |
 |-------|---------|
@@ -478,7 +478,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-024 — Validación de stock en tiempo real
+#### TT-024 — Validación de stock en tiempo real
 
 | Campo | Detalle |
 |-------|---------|
@@ -492,7 +492,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-025 — Máquina de estados del carrito
+#### TT-025 — Máquina de estados del carrito
 
 | Campo | Detalle |
 |-------|---------|
@@ -512,7 +512,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-026 — Iniciar el proceso de checkout
+#### HU-026 — Iniciar el proceso de checkout
 
 | Campo | Detalle |
 |-------|---------|
@@ -526,7 +526,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-027 — Seleccionar método de pago
+#### HU-027 — Seleccionar método de pago
 
 | Campo | Detalle |
 |-------|---------|
@@ -540,7 +540,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-028 — Generar factura al confirmar el pago
+#### HU-028 — Generar factura al confirmar el pago
 
 | Campo | Detalle |
 |-------|---------|
@@ -550,11 +550,11 @@ Cada HU sigue el formato estándar de Scrum:
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-028 |
 | **Criterios de aceptación** | - Se crea un registro en `Factura` con: fecha, subtotal, IVA (19%), total, método de pago, referencia al cliente, al empleado/sistema y al carrito. <br>- Se crean registros en `DetalleFactura` con el precio y cantidad de cada producto al momento de la compra. <br>- El estado del carrito cambia a PAGO_EXITOSO. <br>- Todo ocurre en una sola transacción atómica (si algo falla, todo se revierte). |
-| **Notas** | Depende de US-043 (entidad `DetalleFactura`). |
+| **Notas** | Depende de TT-043 (entidad `DetalleFactura`). |
 
 ---
 
-#### US-029 — Descontar stock al facturar
+#### TT-029 — Descontar stock al facturar
 
 | Campo | Detalle |
 |-------|---------|
@@ -568,7 +568,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-030 — Cancelar el proceso de checkout
+#### HU-030 — Cancelar el proceso de checkout
 
 | Campo | Detalle |
 |-------|---------|
@@ -582,7 +582,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-031 — Ver historial de facturas
+#### HU-031 — Ver historial de facturas
 
 | Campo | Detalle |
 |-------|---------|
@@ -602,7 +602,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-032 — Registrar ingreso de stock
+#### HU-032 — Registrar ingreso de stock
 
 | Campo | Detalle |
 |-------|---------|
@@ -616,7 +616,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-033 — Ver inventario con alertas de stock bajo
+#### HU-033 — Ver inventario con alertas de stock bajo
 
 | Campo | Detalle |
 |-------|---------|
@@ -636,7 +636,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-034 — Listar usuarios con búsqueda y paginación
+#### HU-034 — Listar usuarios con búsqueda y paginación
 
 | Campo | Detalle |
 |-------|---------|
@@ -650,7 +650,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-035 — Crear cuenta de empleado
+#### HU-035 — Crear cuenta de empleado
 
 | Campo | Detalle |
 |-------|---------|
@@ -664,7 +664,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-036 — Editar datos de un usuario
+#### HU-036 — Editar datos de un usuario
 
 | Campo | Detalle |
 |-------|---------|
@@ -678,7 +678,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-037 — Eliminar o desactivar una cuenta de usuario
+#### HU-037 — Eliminar o desactivar una cuenta de usuario
 
 | Campo | Detalle |
 |-------|---------|
@@ -688,7 +688,7 @@ Cada HU sigue el formato estándar de Scrum:
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-043 |
 | **Criterios de aceptación** | - **Usuario**: soft-delete con campo `deleted_at TIMESTAMP NULL`. Se anula la visibilidad pero se preserva el historial de facturas. El usuario no puede iniciar sesion una vez eliminado. <br>- **Producto**: soft-delete con `deleted_at`. Deja de aparecer en el catalogo pero las facturas existentes conservan la referencia. <br>- **Carrito**: hard-delete solo si esta vacio y tiene mas de 30 dias de abandono. Un carrito con items no se elimina fisicamente. <br>- Las entidades con soft-delete usan `@SQLDelete` + `@Where(clause = "deleted_at IS NULL")` en Hibernate para que las queries normales no retornen registros eliminados. <br>- El frontend muestra confirmacion antes de desactivar y aclara que el historial se preserva. |
-| **Notas** | El soft-delete tambien sirve como registro de auditoria basico: `deleted_at` indica cuando fue desactivado. Se complementa con `audit_log` (US-066) para tener el `deleted_by`. Ver ADR-0007. |
+| **Notas** | El soft-delete tambien sirve como registro de auditoria basico: `deleted_at` indica cuando fue desactivado. Se complementa con `audit_log` (TT-066) para tener el `deleted_by`. Ver ADR-0007. |
 
 ---
 
@@ -698,7 +698,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-038 — Ver y editar perfil propio
+#### HU-038 — Ver y editar perfil propio
 
 | Campo | Detalle |
 |-------|---------|
@@ -712,7 +712,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-039 — Cambiar contraseña
+#### HU-039 — Cambiar contraseña
 
 | Campo | Detalle |
 |-------|---------|
@@ -734,7 +734,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-040 — Reporte de ventas por período
+#### HU-040 — Reporte de ventas por período
 
 | Campo | Detalle |
 |-------|---------|
@@ -748,7 +748,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-041 — Ranking de productos más vendidos
+#### HU-041 — Ranking de productos más vendidos
 
 | Campo | Detalle |
 |-------|---------|
@@ -762,7 +762,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-042 — Dashboard de indicadores clave (KPIs)
+#### HU-042 — Dashboard de indicadores clave (KPIs)
 
 | Campo | Detalle |
 |-------|---------|
@@ -782,7 +782,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-043 — Crear la entidad JPA `DetalleFactura`
+#### TT-043 — Crear la entidad JPA `DetalleFactura`
 
 | Campo | Detalle |
 |-------|---------|
@@ -796,7 +796,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-044 — Agregar campo `imagen` a la entidad `Producto`
+#### TT-044 — Agregar campo `imagen` a la entidad `Producto`
 
 | Campo | Detalle |
 |-------|---------|
@@ -806,11 +806,11 @@ Cada HU sigue el formato estándar de Scrum:
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-008 |
 | **Criterios de aceptación** | - La entidad `Producto` tiene un campo `imagenUrl` de tipo `String`, opcional (nullable). <br>- El campo aparece en el DTO de respuesta de producto. <br>- La columna se agrega via migracion Flyway `V2__add_producto_imagen.sql` (NO via `ddl-auto=update`). |
-| **Notas** | `ddl-auto=update` debe estar deshabilitado tras US-058 (Flyway). Toda modificacion de schema usa migraciones Flyway versionadas. |
+| **Notas** | `ddl-auto=update` debe estar deshabilitado tras EN-058 (Flyway). Toda modificacion de schema usa migraciones Flyway versionadas. |
 
 ---
 
-#### US-045 — Alinear el enum `TipoDocumento` entre Java y PostgreSQL
+#### TT-045 — Alinear el enum `TipoDocumento` entre Java y PostgreSQL
 
 | Campo | Detalle |
 |-------|---------|
@@ -832,7 +832,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-046 — Iniciar un intento de pago con Wompi
+#### HU-046 — Iniciar un intento de pago con Wompi
 
 | Campo | Detalle |
 |-------|---------|
@@ -846,7 +846,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-047 — Recibir webhook de confirmacion de Wompi
+#### TT-047 — Recibir webhook de confirmacion de Wompi
 
 | Campo | Detalle |
 |-------|---------|
@@ -860,7 +860,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-048 — Reconciliar IntentoPago con la Factura
+#### TT-048 — Reconciliar IntentoPago con la Factura
 
 | Campo | Detalle |
 |-------|---------|
@@ -874,7 +874,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-049 — Manejar pagos rechazados o fallidos
+#### HU-049 — Manejar pagos rechazados o fallidos
 
 | Campo | Detalle |
 |-------|---------|
@@ -888,7 +888,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-050 — Capa anticorrupcion para Wompi (ACL)
+#### TT-050 — Capa anticorrupcion para Wompi (ACL)
 
 | Campo | Detalle |
 |-------|---------|
@@ -910,7 +910,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-055 — Dockerfiles para backend y frontend
+#### EN-055 — Dockerfiles para backend y frontend
 
 | Campo | Detalle |
 |-------|---------|
@@ -924,7 +924,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-056 — docker-compose para entorno local completo
+#### EN-056 — docker-compose para entorno local completo
 
 | Campo | Detalle |
 |-------|---------|
@@ -938,7 +938,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-057 — Pipeline CI/CD con GitHub Actions
+#### EN-057 — Pipeline CI/CD con GitHub Actions
 
 | Campo | Detalle |
 |-------|---------|
@@ -952,7 +952,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-058 — Migrar esquema a Flyway
+#### EN-058 — Migrar esquema a Flyway
 
 | Campo | Detalle |
 |-------|---------|
@@ -966,7 +966,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-059 — Perfiles de ambiente (local/dev/staging)
+#### EN-059 — Perfiles de ambiente (local/dev/staging)
 
 | Campo | Detalle |
 |-------|---------|
@@ -980,7 +980,7 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
-#### US-060 — Despliegue en staging (Render/Railway)
+#### EN-060 — Despliegue en staging (Render/Railway)
 
 | Campo | Detalle |
 |-------|---------|
@@ -992,7 +992,7 @@ Cada HU sigue el formato estándar de Scrum:
 | **Criterios de aceptación** | - El backend esta desplegado en Render o Railway (free tier). <br>- La base de datos PostgreSQL esta provisionada en el mismo proveedor. <br>- La URL publica responde en `GET /actuator/health` con `{"status":"UP"}`. |
 | **Notas** | Sin backups. No es produccion real. |
 
-#### US-061 — Confirmacion de pago en pantalla del cliente
+#### HU-061 — Confirmacion de pago en pantalla del cliente
 
 | Campo | Detalle |
 |-------|---------|
@@ -1002,12 +1002,12 @@ Cada HU sigue el formato estándar de Scrum:
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-027 |
 | **Criterios de aceptación** | - Al volver de Wompi, el frontend consulta `GET /api/pagos/{id}` para obtener el estado del intento. <br>- Si APROBADO: pantalla de exito con resumen de factura y boton a historial. <br>- Si RECHAZADO: pantalla de error con motivo y boton de reintentar. <br>- La pantalla no depende solo de los parametros de URL (que pueden ser manipulados): siempre consulta el backend. |
-| **Notas** | El webhook (US-047) es el que realmente confirma el pago; esta US solo muestra el resultado al usuario. |
+| **Notas** | El webhook (TT-047) es el que realmente confirma el pago; esta US solo muestra el resultado al usuario. |
 
 ---
 
 
-#### US-051 — Captura basica de consentimiento al registro (educativo)
+#### MX-051 — Captura basica de consentimiento al registro (educativo)
 
 | Campo | Detalle |
 |-------|---------|
@@ -1022,7 +1022,7 @@ Cada HU sigue el formato estándar de Scrum:
 ---
 
 
-#### US-062 — Observabilidad basica con Actuator
+#### EN-062 — Observabilidad basica con Actuator
 
 | Campo | Detalle |
 |-------|---------|
@@ -1037,7 +1037,7 @@ Cada HU sigue el formato estándar de Scrum:
 ---
 
 
-#### US-063 — Documentacion de la API con OpenAPI y Swagger UI
+#### EN-063 — Documentacion de la API con OpenAPI y Swagger UI
 
 | Campo | Detalle |
 |-------|---------|
@@ -1052,7 +1052,7 @@ Cada HU sigue el formato estándar de Scrum:
 ---
 
 
-#### US-064 — Rate limit en endpoints criticos con Bucket4j
+#### EN-064 — Rate limit en endpoints criticos con Bucket4j
 
 | Campo | Detalle |
 |-------|---------|
@@ -1067,7 +1067,7 @@ Cada HU sigue el formato estándar de Scrum:
 ---
 
 
-#### US-065 — Notificaciones por correo al confirmar factura
+#### HU-065 — Notificaciones por correo al confirmar factura
 
 | Campo | Detalle |
 |-------|---------|
@@ -1082,7 +1082,7 @@ Cada HU sigue el formato estándar de Scrum:
 ---
 
 
-#### US-066 — Auditoria de acciones criticas
+#### TT-066 — Auditoria de acciones criticas
 
 | Campo | Detalle |
 |-------|---------|
@@ -1097,7 +1097,7 @@ Cada HU sigue el formato estándar de Scrum:
 ---
 
 
-#### US-067 — Reservas de stock durante el checkout
+#### TT-067 — Reservas de stock durante el checkout
 
 | Campo | Detalle |
 |-------|---------|
@@ -1112,7 +1112,7 @@ Cada HU sigue el formato estándar de Scrum:
 ---
 
 
-#### US-068 — Refactorizar a arquitectura Hexagonal por bounded context
+#### TT-068 — Refactorizar a arquitectura Hexagonal por bounded context
 
 | Campo | Detalle |
 |-------|---------|
@@ -1188,10 +1188,10 @@ Capacity bruta no es lo mismo que capacity efectiva. La capacity real se ajusta 
 
 | ID | Historia | Responsable | Estimacion (pts) |
 |----|----------|-------------|-----------------|
-| US-058 | Migrar esquema a Flyway | BD + Backend | A estimar en poker |
-| US-068 | Refactorizar a arquitectura Hexagonal | Backend | A estimar en poker |
-| US-005 | Corregir mapeo JPA (BigDecimal, JOINED, enums, indices) | BD + Backend | A estimar en poker |
-| US-002 | Implementar DTOs para todas las entidades | Backend | A estimar en poker |
+| EN-058 | Migrar esquema a Flyway | BD + Backend | A estimar en poker |
+| TT-068 | Refactorizar a arquitectura Hexagonal | Backend | A estimar en poker |
+| TT-005 | Corregir mapeo JPA (BigDecimal, JOINED, enums, indices) | BD + Backend | A estimar en poker |
+| TT-002 | Implementar DTOs para todas las entidades | Backend | A estimar en poker |
 
 **Nota:** Los puntos de estas USs igualmente se estiman en el planning poker para calibrar la escala del equipo y obtener una primera medicion de velocity al cierre del Sprint 1.
 
@@ -1203,15 +1203,15 @@ Capacity bruta no es lo mismo que capacity efectiva. La capacity real se ajusta 
 
 #### Pool Must have (asignar primero)
 
-US-001, US-003, US-004, US-006, US-007, US-008, US-009, US-010, US-011, US-013, US-014, US-015, US-016, US-019, US-020, US-022, US-023, US-024, US-025, US-026, US-027, US-028, US-029, US-031, US-043, US-044, US-045, US-046, US-047, US-055, US-067, US-059.
+EN-001, EN-003, TT-004, EN-006, HU-007, HU-008, TT-009, TT-010, HU-011, HU-013, HU-014, HU-015, HU-016, HU-019, HU-020, HU-022, HU-023, TT-024, TT-025, HU-026, HU-027, HU-028, TT-029, HU-031, TT-043, TT-044, TT-045, HU-046, TT-047, EN-055, TT-067, EN-059.
 
 #### Pool Should have (asignar despues de cubrir Must)
 
-US-012, US-017, US-018, US-021, US-030, US-032, US-033, US-034, US-036, US-037, US-038, US-039, US-040, US-041, US-042, US-062, US-063.
+HU-012, HU-017, HU-018, HU-021, HU-030, HU-032, HU-033, HU-034, HU-036, HU-037, HU-038, HU-039, HU-040, HU-041, HU-042, EN-062, EN-063.
 
 #### Pool Could have (asignar segun capacidad)
 
-US-035, US-048, US-049, US-050, US-051, US-056, US-057, US-060, US-061, US-064, US-065, US-066.
+HU-035, TT-048, HU-049, TT-050, MX-051, EN-056, EN-057, EN-060, HU-061, EN-064, HU-065, TT-066.
 
 ---
 
@@ -1219,9 +1219,9 @@ US-035, US-048, US-049, US-050, US-051, US-056, US-057, US-060, US-061, US-064, 
 
 ### Preparacion (antes de la sesion)
 
-1. **Confirmar Sprint 1.** USs US-002, US-005, US-058, US-068 quedan en Sprint 1 sin discusion. Solo se estiman puntos.
+1. **Confirmar Sprint 1.** USs TT-002, TT-005, EN-058, TT-068 quedan en Sprint 1 sin discusion. Solo se estiman puntos.
 2. **Acordar la escala de Fibonacci.** Convencion del equipo: 1, 2, 3, 5, 8, 13, 21. Mas de 21 = US demasiado grande, hay que partirla.
-3. **Definir referencia.** Elegir 1 US "ancla" que el equipo entienda completamente y asignarle un valor (ej. US-001 = 3 pts). Todas las demas se comparan contra ella.
+3. **Definir referencia.** Elegir 1 US "ancla" que el equipo entienda completamente y asignarle un valor (ej. EN-001 = 3 pts). Todas las demas se comparan contra ella.
 4. **Tener BACKLOG.md a mano.** Cada miembro lee la US (descripcion + criterios de aceptacion) antes de votar.
 5. **Cada miembro vota en privado.** App de poker (Planning Poker Online, Scrum Poker, etc.) o cartas fisicas. Nada de "yo voto X" en voz alta primero — sesga al resto.
 
@@ -1237,7 +1237,7 @@ US-035, US-048, US-049, US-050, US-051, US-056, US-057, US-060, US-061, US-064, 
 ### Despues de la sesion — asignar a sprints
 
 1. **Calcular puntos por sprint** = capacity bruta (60 h) × factor de conversion. Sin velocity historica, asumir factor conservador: **30-40 pts/sprint** para Sprint 2 (primer sprint con USs ya estimadas).
-2. **Llenar Sprint 2** con USs Must have hasta llegar al limite de puntos. Respetar dependencias (US con `dep: US-XXX` requiere que la dependencia este en Sprint anterior o mismo).
+2. **Llenar Sprint 2** con items Must have hasta llegar al limite de puntos. Respetar dependencias (item con `dep: HU-XXX` o `dep: TT-XXX` requiere que la dependencia este en Sprint anterior o mismo).
 3. **Repetir para Sprints 3-8** con el resto del Pool Must have, luego Pool Should have, finalmente Pool Could have segun quepa.
 4. **Re-evaluar cada sprint.** Al cerrar Sprint N, calcular velocity real (pts completados / pts comprometidos). Ajustar capacity de Sprint N+1.
 
