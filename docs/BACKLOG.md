@@ -12,7 +12,7 @@
 
 - [Contexto y Decisiones Arquitectónicas](#contexto-y-decisiones-arquitectónicas)
 - [Equipo y Roles](#equipo-y-roles)
-- [Convención de Historias de Usuario](#convención-de-historias-de-usuario)
+- [Convenciones del backlog](#convenciones-del-backlog)
 - [Épicas e Historias de Usuario](#épicas-e-historias-de-usuario)
   - [Épica 1 — Configuración Base del Proyecto](#épica-1--configuración-base-del-proyecto)
   - [Épica 2 — Autenticación y Autorización](#épica-2--autenticación-y-autorización)
@@ -74,9 +74,27 @@ El proyecto TiendaQ utilizará una arquitectura **monolítica** con una única b
 
 ---
 
-## Convención de Historias de Usuario
+## Convenciones del backlog
 
-Cada historia de usuario sigue el formato estándar de Scrum:
+### Tipos de items
+
+Cada item del backlog se clasifica con un prefijo según su naturaleza:
+
+| Prefijo | Tipo | Qué es | Quién recibe valor |
+|---------|------|--------|--------------------|
+| `HU-` | Historia de Usuario | Funcionalidad visible al usuario final. Sigue el formato "Como X, quiero Y, para Z". | Cliente, Empleado o Administrador |
+| `TT-` | Tarea Técnica | Cambio interno (refactor, fix de modelo, validación) sin valor visible directo. | Equipo de desarrollo (calidad/correctitud) |
+| `EN-` | Enabler / Infraestructura | Habilita features futuras: CI/CD, configuración, observabilidad, scaffolding. | Operación + futuras HUs |
+| `MX-` | Mixto | Combina feature visible con requisito técnico/legal. | Múltiple |
+| `SP-` | Spike (no usado actualmente) | Investigación o prueba de concepto con timebox. | Equipo (decisión técnica) |
+
+**Regla de planeación:** Las TTs y ENs **fundacionales** (bloqueantes) se hacen ANTES que cualquier HU. Las TTs **acompañantes** se ejecutan junto con su HU asociada en el mismo sprint. Las ENs y TTs **independientes** se interleavean según capacidad.
+
+**Regla de estimación:** TODOS los items (HU/TT/EN/MX) se estiman en planning poker con la misma escala Fibonacci. Los puntos miden complejidad+esfuerzo, no valor de negocio.
+
+### Formato de Historias de Usuario
+
+Cada HU sigue el formato estándar de Scrum:
 
 > *Como **[actor]**, quiero **[acción]**, para **[beneficio/valor]**.*
 
