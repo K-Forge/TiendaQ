@@ -532,7 +532,7 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-028 |
 | **Criterios de aceptación** | - Se crea un registro en `Factura` con: fecha, subtotal, IVA (19%), total, método de pago, referencia al cliente, al empleado/sistema y al carrito. <br>- Se crean registros en `DetalleFactura` con el precio y cantidad de cada producto al momento de la compra. <br>- El estado del carrito cambia a PAGO_EXITOSO. <br>- Todo ocurre en una sola transacción atómica (si algo falla, todo se revierte). |
-| **Notas** | Depende de US-044 (entidad `DetalleFactura`). |
+| **Notas** | Depende de US-043 (entidad `DetalleFactura`). |
 
 ---
 
