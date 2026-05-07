@@ -1079,6 +1079,21 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 ---
 
 
+#### US-067 — Reservas de stock durante el checkout
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como sistema, quiero reservar el stock de los productos cuando un cliente inicia el checkout, para evitar que dos clientes compren el mismo articulo al mismo tiempo. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟡 Should have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-032 |
+| **Criterios de aceptación** | - Al iniciar checkout, se crean registros en `stock_reservation(id, producto_id, carrito_id, cantidad, expires_at)`. <br>- El `expires_at` se fija a 10 minutos desde la creacion. <br>- Un job `@Scheduled` libera las reservas expiradas cada minuto. <br>- Al confirmar la factura, las reservas se convierten en descuento real de stock. <br>- Si no hay stock disponible (considerando reservas activas de otros carritos), el checkout retorna 409. |
+| **Notas** | Sin reservas hay race condition: dos clientes pueden confirmar el pago del mismo ultimo articulo. Ver ADR-0010. |
+
+---
+
+
 ## Resumen General
 
 ### Por épica
