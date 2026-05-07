@@ -1190,6 +1190,125 @@ Cada HU sigue el formato estándar de Scrum:
 
 ---
 
+### Épica 14 — Roadmap Fase 2 (post-MVP)
+
+**Descripción:** Items de producto y técnicos identificados durante el refinamiento pero que NO entran en el alcance del MVP académico. Quedan documentados como roadmap futuro para que el equipo los considere en una Fase 2.
+
+> **Tag:** Todos los items de esta épica llevan etiqueta `[Fase 2]`. Prioridad MoSCoW: 🟠 Could have. NO se asignan a sprints del MVP.
+
+---
+
+#### HU-069 — Actualizar registro de stock manualmente `[Fase 2]`
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como empleado, quiero actualizar manualmente la cantidad de un registro de stock existente, para corregir errores de conteo o ajustes de inventario fisico. |
+| **Responsable** | Backend + Frontend |
+| **Prioridad** | 🟠 Could have `[Fase 2]` |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-038 |
+| **Criterios de aceptación** | - El endpoint `PUT /api/inventario/stock/{id}` actualiza la cantidad. <br>- El cambio queda registrado en `audit_log` con motivo. <br>- Solo accesible para empleados. |
+| **Notas** | Diferido a Fase 2. El MVP solo permite ENTRADA via HU-032; correcciones manuales requieren intervencion en BD. |
+
+---
+
+#### HU-070 — Reporte de ventas por categoria `[Fase 2]`
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como administrador, quiero ver un reporte de ventas agrupadas por categoria de producto, para identificar que segmentos generan mas ingresos. |
+| **Responsable** | Backend + Frontend |
+| **Prioridad** | 🟠 Could have `[Fase 2]` |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-052 |
+| **Criterios de aceptación** | - Reporte con total vendido y cantidad de unidades por categoria. <br>- Filtros por rango de fechas. |
+| **Notas** | Diferido a Fase 2. HU-040 cubre ventas totales; HU-070 segmenta por categoria. |
+
+---
+
+#### HU-071 — Reporte de ventas por empleado `[Fase 2]`
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como administrador, quiero ver un reporte de ventas atribuidas a cada empleado, para evaluar el desempeño individual. |
+| **Responsable** | Backend + Frontend |
+| **Prioridad** | 🟠 Could have `[Fase 2]` |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-053 |
+| **Criterios de aceptación** | - Reporte con total vendido por empleado. <br>- Requiere asociar Factura a empleado responsable (no esta en el modelo MVP). |
+| **Notas** | Diferido a Fase 2. Requiere ampliar Factura con `empleado_id`. |
+
+---
+
+#### HU-072 — Exportar factura a PDF `[Fase 2]`
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como cliente, quiero descargar mi factura en formato PDF, para tener una copia fisica como soporte tributario. |
+| **Responsable** | Backend + Frontend |
+| **Prioridad** | 🟠 Could have `[Fase 2]` |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Endpoint `GET /api/pedidos/facturas/{id}/pdf` retorna PDF. <br>- Plantilla con logo K-Forge, datos de cliente, detalle de productos, totales. |
+| **Notas** | Diferido a Fase 2. MVP solo muestra factura en pantalla. |
+
+---
+
+#### TT-073 — Auditoria de consultas a facturas `[Fase 2]`
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como sistema, quiero registrar cada vez que un usuario consulta una factura, para tener trazabilidad completa de accesos a documentos fiscales. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟠 Could have `[Fase 2]` |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Cada `GET /api/pedidos/facturas/{id}` registra una entrada en `audit_log`. <br>- Solo accesible al admin. |
+| **Notas** | Diferido a Fase 2. TT-066 cubre auditoria de mutaciones; TT-073 amplia a lecturas. |
+
+---
+
+#### HU-074 — Diseño responsivo del frontend `[Fase 2]`
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como usuario en dispositivo movil, quiero que la interfaz se adapte al tamaño de mi pantalla, para usar la tienda comodamente desde el celular o tablet. |
+| **Responsable** | Frontend |
+| **Prioridad** | 🟠 Could have `[Fase 2]` |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-070 |
+| **Criterios de aceptación** | - Breakpoints definidos para mobile (<768px), tablet (<1024px), desktop. <br>- Layout, menu y tablas se adaptan. <br>- Probado en Chrome devtools y dispositivos reales. |
+| **Notas** | Diferido a Fase 2. EN-006 entrega base desktop-first. |
+
+---
+
+#### HU-075 — Vaciar carrito de un solo paso `[Fase 2]`
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como cliente, quiero vaciar todo mi carrito con un solo clic, para empezar de cero rapidamente sin tener que eliminar items uno por uno. |
+| **Responsable** | Backend + Frontend |
+| **Prioridad** | 🟠 Could have `[Fase 2]` |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-022 |
+| **Criterios de aceptación** | - Endpoint `DELETE /api/carrito/items` elimina todos los items del carrito activo. <br>- Frontend muestra confirmacion antes de vaciar. |
+| **Notas** | Diferido a Fase 2. MVP usa HU-022 (eliminar uno por uno). |
+
+---
+
+#### HU-076 — Busqueda combinada de productos `[Fase 2]`
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como cliente, quiero buscar productos combinando multiples criterios simultaneos (nombre + categoria + rango de precio + disponibilidad), para encontrar exactamente lo que necesito en una sola consulta. |
+| **Responsable** | Backend + Frontend |
+| **Prioridad** | 🟠 Could have `[Fase 2]` |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | RF-016 |
+| **Criterios de aceptación** | - Endpoint acepta multiples filtros como query params. <br>- UI con formulario de busqueda avanzada. |
+| **Notas** | Diferido a Fase 2. MVP cubre busqueda por nombre (HU-017) y filtros independientes (HU-018, HU-016). |
+
+---
 ## Resumen General
 
 ### Por épica
