@@ -1034,6 +1034,21 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 ---
 
 
+#### US-064 — Rate limit en endpoints criticos con Bucket4j
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como sistema, quiero limitar la cantidad de intentos en los endpoints de autenticacion y checkout, para prevenir ataques de fuerza bruta y abuso del servicio. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟡 Should have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Limite de 5 intentos de login por IP en 15 minutos (retorna 429 al exceder). <br>- Limite de 3 registros por IP por hora. <br>- Limite de 10 inicios de checkout por IP por hora. <br>- El rate limit se implementa como filtro Spring (Bucket4j) en la cadena: `CorsFilter → RateLimitFilter → JwtAuthFilter`. |
+| **Notas** | Ver ADR del rate limit en `docs/adr/`. |
+
+---
+
+
 ## Resumen General
 
 ### Por épica
