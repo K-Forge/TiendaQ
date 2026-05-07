@@ -72,25 +72,34 @@ TiendaQ es el sistema de comercio electronico de la Fundacion Universitaria Konr
 graph LR
     subgraph Frontend
         A[Angular 21 SPA]
+        B[Signals + PrimeNG]
     end
 
     subgraph Backend
-        B[Spring Boot 4.0 REST API]
-        C[Spring Data JPA]
-        D[Spring Security + OAuth2]
+        C[Spring Boot 4.0 REST API]
+        D[Hexagonal + DDD]
+        E[JWT + Bucket4j]
     end
 
     subgraph Database
-        E[(PostgreSQL)]
+        F[(PostgreSQL 15+)]
+        G[Flyway migrations]
     end
 
-    A -- HTTP/JSON --> B
-    B --> C
-    B --> D
-    C --> E
+    subgraph External
+        H[Wompi Sandbox]
+        I[Gmail SMTP]
+    end
+
+    A -- HTTP/JSON Bearer JWT --> C
+    C --> D
+    D --> F
+    F --> G
+    D -- PagoPort --> H
+    D -- NotificacionPort --> I
 ```
 
-El backend implementa una arquitectura en capas (Controller, Service, Repository, Model) siguiendo el patron estandar de Spring Boot. Incluye 6 enums, 8 entidades JPA, 8 repositorios, 8 servicios y 8 controladores REST.
+Backend en **Arquitectura Hexagonal + DDD** con 7 bounded contexts: Identidad, Catalogo, Inventario, Carrito, Pedidos, Pagos, Reportes. Cada contexto tiene capas `domain/`, `application/`, `infrastructure/`. El dominio no depende de Spring ni JPA.
 
 ## Estructura del proyecto
 
@@ -256,16 +265,21 @@ bun start
 
 ## Documentacion
 
-| Documento                               | Descripcion                                    |
-| --------------------------------------- | ---------------------------------------------- |
-| [README.md](README.md)                  | Guia general del proyecto                      |
-| [REQUIREMENTS.md](docs/REQUIREMENTS.md) | Especificacion de Requisitos de Software (SRS) |
-| [DESIGN.md](docs/DESIGN.md)             | Documento de Diseno de Software (SDD)          |
-| [PROGRESS.md](docs/PROGRESS.md)         | Estado actual de implementacion                |
-| [DATABASE.md](docs/DATABASE.md)         | Documentacion del esquema de base de datos     |
-| [CONTRIBUTING.md](CONTRIBUTING.md)      | Guia de contribucion y flujo Git               |
-| [LICENSE](LICENSE)                      | Licencia del proyecto (propietaria, K-Forge)   |
-| [AGENTS.md](AGENTS.md)                  | Contexto para asistentes de IA                 |
+| Documento | Descripcion |
+|-----------|-------------|
+| [docs/README.md](docs/README.md) | Indice de navegacion de toda la documentacion tecnica |
+| [docs/DOMAIN.md](docs/DOMAIN.md) | Glosario ubicuo, bounded contexts, context map |
+| [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) | SRS v3.0 — actores, FR/NFR, casos de uso, trazabilidad |
+| [docs/DESIGN.md](docs/DESIGN.md) | SDD — C4, hexagonal, filtros Spring, state machines |
+| [docs/DATABASE.md](docs/DATABASE.md) | Esquema, Flyway, BigDecimal, indices, soft-delete |
+| [docs/FRONTEND.md](docs/FRONTEND.md) | Angular 21, Signals, PrimeNG, Atomic Design |
+| [docs/OPERATIONS.md](docs/OPERATIONS.md) | CI/CD, Docker, runbook, observabilidad |
+| [docs/TESTING.md](docs/TESTING.md) | Piramide de testing, Testcontainers, Playwright |
+| [docs/PROGRESS.md](docs/PROGRESS.md) | Estado actual de implementacion |
+| [docs/api/openapi.yaml](docs/api/openapi.yaml) | Contrato REST (source of truth) |
+| [AGENTS.md](AGENTS.md) | Contexto para asistentes de IA |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Guia de contribucion y flujo Git |
+| [LICENSE](LICENSE) | Licencia del proyecto (propietaria, K-Forge) |
 
 ## Enlaces rapidos
 
