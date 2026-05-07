@@ -267,8 +267,8 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 | **Prioridad** | 🟡 Should have |
 | **Estado** | 📋 Por hacer |
 | **RF relacionado** | RF-005 |
-| **Criterios de aceptación** | - Al hacer logout, el token queda invalidado. <br>- Peticiones posteriores con ese token retornan 401. <br>- El frontend elimina el token almacenado y redirige al login. |
-| **Notas** | — |
+| **Criterios de aceptación** | - El endpoint `POST /api/auth/logout` recibe el access token y el refresh token. <br>- El `jti` (JWT ID) del access token se registra en la tabla `revoked_token(jti, user_id, expires_at)`. <br>- El refresh token se marca como usado en la tabla `refresh_token`. <br>- Peticiones posteriores con ese access token retornan 401 (el filtro JWT verifica contra `revoked_token`). <br>- Un job `@Scheduled` limpia automaticamente los registros de `revoked_token` cuyo `expires_at` ya paso, para no crecer indefinidamente. <br>- El frontend elimina ambos tokens del almacenamiento local y redirige al login. |
+| **Notas** | El RNF-013 (stateless) y RF-005 (logout efectivo) son contradictorios si no existe la tabla de blacklist. La tabla `revoked_token` resuelve la contradiccion: el sistema es stateless por defecto pero invalida tokens explicitamente cuando es necesario. Ver ADR-0002. |
 
 ---
 
