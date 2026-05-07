@@ -1049,6 +1049,21 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 ---
 
 
+#### US-065 — Notificaciones por correo al confirmar factura
+
+| Campo | Detalle |
+|-------|---------|
+| **Historia** | Como cliente, quiero recibir un correo con el resumen de mi factura al completar una compra, para tener constancia del pedido sin necesitar acceder a la aplicacion. |
+| **Responsable** | Backend |
+| **Prioridad** | 🟠 Could have |
+| **Estado** | 📋 Por hacer |
+| **RF relacionado** | — |
+| **Criterios de aceptación** | - Al generar la factura, el sistema envia un correo al cliente con: numero de factura, fecha, total y lista de productos. <br>- El envio se realiza de forma asincrona (no bloquea la respuesta al cliente). <br>- En ambiente local, el correo se captura con Mailhog (en docker-compose). <br>- En staging se usa Gmail SMTP (`kforge.dev@gmail.com` + App Password). <br>- La implementacion usa un puerto `NotificacionPort` con un adaptador `GmailSmtpAdapter` intercambiable. |
+| **Notas** | Patron Hexagonal: el dominio no conoce Gmail. El adaptador se configura por ambiente. |
+
+---
+
+
 ## Resumen General
 
 ### Por épica
