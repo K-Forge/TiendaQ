@@ -1140,115 +1140,98 @@ Cada historia de usuario sigue el formato estándar de Scrum:
 
 ## Propuesta de Sprints
 
-> Cada Sprint tiene una duración sugerida de **2 semanas**. El Product Owner puede ajustar el alcance de cada sprint según la velocidad del equipo.
+> **Estado:** PENDIENTE DE PLANNING POKER. La asignacion de USs a sprints **no esta hecha**. Solo Sprint 1 esta fijado (USs fundacionales, no negociables). Sprints 2-8 se asignan **despues** de la sesion de planning poker conjunta.
+>
+> **Por que no estan asignados:** Estimar capacidad de sprint requiere conocer puntos por US. Los puntos se obtienen del planning poker. Asignar USs a sprints sin estimates concretos lleva a sobrecargar o subcargar sprints. Es lo opuesto a planeacion agil.
 
-### Sprint 1 — Base técnica (US-001 a US-006, US-043, US-045)
+### Capacity teorica del sprint
 
-**Objetivo:** Dejar el proyecto con la infraestructura técnica mínima para que todos puedan trabajar sin bloquearse entre sí.
+| Parametro | Valor |
+|-----------|-------|
+| Duracion | 2 semanas |
+| Devs activos | 3 (Brian, Camilo, Aleja, Miguel — Brian PO con dedicacion menor) |
+| Horas/dev/semana | 10 h |
+| **Capacity bruta** | **60 h/sprint** |
 
-| ID | Historia | Responsable |
-|----|----------|-------------|
-| US-001 | Estructura de carpetas y convenciones | Todos |
-| US-002 | Implementar DTOs en Backend | Backend |
-| US-003 | Configurar Spring Security con JWT | Backend |
-| US-004 | Manejador global de errores | Backend |
-| US-005 | Sincronizar esquema BD con JPA | BD |
-| US-006 | Estructura base del Frontend Angular | Frontend |
-| US-043 | Crear entidad JPA DetalleFactura | Backend + BD |
-| US-045 | Alinear enum TipoDocumento | BD |
+Capacity bruta no es lo mismo que capacity efectiva. La capacity real se ajusta cada sprint segun:
+- Velocity observada en el sprint anterior (puntos completados / capacity bruta).
+- Imprevistos (parciales, semana de exposiciones, etc.).
+- Compromiso real del equipo en planning.
 
----
-
-### Sprint 2 — Autenticación (US-007 a US-012)
-
-**Objetivo:** Que cualquier usuario pueda registrarse, iniciar sesión y que el sistema controle el acceso según su rol.
-
-| ID | Historia | Responsable |
-|----|----------|-------------|
-| US-007 | Registro de nuevo cliente | Backend + Frontend |
-| US-008 | Inicio de sesión | Backend + Frontend |
-| US-009 | Validación automática del token JWT | Backend |
-| US-010 | Autorización por roles | Backend |
-| US-011 | Cierre de sesión | Backend + Frontend |
-| US-012 | Recuperación de contraseña | Backend + Frontend |
+**Primer sprint:** sin velocity historica. Se compromete conservador (~70% de capacity bruta = ~42 h reales) para no sobreprometer.
 
 ---
 
-### Sprint 3 — Productos y catálogo (US-013 a US-019, US-044)
+### Sprint 1 — Fundamentos de codigo (FIJO, no requiere poker)
 
-**Objetivo:** Los empleados pueden gestionar el catálogo y los clientes pueden explorar los productos.
+**Objetivo:** Base tecnica irrenunciable antes de que el equipo pueda construir features. Sin esto, cada PR puede romper el esquema de otro.
 
-| ID | Historia | Responsable |
-|----|----------|-------------|
-| US-013 | Crear un producto | Backend + Frontend |
-| US-014 | Editar un producto | Backend + Frontend |
-| US-015 | Eliminar un producto | Backend + Frontend |
-| US-016 | Listar productos con paginación y filtros | Backend + Frontend |
-| US-017 | Búsqueda por nombre parcial | Backend + Frontend |
-| US-018 | Filtro por rango de precio | Backend + Frontend |
-| US-019 | Ver detalle de un producto | Frontend |
-| US-044 | Agregar campo imagen a Producto | Backend + BD |
+**Por que va fijo sin planning poker:** Estas USs son must-have de fundacion. No pueden saltarse, no pueden esperar, no compiten con otras prioridades. Son criterio de entrada para que cualquier feature posterior tenga sentido.
 
----
+| ID | Historia | Responsable | Estimacion (pts) |
+|----|----------|-------------|-----------------|
+| US-058 | Migrar esquema a Flyway | BD + Backend | A estimar en poker |
+| US-068 | Refactorizar a arquitectura Hexagonal | Backend | A estimar en poker |
+| US-005 | Corregir mapeo JPA (BigDecimal, JOINED, enums, indices) | BD + Backend | A estimar en poker |
+| US-002 | Implementar DTOs para todas las entidades | Backend | A estimar en poker |
 
-### Sprint 4 — Carrito de compras (US-020 a US-025)
-
-**Objetivo:** El cliente puede agregar productos, gestionarlos y ver su carrito con los totales calculados.
-
-| ID | Historia | Responsable |
-|----|----------|-------------|
-| US-020 | Agregar producto al carrito | Backend + Frontend |
-| US-021 | Modificar cantidad en el carrito | Backend + Frontend |
-| US-022 | Eliminar producto del carrito | Backend + Frontend |
-| US-023 | Ver carrito con totales | Backend + Frontend |
-| US-024 | Validación de stock en tiempo real | Backend |
-| US-025 | Máquina de estados del carrito | Backend |
+**Nota:** Los puntos de estas USs igualmente se estiman en el planning poker para calibrar la escala del equipo y obtener una primera medicion de velocity al cierre del Sprint 1.
 
 ---
 
-### Sprint 5 — Checkout y facturación (US-026 a US-031)
+### Sprints 2-8 — Pool de USs sin asignar
 
-**Objetivo:** El cliente puede completar su compra y recibir una factura. El inventario se actualiza automáticamente.
+**Listas separadas por prioridad MoSCoW.** Asignar a sprints despues del planning poker.
 
-| ID | Historia | Responsable |
-|----|----------|-------------|
-| US-026 | Iniciar proceso de checkout | Backend + Frontend |
-| US-027 | Seleccionar método de pago | Backend + Frontend |
-| US-028 | Generar factura | Backend |
-| US-029 | Descontar stock al facturar | Backend |
-| US-030 | Cancelar proceso de checkout | Backend + Frontend |
-| US-031 | Ver historial de facturas | Backend + Frontend |
+#### Pool Must have (asignar primero)
 
----
+US-001, US-003, US-004, US-006, US-007, US-008, US-009, US-010, US-011, US-013, US-014, US-015, US-016, US-019, US-020, US-022, US-023, US-024, US-025, US-026, US-027, US-028, US-029, US-031, US-043, US-044, US-045, US-046, US-047, US-055, US-067, US-059.
 
-### Sprint 6 — Inventario, usuarios y perfil (US-032 a US-039)
+#### Pool Should have (asignar despues de cubrir Must)
 
-**Objetivo:** Los empleados gestionan el inventario, el administrador gestiona usuarios y cada usuario puede ver su perfil.
+US-012, US-017, US-018, US-021, US-030, US-032, US-033, US-034, US-036, US-037, US-038, US-039, US-040, US-041, US-042, US-062, US-063.
 
-| ID | Historia | Responsable |
-|----|----------|-------------|
-| US-032 | Registrar ingreso de stock | Backend + Frontend |
-| US-033 | Ver inventario con alertas de stock bajo | Backend + Frontend |
-| US-034 | Listar usuarios con búsqueda y paginación | Backend + Frontend |
-| US-035 | Crear cuenta de empleado | Backend + Frontend |
-| US-036 | Editar datos de usuario | Backend + Frontend |
-| US-037 | Eliminar o desactivar usuario | Backend + Frontend |
-| US-038 | Ver y editar perfil propio | Backend + Frontend |
-| US-039 | Cambiar contraseña | Backend + Frontend |
+#### Pool Could have (asignar segun capacidad)
+
+US-035, US-048, US-049, US-050, US-051, US-056, US-057, US-060, US-061, US-064, US-065, US-066.
 
 ---
 
-### Sprint 7 — Reportes y estadísticas (US-040 a US-042)
+## Como hacer planning poker correctamente
 
-**Objetivo:** El administrador tiene acceso a información agregada para tomar decisiones de negocio.
+### Preparacion (antes de la sesion)
 
-| ID | Historia | Responsable |
-|----|----------|-------------|
-| US-040 | Reporte de ventas por período | Backend + Frontend |
-| US-041 | Ranking de productos más vendidos | Backend + Frontend |
-| US-042 | Dashboard de KPIs | Backend + Frontend |
+1. **Confirmar Sprint 1.** USs US-002, US-005, US-058, US-068 quedan en Sprint 1 sin discusion. Solo se estiman puntos.
+2. **Acordar la escala de Fibonacci.** Convencion del equipo: 1, 2, 3, 5, 8, 13, 21. Mas de 21 = US demasiado grande, hay que partirla.
+3. **Definir referencia.** Elegir 1 US "ancla" que el equipo entienda completamente y asignarle un valor (ej. US-001 = 3 pts). Todas las demas se comparan contra ella.
+4. **Tener BACKLOG.md a mano.** Cada miembro lee la US (descripcion + criterios de aceptacion) antes de votar.
+5. **Cada miembro vota en privado.** App de poker (Planning Poker Online, Scrum Poker, etc.) o cartas fisicas. Nada de "yo voto X" en voz alta primero — sesga al resto.
+
+### Durante la sesion
+
+1. **Lectura del Product Owner.** Brian lee la US. Resuelve dudas de scope.
+2. **Discusion tecnica corta.** Maximo 3 minutos. Cada uno comenta riesgos, dependencias, complejidad.
+3. **Voto simultaneo.** Todos revelan sus cartas a la vez.
+4. **Si hay consenso (todos misma carta o adyacentes):** se toma la mediana o se acuerda el numero. Pasar a siguiente US.
+5. **Si hay divergencia (ej. uno vota 2, otro vota 13):** los extremos explican su razonamiento. Re-vote. Si persiste, se elige el numero mas alto (mas conservador, mas seguro).
+6. **Registrar puntos en BACKLOG.md.** Llenar la columna "Estimacion (pts)" de cada US estimada.
+
+### Despues de la sesion — asignar a sprints
+
+1. **Calcular puntos por sprint** = capacity bruta (60 h) × factor de conversion. Sin velocity historica, asumir factor conservador: **30-40 pts/sprint** para Sprint 2 (primer sprint con USs ya estimadas).
+2. **Llenar Sprint 2** con USs Must have hasta llegar al limite de puntos. Respetar dependencias (US con `dep: US-XXX` requiere que la dependencia este en Sprint anterior o mismo).
+3. **Repetir para Sprints 3-8** con el resto del Pool Must have, luego Pool Should have, finalmente Pool Could have segun quepa.
+4. **Re-evaluar cada sprint.** Al cerrar Sprint N, calcular velocity real (pts completados / pts comprometidos). Ajustar capacity de Sprint N+1.
+
+### Reglas de oro
+
+- No mover USs de Sprint en curso a otro Sprint sin retro. Si no caben, se sacan al backlog.
+- US con mas de 13 pts → partirla. No ejecutar USs gigantes en un solo sprint.
+- Si un dev no entiende la US lo suficiente para votar → la US no esta lista, no se estima. Volver al refinement.
+- Capacity efectiva real ≠ capacity bruta. Esperar 30-50% menos en los primeros sprints hasta calibrar.
 
 ---
+
 
 ## Registro de Cambios
 
