@@ -150,11 +150,11 @@ SemVer `MAJOR.MINOR.PATCH`. Release cycle: alpha → beta → stable.
 
 ## Current State
 
-- **Backend:** CRUD base in layered architecture (8 controllers). No DTOs, no validation, no error handling, no security active. US-068 (refactor to hexagonal) planned Sprint 1.
+- **Backend:** CRUD base in layered architecture (8 controllers). No DTOs, no validation, no error handling, no security active. TT-068 (refactor to hexagonal) planned Sprint 1.
 - **Frontend:** Angular 21 scaffold only. `app.routes.ts` is empty — no features implemented in UI.
 - **Security:** Spring Security dependency present but not configured. No auth/authorization active.
 - **Testing:** Backend has `contextLoads` only. No functional test suite.
-- **Schema:** `SCRIPTS_POSTGRES.sql` is historical reference. Flyway migration `V1__initial_schema.sql` pending (US-055).
+- **Schema:** `SCRIPTS_POSTGRES.sql` is historical reference. Flyway migration `V1__initial_schema.sql` pending (EN-058).
 
 ---
 
@@ -176,11 +176,11 @@ All technical documentation is in `docs/`. See `docs/README.md` for navigation i
 
 ## Priority Roadmap (Sprint 1)
 
-1. US-068: Refactor to Hexagonal + DDD package structure.
-2. US-005: Fix data model (BigDecimal, @JdbcTypeCode, @Version, indexes, perfiles 1:1).
-3. US-055: Flyway migration `V1__initial_schema.sql`, eliminate `ddl-auto=update`.
-4. US-009/010/011: JWT auth (access 15min + refresh 7d + rotation + logout).
-5. US-008: DTOs, @Valid, @ControllerAdvice with RFC 7807 ProblemDetail.
+1. TT-068: Refactor to Hexagonal + DDD package structure.
+2. TT-005: Fix data model (BigDecimal, @JdbcTypeCode, @Version, indexes, perfiles 1:1).
+3. EN-058: Flyway migration `V1__initial_schema.sql`, eliminate `ddl-auto=update`.
+4. TT-009 / HU-010 / HU-011: JWT auth (access 15min + refresh 7d + rotation + logout).
+5. TT-008: DTOs, @Valid, @ControllerAdvice with RFC 7807 ProblemDetail.
 
 ---
 
