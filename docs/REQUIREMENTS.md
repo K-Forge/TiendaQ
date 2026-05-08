@@ -256,15 +256,15 @@ Los FR estan agrupados por bounded context (ver [DOMAIN.md](DOMAIN.md)).
 
 ## 6. Matriz de trazabilidad
 
-| FR | US (BACKLOG) | ADR relacionado |
+| FR | Item BACKLOG | ADR relacionado |
 |----|-------------|----------------|
-| FR-101..107 | US-001, US-009, US-010, US-011 | ADR-0002 (JWT), ADR-0006 (perfiles) |
-| FR-201..207 | US-002, US-003, US-044 | ADR-0007 (soft-delete) |
-| FR-301..307 | US-004, US-067, US-068 | ADR-0010 (reservas) |
-| FR-401..406 | US-005, US-006 | ADR-0009 (optimistic locking) |
-| FR-501..507 | US-007, US-008, US-011 | ADR-0011 (DetalleFactura) |
-| FR-601..606 | US-046..050, US-061 | ADR-0003 (Wompi), ADR-0008 (errors) |
-| FR-701..703 | US-012, US-013 | — |
-| NFR-101..106 | US-009, US-010, US-011, US-062 | ADR-0002 (JWT) |
-| NFR-401..404 | US-068 | ADR-0001 (hexagonal) |
-| NFR-401 | US-044 | ADR-0004 (BigDecimal), ADR-0005 (Flyway) |
+| FR-101..107 | HU-007, TT-009, HU-010, HU-011 | ADR-0002 (JWT), ADR-0006 (perfiles) |
+| FR-201..207 | HU-013, HU-014, HU-044 | ADR-0007 (soft-delete) |
+| FR-301..307 | HU-031, TT-067, TT-068 | ADR-0010 (reservas) |
+| FR-401..406 | TT-005, HU-018 | ADR-0009 (optimistic locking) |
+| FR-501..507 | HU-024, TT-008, HU-011 | ADR-0011 (DetalleFactura) |
+| FR-601..606 | HU-046..050, HU-061 | ADR-0003 (Wompi), ADR-0008 (errors) |
+| FR-701..703 | HU-012, HU-039 | — |
+| NFR-101..106 | TT-009, HU-010, HU-011, TT-063 | ADR-0002 (JWT) |
+| NFR-401..404 | TT-068 | ADR-0001 (hexagonal) |
+| NFR-401 | HU-044 | ADR-0004 (BigDecimal), ADR-0005 (Flyway) |
