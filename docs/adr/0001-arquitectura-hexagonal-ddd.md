@@ -56,9 +56,9 @@ Los 7 bounded contexts son:
 **Negativas:**
 - Mayor cantidad de clases y paquetes que la arquitectura en capas clasica.
 - Curva de aprendizaje para estudiantes acostumbrados a MVC de Spring.
-- El refactor desde la arquitectura en capas actual requiere un sprint dedicado (US-068).
+- El refactor desde la arquitectura en capas actual requiere un sprint dedicado (TT-068).
 
-**Deuda tecnica aceptada:** El codigo actual no sigue esta estructura. El refactor se planifica como US-068 en el Sprint 1.
+**Deuda tecnica aceptada:** El codigo actual no sigue esta estructura. El refactor se planifica como TT-068 en el Sprint 1.
 
 ---
 

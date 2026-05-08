@@ -70,7 +70,7 @@ Reglas de numeracion:
 - Los desarrolladores deben aprender la convencion Flyway (no solo editar el SQL y reiniciar).
 - Migraciones erroneas en produccion son dificiles de revertir (Flyway no hace rollback automatico para SQL DDL).
 
-**Deuda tecnica aceptada:** El archivo `app/database/SCRIPTS_POSTGRES.sql` se mantiene como documentacion historica pero deja de ser authoritative. US-068 incluye la creacion de `V1__initial_schema.sql`.
+**Deuda tecnica aceptada:** El archivo `app/database/SCRIPTS_POSTGRES.sql` se mantiene como documentacion historica pero deja de ser authoritative. EN-058 incluye la creacion de `V1__initial_schema.sql`.
 
 ---
 
