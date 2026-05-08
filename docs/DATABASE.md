@@ -1,317 +1,356 @@
-# Base de Datos — TiendaQ
+# Esquema de Base de Datos — TiendaQ
 
-## Resumen
-
-TiendaQ utiliza dos bases de datos:
-
-| Base de datos | Motor        | Propósito                            | Estado        |
-| ------------- | ------------ | ------------------------------------ | ------------- |
-| `tiendaq`    | PostgreSQL 15+ | Base de datos principal del API    | Activa        |
-| `Tienda_Q`    | MySQL 8+     | Base de datos original (referencia)  | Referencia    |
-
-> La base de datos principal es **PostgreSQL**. MySQL se mantiene unicamente como referencia del esquema original.
+**Motor:** PostgreSQL 15+
+**Migraciones:** Flyway (`src/main/resources/db/migration/`)
+**Timezone:** America/Bogota (`SET timezone = 'America/Bogota'`)
+**Moneda:** COP con `NUMERIC(15,2)` (ver [ADR-0004](adr/0004-money-bigdecimal-currency-cop.md))
 
 ---
 
-## Scripts Disponibles
+## Enums de PostgreSQL
 
-| Archivo                    | Motor      | Descripción                                     |
-| -------------------------- | ---------- | ----------------------------------------------- |
-| `SCRIPTS_POSTGRES.sql`     | PostgreSQL | Creación de tipos ENUM, tablas y relaciones      |
-| `SCRIPTS.sql`              | MySQL      | Creacion de tablas (esquema original)             |
-| `INSERTS.sql`              | Ambos      | Datos de prueba (50 registros por tabla)          |
-| `DELETE.sql`               | PostgreSQL | Limpieza completa con TRUNCATE CASCADE            |
-
-### Cómo ejecutar los scripts
-
-```bash
-# PostgreSQL — Crear base de datos
-psql -U postgres -c "CREATE DATABASE tiendaq;"
-
-# PostgreSQL — Crear esquema
-psql -U postgres -d tiendaq -f app/database/SCRIPTS_POSTGRES.sql
-
-# PostgreSQL — Insertar datos de prueba
-psql -U postgres -d tiendaq -f app/database/INSERTS.sql
-
-# PostgreSQL — Limpiar datos (sin eliminar tablas)
-psql -U postgres -d tiendaq -f app/database/DELETE.sql
+```sql
+CREATE TYPE tipo_rol        AS ENUM ('CLIENTE', 'EMPLEADO');
+CREATE TYPE tipo_documento  AS ENUM ('CC', 'TI', 'CE', 'PASAPORTE');
+CREATE TYPE tipo_stock      AS ENUM ('ENTRADA', 'SALIDA', 'AJUSTE');
+CREATE TYPE estado_carrito  AS ENUM ('ACTIVO', 'PROCESANDO', 'COMPLETADO', 'EXPIRADO');
+CREATE TYPE estado_factura  AS ENUM ('CREADA', 'PAGADA', 'CANCELADA');
+CREATE TYPE estado_pago     AS ENUM ('PENDIENTE', 'APROBADO', 'RECHAZADO', 'CANCELADO');
 ```
 
-```bash
-# MySQL (referencia) — Crear base de datos
-mysql -u root -p -e "CREATE DATABASE Tienda_Q DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
+Mapeo JPA con `@JdbcTypeCode(SqlTypes.NAMED_ENUM)` para evitar conversion a `VARCHAR`:
 
-# MySQL — Crear esquema
-mysql -u root -p Tienda_Q < app/database/SCRIPTS.sql
-
-# MySQL — Insertar datos de prueba
-mysql -u root -p Tienda_Q < app/database/INSERTS.sql
+```java
+@Enumerated(EnumType.STRING)
+@JdbcTypeCode(SqlTypes.NAMED_ENUM)
+@Column(columnDefinition = "tipo_rol")
+private TipoRol rol;
 ```
 
 ---
 
 ## Tablas
 
-### Diagrama Entidad-Relación
+### Bounded Context: Identidad
 
-```mermaid
-erDiagram
-    Usuario {
-        int idUsuario PK
-        varchar nombre
-        varchar apellido
-        enum tipoDocumento
-        varchar documento UK
-        varchar telefono UK
-        varchar correo UK
-        varchar direccion
-        varchar contrasena
-        enum tipoUsuario
-    }
+#### `usuario`
 
-    Empleado {
-        int idEmpleado PK
-        enum tipoEmpleado
-        int idUsuario FK
-    }
+```sql
+CREATE TABLE usuario (
+    id             BIGSERIAL    PRIMARY KEY,
+    nombre         VARCHAR(100) NOT NULL,
+    apellido       VARCHAR(100) NOT NULL,
+    email          VARCHAR(150) UNIQUE NOT NULL,
+    password_hash  VARCHAR(255) NOT NULL,
+    rol            tipo_rol     NOT NULL,
+    deleted_at     TIMESTAMPTZ,
+    created_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+    updated_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
 
-    Cliente {
-        int idCliente PK
-        int idUsuario FK
-    }
+CREATE INDEX idx_usuario_email_activo ON usuario(email) WHERE deleted_at IS NULL;
+```
 
-    Producto {
-        int idProducto PK
-        enum categoria
-        varchar nombreProducto
-        numeric precioUnitario
-    }
+#### `cliente`
 
-    Stock {
-        int idStock PK
-        int idProducto FK
-        timestamp fechaIngreso
-        int stock
-    }
+```sql
+CREATE TABLE cliente (
+    id_usuario       BIGINT        PRIMARY KEY REFERENCES usuario(id),
+    telefono         VARCHAR(20),
+    direccion        VARCHAR(255),
+    tipo_documento   tipo_documento NOT NULL,
+    numero_documento VARCHAR(20)    NOT NULL,
+    created_at       TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
+    updated_at       TIMESTAMPTZ   NOT NULL DEFAULT NOW()
+);
+```
 
-    CarritoCompra {
-        int idCarritoCompra PK
-        timestamp fechaCreacion
-        enum estado
-        int idUsuario FK
-    }
+#### `empleado`
 
-    ItemCarrito {
-        int idCarritoCompra PK_FK
-        int idProducto PK_FK
-        int cantidad
-        numeric precioUnitario
-    }
+```sql
+CREATE TABLE empleado (
+    id_usuario    BIGINT      PRIMARY KEY REFERENCES usuario(id),
+    cargo         VARCHAR(100),
+    fecha_ingreso DATE,
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+```
 
-    Factura {
-        int idFactura PK
-        timestamp fechaCompra
-        numeric totalCompra
-        enum metodoPago
-        numeric iva
-        int idEmpleado FK
-        int idCliente FK
-        int idCarritoCompra FK
-    }
+#### `revoked_token` (soporte JWT)
 
-    DetalleFactura {
-        int idFactura PK_FK
-        int idProducto PK_FK
-        int cantidad
-        numeric precioUnitario
-    }
+```sql
+CREATE TABLE revoked_token (
+    jti        UUID        PRIMARY KEY,
+    user_id    BIGINT      NOT NULL REFERENCES usuario(id),
+    expires_at TIMESTAMPTZ NOT NULL
+);
 
-    Usuario ||--o{ Empleado : "es"
-    Usuario ||--o{ Cliente : "es"
-    Usuario ||--o{ CarritoCompra : "tiene"
-    Producto ||--o{ Stock : "tiene"
-    Producto ||--o{ ItemCarrito : "está en"
-    Producto ||--o{ DetalleFactura : "aparece en"
-    CarritoCompra ||--o{ ItemCarrito : "contiene"
-    CarritoCompra ||--o| Factura : "genera"
-    Empleado ||--o{ Factura : "procesa"
-    Cliente ||--o{ Factura : "compra"
-    Factura ||--o{ DetalleFactura : "detalla"
+CREATE INDEX idx_revoked_token_expires ON revoked_token(expires_at);
 ```
 
 ---
 
-### Descripción de Tablas
+### Bounded Context: Catalogo
 
-#### Usuario
+#### `categoria`
 
-Tabla central del sistema. Contiene los datos personales de todas las personas registradas.
+```sql
+CREATE TABLE categoria (
+    id          BIGSERIAL    PRIMARY KEY,
+    nombre      VARCHAR(100) UNIQUE NOT NULL,
+    descripcion TEXT,
+    created_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+```
 
-| Columna        | Tipo              | Restricción       | Descripción                    |
-| -------------- | ----------------- | ----------------- | ------------------------------ |
-| `idUsuario`    | SERIAL / INT AUTO | PK                | Identificador único            |
-| `nombre`       | VARCHAR(20)       | NOT NULL          | Nombre del usuario             |
-| `apellido`     | VARCHAR(20)       | NOT NULL          | Apellido del usuario           |
-| `tipoDocumento`| ENUM              | NOT NULL          | CC, TI, CE, PASAPORTE         |
-| `documento`    | VARCHAR(20)       | NOT NULL, UNIQUE  | Número de documento            |
-| `telefono`     | VARCHAR(20)       | NOT NULL, UNIQUE  | Teléfono de contacto           |
-| `correo`       | VARCHAR(70)       | NOT NULL, UNIQUE  | Correo electrónico             |
-| `direccion`    | VARCHAR(100)      | NOT NULL          | Dirección de residencia        |
-| `contrasena`   | VARCHAR(250)      | NOT NULL          | Contraseña (a hashear)         |
-| `tipoUsuario`  | ENUM              | NOT NULL          | REGISTRADO, SIN_REGISTRAR     |
+#### `producto`
 
-#### Empleado
+```sql
+CREATE TABLE producto (
+    id           BIGSERIAL      PRIMARY KEY,
+    nombre       VARCHAR(200)   NOT NULL,
+    descripcion  TEXT,
+    precio       NUMERIC(15,2)  NOT NULL CHECK (precio > 0),
+    currency     CHAR(3)        NOT NULL DEFAULT 'COP',
+    imagen_url   VARCHAR(500),
+    activo       BOOLEAN        NOT NULL DEFAULT TRUE,
+    categoria_id BIGINT         NOT NULL REFERENCES categoria(id),
+    version      INTEGER        NOT NULL DEFAULT 0,
+    deleted_at   TIMESTAMPTZ,
+    created_at   TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
+    updated_at   TIMESTAMPTZ    NOT NULL DEFAULT NOW()
+);
 
-Extiende a `Usuario` con un rol operativo. Un usuario puede ser empleado.
-
-| Columna        | Tipo              | Restricción       | Descripción                    |
-| -------------- | ----------------- | ----------------- | ------------------------------ |
-| `idEmpleado`   | SERIAL / INT AUTO | PK                | Identificador único            |
-| `tipoEmpleado` | ENUM              | NOT NULL          | ADMINISTRADOR, VENDEDOR        |
-| `idUsuario`    | INT               | FK → Usuario      | Relación con usuario base      |
-
-#### Cliente
-
-Extiende a `Usuario` como comprador. Un usuario puede ser cliente.
-
-| Columna        | Tipo              | Restricción       | Descripción                    |
-| -------------- | ----------------- | ----------------- | ------------------------------ |
-| `idCliente`    | SERIAL / INT AUTO | PK                | Identificador único            |
-| `idUsuario`    | INT               | FK → Usuario      | Relación con usuario base      |
-
-#### Producto
-
-Artículos disponibles para la venta en la tienda.
-
-| Columna          | Tipo              | Restricción       | Descripción                    |
-| ---------------- | ----------------- | ----------------- | ------------------------------ |
-| `idProducto`     | SERIAL / INT AUTO | PK                | Identificador único            |
-| `categoria`      | ENUM              | NOT NULL          | ROPA, ACCESORIOS, LIBRERIA, PAPELERIA |
-| `nombreProducto` | VARCHAR(50)       | NOT NULL          | Nombre del producto            |
-| `precioUnitario` | NUMERIC(10,2)     | NOT NULL          | Precio unitario en COP         |
-
-#### Stock
-
-Control de inventario por producto. Registra entradas de stock.
-
-| Columna        | Tipo              | Restricción       | Descripción                    |
-| -------------- | ----------------- | ----------------- | ------------------------------ |
-| `idStock`      | SERIAL / INT AUTO | PK                | Identificador único            |
-| `idProducto`   | INT               | FK → Producto     | Producto asociado              |
-| `fechaIngreso` | TIMESTAMP         | NOT NULL, DEFAULT | Fecha de ingreso al inventario |
-| `stock`        | INT               | NOT NULL          | Cantidad disponible            |
-
-#### CarritoCompra
-
-Carrito de compras asociado a un usuario. Tiene estados que reflejan el flujo de compra.
-
-| Columna            | Tipo              | Restricción       | Descripción                    |
-| ------------------ | ----------------- | ----------------- | ------------------------------ |
-| `idCarritoCompra`  | SERIAL / INT AUTO | PK                | Identificador único            |
-| `fechaCreacion`    | TIMESTAMP         | NOT NULL, DEFAULT | Fecha de creación              |
-| `estado`           | ENUM              | NOT NULL          | Estado del carrito (ver enums) |
-| `idUsuario`        | INT               | FK → Usuario      | Usuario dueño del carrito      |
-
-#### ItemCarrito
-
-Tabla intermedia que relaciona productos con carritos. Clave compuesta.
-
-| Columna            | Tipo              | Restricción            | Descripción                 |
-| ------------------ | ----------------- | ---------------------- | --------------------------- |
-| `idCarritoCompra`  | INT               | PK, FK → CarritoCompra | Carrito al que pertenece    |
-| `idProducto`       | INT               | PK, FK → Producto      | Producto agregado           |
-| `cantidad`         | INT               | NOT NULL               | Cantidad del producto       |
-| `precioUnitario`   | NUMERIC(10,2)     | NOT NULL               | Precio al momento de agregar|
-
-#### Factura
-
-Registro de una compra completada. Vincula empleado, cliente y carrito.
-
-| Columna            | Tipo              | Restricción            | Descripción                    |
-| ------------------ | ----------------- | ---------------------- | ------------------------------ |
-| `idFactura`        | SERIAL / INT AUTO | PK                     | Identificador único            |
-| `fechaCompra`      | TIMESTAMP         | NOT NULL, DEFAULT      | Fecha de la compra             |
-| `totalCompra`      | NUMERIC(10,2)     | NOT NULL               | Total de la compra             |
-| `metodoPago`       | ENUM              | NOT NULL               | Método de pago utilizado       |
-| `iva`              | NUMERIC(10,2)     | NOT NULL               | Valor del IVA                  |
-| `idEmpleado`       | INT               | FK → Empleado          | Empleado que procesó la venta  |
-| `idCliente`        | INT               | FK → Cliente           | Cliente que realizó la compra  |
-| `idCarritoCompra`  | INT               | FK → CarritoCompra     | Carrito asociado               |
-
-#### DetalleFactura
-
-Línea de detalle de cada factura. Snapshot de productos y precios al momento de la compra.
-
-| Columna          | Tipo              | Restricción            | Descripción                    |
-| ---------------- | ----------------- | ---------------------- | ------------------------------ |
-| `idFactura`      | INT               | PK, FK → Factura       | Factura a la que pertenece     |
-| `idProducto`     | INT               | PK, FK → Producto      | Producto facturado             |
-| `cantidad`       | INT               | NOT NULL, CHECK > 0    | Cantidad facturada             |
-| `precioUnitario` | NUMERIC(10,2)     | NOT NULL               | Precio al momento de facturar  |
+CREATE INDEX idx_producto_categoria ON producto(categoria_id);
+CREATE INDEX idx_producto_activo ON producto(nombre) WHERE deleted_at IS NULL;
+```
 
 ---
 
-## Tipos ENUM (PostgreSQL)
+### Bounded Context: Inventario
 
-| Nombre                    | Valores                                                                |
-| ------------------------- | ---------------------------------------------------------------------- |
-| `tipo_documento_enum`     | `CC`, `TI`, `CE`, `PASAPORTE`                                         |
-| `tipo_usuario_enum`       | `REGISTRADO`, `SIN_REGISTRAR`                                         |
-| `tipo_empleado_enum`      | `ADMINISTRADOR`, `VENDEDOR`                                            |
-| `categoria_producto_enum` | `ROPA`, `ACCESORIOS`, `LIBRERIA`, `PAPELERIA`                         |
-| `estado_carrito_enum`     | `VACIO`, `CON_PRODUCTOS`, `EN_PROCESO_DE_PAGO`, `PAGO_PENDIENTE`, `PAGO_EXITOSO` |
-| `metodo_pago_enum`        | `PSE`, `TARJETA_CREDITO`, `TARJETA_DEBITO`, `EFECTIVO`, `TRANSFERENCIA` |
+#### `stock_level`
 
----
+```sql
+CREATE TABLE stock_level (
+    id          BIGSERIAL PRIMARY KEY,
+    producto_id BIGINT    UNIQUE NOT NULL REFERENCES producto(id),
+    cantidad    INTEGER   NOT NULL DEFAULT 0 CHECK (cantidad >= 0),
+    version     INTEGER   NOT NULL DEFAULT 0,
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 
-## Datos de Prueba (Seed Data)
+CREATE INDEX idx_stock_level_producto ON stock_level(producto_id);
+```
 
-El archivo `INSERTS.sql` contiene datos de prueba para todas las tablas:
+#### `stock_entry`
 
-| Tabla          | Registros | Notas                                         |
-| -------------- | --------- | --------------------------------------------- |
-| Usuario        | 50        | Datos ficticios, contraseñas en texto plano   |
-| Empleado       | 45        | Mix de ADMINISTRADOR y VENDEDOR               |
-| Cliente        | 50        | Todos los usuarios son también clientes       |
-| Producto       | 50        | 4 categorías, precios en COP                  |
-| Stock          | 50        | Stock inicial entre 50 y 200 unidades         |
-| CarritoCompra  | 50        | Todos los estados representados               |
-| ItemCarrito    | 50        | 2 items por carrito (primeros 25 carritos)    |
-| Factura        | 50        | Todos los métodos de pago representados       |
+```sql
+CREATE TABLE stock_entry (
+    id          BIGSERIAL   PRIMARY KEY,
+    producto_id BIGINT      NOT NULL REFERENCES producto(id),
+    tipo        tipo_stock  NOT NULL,
+    cantidad    INTEGER     NOT NULL CHECK (cantidad > 0),
+    motivo      VARCHAR(255),
+    empleado_id BIGINT      REFERENCES empleado(id_usuario),
+    deleted_at  TIMESTAMPTZ,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 
-> **Importante:** Los datos de prueba usan contraseñas en texto plano. En producción, todas las contraseñas deben estar hasheadas con BCrypt.
+CREATE INDEX idx_stock_entry_producto ON stock_entry(producto_id);
+CREATE INDEX idx_stock_entry_fecha ON stock_entry(created_at);
+```
 
-### Orden de inserción
+#### `stock_reservation`
 
-Los inserts deben ejecutarse en el siguiente orden para respetar las foreign keys:
+```sql
+CREATE TABLE stock_reservation (
+    id          BIGSERIAL   PRIMARY KEY,
+    producto_id BIGINT      NOT NULL REFERENCES producto(id),
+    carrito_id  BIGINT      NOT NULL,
+    cantidad    INTEGER     NOT NULL CHECK (cantidad > 0),
+    expires_at  TIMESTAMPTZ NOT NULL DEFAULT (NOW() + INTERVAL '10 minutes'),
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 
-1. `Usuario`
-2. `Empleado`
-3. `Cliente`
-4. `Producto`
-5. `Stock`
-6. `CarritoCompra`
-7. `ItemCarrito`
-8. `Factura`
-
----
-
-## Diferencias entre PostgreSQL y MySQL
-
-| Aspecto              | PostgreSQL                          | MySQL                               |
-| -------------------- | ----------------------------------- | ----------------------------------- |
-| ENUMs                | Tipos separados (`CREATE TYPE`)     | Inline en columna (`ENUM(...)`)     |
-| Auto-incremento      | `SERIAL`                            | `INT AUTO_INCREMENT`                |
-| Timestamps           | `TIMESTAMP` con `CURRENT_TIMESTAMP` | `DATE`                              |
-| Precisión numérica   | `NUMERIC(10,2)`                     | `FLOAT`                             |
-| Dirección (varchar)  | `VARCHAR(100)`                      | `VARCHAR(20)`                       |
-| Contraseña (varchar) | `VARCHAR(250)`                      | `VARCHAR(20)`                       |
-| DetalleFactura       | Existe                              | No existe en schema original        |
-| PK ItemCarrito       | Compuesta (carritoCompra + producto)| `INT AUTO_INCREMENT`                |
-
-> El esquema PostgreSQL es la version mejorada y normalizada. El esquema MySQL es la version original.
+CREATE INDEX idx_stock_reservation_expires ON stock_reservation(expires_at);
+CREATE INDEX idx_stock_reservation_producto ON stock_reservation(producto_id);
+```
 
 ---
 
-Documento base — se expandirá conforme avance el desarrollo.
+### Bounded Context: Carrito
+
+#### `carrito`
+
+```sql
+CREATE TABLE carrito (
+    id         BIGSERIAL      PRIMARY KEY,
+    cliente_id BIGINT         NOT NULL REFERENCES cliente(id_usuario),
+    estado     estado_carrito NOT NULL DEFAULT 'ACTIVO',
+    version    INTEGER        NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ    NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_carrito_cliente ON carrito(cliente_id);
+CREATE INDEX idx_carrito_estado ON carrito(estado);
+```
+
+#### `item_carrito`
+
+```sql
+CREATE TABLE item_carrito (
+    carrito_id         BIGINT        NOT NULL REFERENCES carrito(id) ON DELETE CASCADE,
+    producto_id        BIGINT        NOT NULL REFERENCES producto(id),
+    cantidad           INTEGER       NOT NULL CHECK (cantidad > 0),
+    precio_unitario    NUMERIC(15,2) NOT NULL,
+    PRIMARY KEY (carrito_id, producto_id)
+);
+
+CREATE INDEX idx_item_carrito_producto ON item_carrito(producto_id);
+```
+
+---
+
+### Bounded Context: Pedidos
+
+#### `factura`
+
+```sql
+CREATE TABLE factura (
+    id         BIGSERIAL      PRIMARY KEY,
+    cliente_id BIGINT         NOT NULL REFERENCES cliente(id_usuario),
+    fecha      TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
+    subtotal   NUMERIC(15,2)  NOT NULL,
+    iva        NUMERIC(15,2)  NOT NULL,
+    total      NUMERIC(15,2)  NOT NULL,
+    currency   CHAR(3)        NOT NULL DEFAULT 'COP',
+    estado     estado_factura NOT NULL DEFAULT 'CREADA',
+    created_at TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ    NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_factura_cliente ON factura(cliente_id);
+CREATE INDEX idx_factura_estado ON factura(estado);
+CREATE INDEX idx_factura_fecha ON factura(fecha);
+```
+
+#### `detalle_factura`
+
+```sql
+CREATE TABLE detalle_factura (
+    id               BIGSERIAL     PRIMARY KEY,
+    factura_id       BIGINT        NOT NULL REFERENCES factura(id),
+    producto_id      BIGINT        NOT NULL REFERENCES producto(id),
+    nombre_producto  VARCHAR(200)  NOT NULL,  -- snapshot
+    precio_unitario  NUMERIC(15,2) NOT NULL,  -- snapshot
+    cantidad         INTEGER       NOT NULL CHECK (cantidad > 0),
+    subtotal         NUMERIC(15,2) NOT NULL
+);
+
+CREATE INDEX idx_detalle_factura_factura ON detalle_factura(factura_id);
+```
+
+---
+
+### Bounded Context: Pagos
+
+#### `intento_pago`
+
+```sql
+CREATE TABLE intento_pago (
+    id                   BIGSERIAL    PRIMARY KEY,
+    factura_id           BIGINT       NOT NULL REFERENCES factura(id),
+    wompi_transaction_id VARCHAR(100) UNIQUE,
+    monto                NUMERIC(15,2) NOT NULL,
+    currency             CHAR(3)      NOT NULL DEFAULT 'COP',
+    estado               estado_pago  NOT NULL DEFAULT 'PENDIENTE',
+    created_at           TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+    updated_at           TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_intento_pago_factura ON intento_pago(factura_id);
+CREATE INDEX idx_intento_pago_wompi ON intento_pago(wompi_transaction_id);
+```
+
+#### `processed_webhook` (idempotencia)
+
+```sql
+CREATE TABLE processed_webhook (
+    transaction_id VARCHAR(100) PRIMARY KEY,
+    processed_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+```
+
+---
+
+### Transversal: Auditoria
+
+#### `audit_log`
+
+```sql
+CREATE TABLE audit_log (
+    id          BIGSERIAL    PRIMARY KEY,
+    usuario_id  BIGINT       REFERENCES usuario(id),
+    accion      VARCHAR(100) NOT NULL,
+    entidad     VARCHAR(100) NOT NULL,
+    entidad_id  BIGINT,
+    antes       JSONB,
+    despues     JSONB,
+    ip          INET,
+    fecha       TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_audit_log_entidad ON audit_log(entidad, entidad_id);
+CREATE INDEX idx_audit_log_usuario ON audit_log(usuario_id);
+CREATE INDEX idx_audit_log_fecha ON audit_log(fecha);
+```
+
+Tabla inmutable: nunca `UPDATE` ni `DELETE` en `audit_log`.
+
+---
+
+## Soft-delete por entidad
+
+| Tabla | Estrategia | Campo |
+|-------|-----------|-------|
+| `usuario` | Soft | `deleted_at TIMESTAMPTZ` |
+| `producto` | Soft | `deleted_at TIMESTAMPTZ` |
+| `stock_entry` | Soft | `deleted_at TIMESTAMPTZ` |
+| `carrito` | Hard (job 30 dias) | `updated_at` como referencia |
+| `item_carrito` | Cascade con carrito | — |
+| `factura` | Nunca eliminar | — |
+| `intento_pago` | Nunca eliminar | — |
+| `audit_log` | Nunca eliminar | — |
+
+Ver [ADR-0007](adr/0007-soft-delete-por-entidad.md).
+
+---
+
+## Gestion de migraciones (Flyway)
+
+```
+src/main/resources/db/migration/
+├── V1__initial_schema.sql          # Esquema completo (enums + todas las tablas)
+├── V2__add_producto_imagen.sql     # Campo imagen_url en producto
+├── V3__bigdecimal_migration.sql    # double → NUMERIC(15,2)
+├── V4__add_refresh_token.sql       # Tabla revoked_token
+├── V5__add_stock_tables.sql        # stock_reservation, stock_entry
+└── V6__add_audit_log.sql           # Tabla audit_log
+```
+
+Regla: una vez aplicada, una migracion **nunca se modifica**. Correcciones = nueva migracion.
+
+Ver [ADR-0005](adr/0005-flyway-vs-ddl-auto.md).
+
+---
+
+## Notas de implementacion
+
+- **`@CreationTimestamp` / `@UpdateTimestamp`** en todas las entidades JPA con `created_at` / `updated_at`.
+- **`@Version`** en `Producto`, `Carrito`, `StockLevel` (ver [ADR-0009](adr/0009-optimistic-locking-version-column.md)).
+- **`@SQLDelete` + `@Where`** en entidades con soft-delete (ver [ADR-0007](adr/0007-soft-delete-por-entidad.md)).
+- **`@JdbcTypeCode(SqlTypes.NAMED_ENUM)`** en todos los campos enum para mapear a tipos nativos PostgreSQL.
+- Todos los indices en FK estan definidos explicitamente. Hibernate no los crea automaticamente.

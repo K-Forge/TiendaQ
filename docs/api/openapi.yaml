@@ -1,0 +1,968 @@
+openapi: 3.1.0
+info:
+  title: TiendaQ API
+  description: |
+    API REST del sistema de comercio electronico TiendaQ — Fundacion Universitaria Konrad Lorenz.
+
+    ## Autenticacion
+
+    Bearer token JWT en header `Authorization: Bearer <access_token>`.
+    Access token: 15 minutos. Refresh token: 7 dias con rotacion.
+
+    ## Errores
+
+    Todos los errores siguen RFC 7807 Problem Details (`application/problem+json`).
+
+  version: "1.0.0"
+  contact:
+    name: K-Forge
+    email: kforge.dev@gmail.com
+
+servers:
+  - url: http://localhost:8080/api
+    description: Desarrollo local
+  - url: https://tiendaq-api.onrender.com/api
+    description: Staging / Produccion
+
+tags:
+  - name: auth
+    description: Autenticacion y sesion
+  - name: catalogo
+    description: Productos y categorias
+  - name: inventario
+    description: Stock y movimientos
+  - name: carrito
+    description: Carrito de compras
+  - name: pedidos
+    description: Checkout y facturas
+  - name: pagos
+    description: Intentos de pago y webhooks
+  - name: reportes
+    description: Reportes y metricas para empleados
+
+paths:
+
+  # ──────────────────────────────────────────────────
+  # AUTH
+  # ──────────────────────────────────────────────────
+
+  /auth/registro:
+    post:
+      tags: [auth]
+      summary: Registrar nuevo cliente
+      operationId: registrarCliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistroClienteRequest'
+      responses:
+        '201':
+          description: Cliente registrado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: Iniciar sesion
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Autenticacion exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/refresh:
+    post:
+      tags: [auth]
+      summary: Renovar access token con refresh token
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Tokens renovados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/logout:
+    post:
+      tags: [auth]
+      summary: Cerrar sesion (invalida refresh token)
+      operationId: logout
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '204':
+          description: Sesion cerrada
+
+  # ──────────────────────────────────────────────────
+  # CATALOGO
+  # ──────────────────────────────────────────────────
+
+  /catalogo/productos:
+    get:
+      tags: [catalogo]
+      summary: Listar productos del catalogo (publico)
+      operationId: listarProductos
+      parameters:
+        - name: categoriaId
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [precio_asc, precio_desc, nombre_asc]
+      responses:
+        '200':
+          description: Lista paginada de productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductoPage'
+
+    post:
+      tags: [catalogo]
+      summary: Crear producto
+      operationId: crearProducto
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrearProductoRequest'
+      responses:
+        '201':
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductoResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /catalogo/productos/{id}:
+    get:
+      tags: [catalogo]
+      summary: Obtener producto por ID (publico)
+      operationId: obtenerProducto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductoResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [catalogo]
+      summary: Actualizar producto
+      operationId: actualizarProducto
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarProductoRequest'
+      responses:
+        '200':
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductoResponse'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+    delete:
+      tags: [catalogo]
+      summary: Desactivar producto (soft-delete)
+      operationId: eliminarProducto
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Producto desactivado
+
+  # ──────────────────────────────────────────────────
+  # INVENTARIO
+  # ──────────────────────────────────────────────────
+
+  /inventario/stock/{productoId}:
+    get:
+      tags: [inventario]
+      summary: Obtener nivel de stock de un producto
+      operationId: obtenerStock
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: productoId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Nivel de stock
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StockLevelResponse'
+
+  /inventario/entradas:
+    post:
+      tags: [inventario]
+      summary: Registrar entrada de mercancia
+      operationId: registrarEntrada
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StockEntryRequest'
+      responses:
+        '201':
+          description: Entrada registrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StockEntryResponse'
+
+  # ──────────────────────────────────────────────────
+  # CARRITO
+  # ──────────────────────────────────────────────────
+
+  /carrito:
+    get:
+      tags: [carrito]
+      summary: Obtener carrito activo del cliente autenticado
+      operationId: obtenerCarrito
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Carrito activo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarritoResponse'
+
+  /carrito/items:
+    post:
+      tags: [carrito]
+      summary: Agregar item al carrito
+      operationId: agregarItem
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgregarItemRequest'
+      responses:
+        '200':
+          description: Carrito actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarritoResponse'
+        '422':
+          $ref: '#/components/responses/StockInsuficiente'
+
+  /carrito/items/{productoId}:
+    put:
+      tags: [carrito]
+      summary: Actualizar cantidad de item en carrito
+      operationId: actualizarItem
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: productoId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [cantidad]
+              properties:
+                cantidad:
+                  type: integer
+                  minimum: 1
+      responses:
+        '200':
+          description: Carrito actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarritoResponse'
+
+    delete:
+      tags: [carrito]
+      summary: Eliminar item del carrito
+      operationId: eliminarItem
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: productoId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Item eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarritoResponse'
+
+  # ──────────────────────────────────────────────────
+  # PEDIDOS
+  # ──────────────────────────────────────────────────
+
+  /pedidos/checkout:
+    post:
+      tags: [pedidos]
+      summary: Iniciar checkout del carrito activo
+      operationId: checkout
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Checkout iniciado — IntentoPago y Factura creados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutResponse'
+        '422':
+          $ref: '#/components/responses/StockInsuficiente'
+
+  /pedidos/facturas:
+    get:
+      tags: [pedidos]
+      summary: Listar facturas del cliente autenticado
+      operationId: listarFacturas
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Lista de facturas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacturaPage'
+
+  /pedidos/facturas/{id}:
+    get:
+      tags: [pedidos]
+      summary: Obtener factura por ID
+      operationId: obtenerFactura
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Factura con detalles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacturaDetalleResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ──────────────────────────────────────────────────
+  # PAGOS
+  # ──────────────────────────────────────────────────
+
+  /pagos/webhook:
+    post:
+      tags: [pagos]
+      summary: Recibir webhook de Wompi (idempotente)
+      operationId: wompiWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WompiWebhookPayload'
+      responses:
+        '200':
+          description: Webhook procesado
+
+  # ──────────────────────────────────────────────────
+  # REPORTES
+  # ──────────────────────────────────────────────────
+
+  /reportes/ventas/hoy:
+    get:
+      tags: [reportes]
+      summary: Resumen de ventas del dia
+      operationId: resumenVentasHoy
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Resumen diario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumenVentasResponse'
+
+  /reportes/stock-bajo:
+    get:
+      tags: [reportes]
+      summary: Productos con stock por debajo del umbral
+      operationId: stockBajo
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: umbral
+          in: query
+          schema:
+            type: integer
+            default: 5
+      responses:
+        '200':
+          description: Lista de productos con stock bajo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StockBajoItem'
+
+# ──────────────────────────────────────────────────────
+# COMPONENTES REUTILIZABLES
+# ──────────────────────────────────────────────────────
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    ValidationError:
+      description: Error de validacion (RFC 7807)
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: https://tiendaq.com/errors/validacion
+            title: Error de validacion
+            status: 400
+            violations:
+              - field: precio
+                message: debe ser mayor que 0
+
+    NotFound:
+      description: Recurso no encontrado
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+
+    Unauthorized:
+      description: Token ausente o invalido
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+
+    Forbidden:
+      description: Sin permiso para esta operacion
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+
+    Conflict:
+      description: Conflicto (optimistic lock o recurso duplicado)
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+
+    StockInsuficiente:
+      description: Stock insuficiente para completar la operacion
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+
+  schemas:
+
+    ProblemDetail:
+      type: object
+      required: [type, title, status]
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+        violations:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+
+    RegistroClienteRequest:
+      type: object
+      required: [nombre, apellido, email, password, tipoDocumento, numeroDocumento]
+      properties:
+        nombre:
+          type: string
+          maxLength: 100
+        apellido:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        tipoDocumento:
+          type: string
+          enum: [CC, TI, CE, PASAPORTE]
+        numeroDocumento:
+          type: string
+          maxLength: 20
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    TokenResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresIn:
+          type: integer
+          description: Segundos hasta expiracion del access token
+
+    UsuarioResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        apellido:
+          type: string
+        email:
+          type: string
+        rol:
+          type: string
+
+    CrearProductoRequest:
+      type: object
+      required: [nombre, precio, categoriaId]
+      properties:
+        nombre:
+          type: string
+          maxLength: 200
+        descripcion:
+          type: string
+        precio:
+          type: number
+          format: decimal
+          minimum: 0.01
+        categoriaId:
+          type: integer
+        imagenUrl:
+          type: string
+          format: uri
+
+    ActualizarProductoRequest:
+      type: object
+      properties:
+        nombre:
+          type: string
+        descripcion:
+          type: string
+        precio:
+          type: number
+        categoriaId:
+          type: integer
+        version:
+          type: integer
+          description: Requerido para optimistic locking
+
+    ProductoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        descripcion:
+          type: string
+        precio:
+          type: number
+        currency:
+          type: string
+          example: COP
+        categoria:
+          type: string
+        imagenUrl:
+          type: string
+        stockDisponible:
+          type: integer
+        version:
+          type: integer
+
+    ProductoPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductoResponse'
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+        page:
+          type: integer
+        size:
+          type: integer
+
+    StockLevelResponse:
+      type: object
+      properties:
+        productoId:
+          type: integer
+        cantidad:
+          type: integer
+        disponible:
+          type: integer
+        reservasActivas:
+          type: integer
+
+    StockEntryRequest:
+      type: object
+      required: [productoId, tipo, cantidad]
+      properties:
+        productoId:
+          type: integer
+        tipo:
+          type: string
+          enum: [ENTRADA, AJUSTE]
+        cantidad:
+          type: integer
+          minimum: 1
+        motivo:
+          type: string
+
+    StockEntryResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        productoId:
+          type: integer
+        tipo:
+          type: string
+        cantidad:
+          type: integer
+        fecha:
+          type: string
+          format: date-time
+
+    AgregarItemRequest:
+      type: object
+      required: [productoId, cantidad]
+      properties:
+        productoId:
+          type: integer
+        cantidad:
+          type: integer
+          minimum: 1
+
+    CarritoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        estado:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemCarritoResponse'
+        subtotal:
+          type: number
+        iva:
+          type: number
+        total:
+          type: number
+        currency:
+          type: string
+        version:
+          type: integer
+
+    ItemCarritoResponse:
+      type: object
+      properties:
+        productoId:
+          type: integer
+        nombreProducto:
+          type: string
+        precioUnitario:
+          type: number
+        cantidad:
+          type: integer
+        subtotal:
+          type: number
+
+    CheckoutResponse:
+      type: object
+      properties:
+        facturaId:
+          type: integer
+        intentoPagoId:
+          type: integer
+        total:
+          type: number
+        currency:
+          type: string
+        wompiTransactionId:
+          type: string
+        estado:
+          type: string
+          enum: [PENDIENTE, APROBADO, RECHAZADO]
+
+    FacturaPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacturaResumenResponse'
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+
+    FacturaResumenResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        fecha:
+          type: string
+          format: date-time
+        total:
+          type: number
+        currency:
+          type: string
+        estado:
+          type: string
+
+    FacturaDetalleResponse:
+      allOf:
+        - $ref: '#/components/schemas/FacturaResumenResponse'
+        - type: object
+          properties:
+            subtotal:
+              type: number
+            iva:
+              type: number
+            detalles:
+              type: array
+              items:
+                $ref: '#/components/schemas/DetalleFacturaResponse'
+
+    DetalleFacturaResponse:
+      type: object
+      properties:
+        productoId:
+          type: integer
+        nombreProducto:
+          type: string
+        precioUnitario:
+          type: number
+        cantidad:
+          type: integer
+        subtotal:
+          type: number
+
+    WompiWebhookPayload:
+      type: object
+      properties:
+        event:
+          type: string
+          example: transaction.updated
+        data:
+          type: object
+          properties:
+            transaction:
+              type: object
+              properties:
+                id:
+                  type: string
+                status:
+                  type: string
+                  enum: [APPROVED, DECLINED, VOIDED, ERROR]
+                reference:
+                  type: string
+                amount_in_cents:
+                  type: integer
+        signature:
+          type: object
+          properties:
+            properties:
+              type: array
+              items:
+                type: string
+            checksum:
+              type: string
+
+    ResumenVentasResponse:
+      type: object
+      properties:
+        fecha:
+          type: string
+          format: date
+        totalVentas:
+          type: number
+        cantidadFacturas:
+          type: integer
+        productoMasVendido:
+          type: string
+
+    StockBajoItem:
+      type: object
+      properties:
+        productoId:
+          type: integer
+        nombreProducto:
+          type: string
+        stockDisponible:
+          type: integer
